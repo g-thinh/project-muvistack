@@ -27,16 +27,19 @@ const App = () => {
           path="/profile"
           authenticated={authenticated}
           component={Profile}
+          reroute="/"
         ></PrivateRoute>
         <PublicRoute
           path="/login"
           authenticated={authenticated}
           component={Login}
+          reroute="/"
         ></PublicRoute>
         <PublicRoute
           path="/signup"
           authenticated={authenticated}
           component={SignUp}
+          reroute="/"
         ></PublicRoute>
       </Switch>
     </Router>
