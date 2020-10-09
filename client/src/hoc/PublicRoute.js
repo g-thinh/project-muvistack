@@ -6,12 +6,21 @@ import {
   Redirect,
 } from "react-router-dom";
 
-export function PublicRoute({ component: Component, authenticated, ...rest }) {
+export function PublicRoute({
+  component: Component,
+  authenticated,
+  reroute,
+  ...rest
+}) {
   return (
     <Route
       {...rest}
       render={(props) =>
-        authenticated === false ? <Component {...props} /> : <Redirect to="/" />
+        authenticated === false ? (
+          <Component {...props} />
+        ) : (
+          <Redirect to={reroute} />
+        )
       }
     />
   );

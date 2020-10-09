@@ -6,7 +6,12 @@ import {
   Redirect,
 } from "react-router-dom";
 
-export function PrivateRoute({ component: Component, authenticated, ...rest }) {
+export function PrivateRoute({
+  component: Component,
+  authenticated,
+  reroute,
+  ...rest
+}) {
   return (
     <Route
       {...rest}
@@ -15,7 +20,7 @@ export function PrivateRoute({ component: Component, authenticated, ...rest }) {
           <Component {...props} />
         ) : (
           <Redirect
-            to={{ pathname: "/login", state: { from: props.location } }}
+            to={{ pathname: reroute, state: { from: props.location } }}
           />
         )
       }
