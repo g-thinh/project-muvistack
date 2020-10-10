@@ -10,6 +10,7 @@ const GlobalStyles = createGlobalStyle`
 /* GOOGLE FONTS HERE */
 @import url('https://fonts.googleapis.com/css?family=Lato');
 @import url('https://fonts.googleapis.com/css?family=Roboto');
+@import url('//db.onlinewebfonts.com/c/ab83b275830b2d585ea027c47e3b237a?family=GraphiqueW01-Regular');
 *, *:before, *:after {
   box-sizing: inherit;
 }
