@@ -6,7 +6,7 @@ import {
   Redirect,
 } from "react-router-dom";
 
-export function PrivateRoute({
+function PrivateRoute({
   component: Component,
   authenticated,
   reroute,
@@ -27,3 +27,5 @@ export function PrivateRoute({
     />
   );
 }
+
+export default PrivateRoute;

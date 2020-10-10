@@ -25,3 +25,5 @@ export function PublicRoute({
     />
   );
 }
+
+export default PublicRoute;

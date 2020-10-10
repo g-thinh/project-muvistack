@@ -1,18 +1,10 @@
 import React from "react";
-import {
-  Route,
-  BrowserRouter as Router,
-  Switch,
-  Redirect,
-} from "react-router-dom";
-import { PrivateRoute } from "./hoc/PrivateRoute";
-import { PublicRoute } from "./hoc/PublicRoute";
-import { auth } from "./services/firebase";
-import { AuthContext } from "./components/AuthContext";
-import Home from "./views/Home";
-import Profile from "./views/Profile";
-import Login from "./views/Login";
-import SignUp from "./views/Signup";
+import { Route, BrowserRouter as Router, Switch } from "react-router-dom";
+// import { PrivateRoute } from "../hoc/PrivateRoute";
+// import { PublicRoute } from "../hoc/PublicRoute";
+import { PrivateRoute, PublicRoute } from "../hoc";
+import { AuthContext } from "../components/AuthContext";
+import { Home, Profile, SignUp, Login } from "../views";
 
 const App = () => {
   const { authenticated, loading } = React.useContext(AuthContext);
