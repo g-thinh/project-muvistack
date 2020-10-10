@@ -1,17 +1,13 @@
 import React from "react";
 import { Route, BrowserRouter as Router, Switch } from "react-router-dom";
-// import { PrivateRoute } from "../hoc/PrivateRoute";
-// import { PublicRoute } from "../hoc/PublicRoute";
 import { PrivateRoute, PublicRoute } from "../hoc";
 import { AuthContext } from "../components/AuthContext";
 import { Home, Profile, SignUp, Login } from "../views";
 
 const App = () => {
-  const { authenticated, loading } = React.useContext(AuthContext);
+  const { authenticated } = React.useContext(AuthContext);
 
-  return loading === true ? (
-    <h2>Loading...</h2>
-  ) : (
+  return (
     <Router>
       <Switch>
         <Route exact path="/" component={Home}></Route>
