@@ -20,12 +20,15 @@ const Home = () => {
         </button>
       ) : (
         <>
-          <LinkButton to="/signup">Sign Up</LinkButton>
+          <Button redirect="/signup" size="md" type="fill">
+            Sign Up
+          </Button>
           <br></br>
-          <LinkButton2 to="/login">Login</LinkButton2>
+          <Button redirect="/login" size="md" type="outline">
+            Login
+          </Button>
         </>
       )}
-
       {authenticated && (
         <div>
           Logged in as: <strong>{appUser.email}</strong>
@@ -84,6 +87,7 @@ const LinkButton = styled(Link)`
     color: white;
     border: 2px solid ${THEMES.Secondary};
     background-color: ${THEMES.Secondary};
+    transform: scale(1.1);
   }
 
   &:active {
@@ -127,6 +131,7 @@ const LinkButton2 = styled(Link)`
   &:hover {
     color: ${THEMES.Secondary};
     border: 2px solid ${THEMES.Secondary};
+    transform: scale(1.1);
     /* background-color: ${THEMES.Secondary}; */
   }
 
