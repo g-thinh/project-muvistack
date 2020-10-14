@@ -42,15 +42,17 @@ time, mark, audio, video {
   font-family: 'Roboto', sans-serif;
   ::-webkit-scrollbar {
         width: 20px;
+        color: lightgrey;
       }
 
       ::-webkit-scrollbar-track {
         box-shadow: inset 0 0 5px white;
         border-radius: 10px;
+
       }
 
       ::-webkit-scrollbar-thumb {
-        background: white;
+        background: lightgrey;
         border-radius: 10px;
       }
 
