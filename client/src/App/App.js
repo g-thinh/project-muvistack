@@ -6,12 +6,12 @@ import Nav from "../components/Nav";
 import GlobalStyles from "../components/GlobalStyles";
 import { Home, Profile, SignUp, Login } from "../views";
 
+
 const App = () => {
   const { authenticated } = React.useContext(AuthContext);
-
   return (
-    <Nav>
       <Router>
+        <Nav>
         <Switch>
           <Route exact path="/" component={Home}></Route>
           <PrivateRoute
@@ -33,9 +33,9 @@ const App = () => {
             reroute="/"
           ></PublicRoute>
         </Switch>
+        </Nav>
+        <GlobalStyles />
       </Router>
-      <GlobalStyles />
-    </Nav>
   );
 };
 

@@ -2,24 +2,37 @@ import React from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 import { signout, signin } from "../helpers/auth";
+import Profile from "./Profile";
 import { AuthContext } from "../components/AuthContext";
 import { Logo, LogoName } from "../assets";
 import { THEMES } from "../components/THEMES";
 import Button from "../components/UI/Button";
+import Footer from "../components/Footer";
 
 const Home = () => {
   const { appUser, authenticated } = React.useContext(AuthContext);
 
+  const PageContainer = styled.div`
+    position: relative;
+    display: flex;
+    flex-flow: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-color: ${authenticated ? THEMES.white : THEMES.BlackCoffee};
+  `;
+
   return (
     <PageContainer>
-      <LogoImg src={Logo} alt="logo-no-bg" />
-      <Title src={LogoName} alt="logo-name" />
       {authenticated ? (
-        <button onClick={signout} type="button">
-          Sign Out
-        </button>
+        <>
+        <Profile />
+        <Footer />
+        </>
       ) : (
         <>
+          <LogoImg src={Logo} alt="logo-no-bg" />
+          <Title src={LogoName} alt="logo-name" />
           <Button redirect="/signup" size="md" type="fill">
             Sign Up
           </Button>
@@ -29,24 +42,10 @@ const Home = () => {
           </Button>
         </>
       )}
-      {authenticated && (
-        <div>
-          Logged in as: <strong>{appUser.email}</strong>
-        </div>
-      )}
+
     </PageContainer>
   );
 };
-
-const PageContainer = styled.div`
-  position: relative;
-  display: flex;
-  flex-flow: column;
-  justify-content: center;
-  align-items: center;
-  min-height: 100vh;
-  background-color: ${THEMES.BlackCoffee};
-`;
 
 const LogoImg = styled.img`
   width: 80px;
