@@ -4,7 +4,7 @@ import { PrivateRoute, PublicRoute } from "../hoc";
 import { AuthContext } from "../components/AuthContext";
 import Nav from "../components/Nav";
 import GlobalStyles from "../components/GlobalStyles";
-import { Home, Profile, SignUp, Login } from "../views";
+import { Home, Profile, SignUp, Login, Error } from "../views";
 
 
 const App = () => {
@@ -32,6 +32,7 @@ const App = () => {
             component={SignUp}
             reroute="/"
           ></PublicRoute>
+          <Route path="*" component={Error}></Route>
         </Switch>
         </Nav>
         <GlobalStyles />
