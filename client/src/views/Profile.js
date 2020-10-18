@@ -4,7 +4,7 @@ import { THEMES } from "../components/THEMES";
 import Footer from "../components/Footer";
 import { AuthContext } from "../components/AuthContext";
 import { auth } from "../services/firebase";
-import Wave from "../components/UI/Wave";
+import Cards from "../components/Cards";
 
 
 
@@ -17,7 +17,6 @@ const Profile = () => {
   });
 
   return (
-    <>
       <PageContainer>
         <ProfileContainer>
           <ProfilePicture>
@@ -30,8 +29,8 @@ const Profile = () => {
             </DescText>
           </ProfileDesc>
         </ProfileContainer>
+        <Cards />
       </PageContainer>
-    </>
   );
 };
 
@@ -117,5 +116,9 @@ const Border = styled.div`
   width: 100%;
   background-color: ${THEMES.Primary};
 `;
+
+
+
+
 
 export default Profile;
