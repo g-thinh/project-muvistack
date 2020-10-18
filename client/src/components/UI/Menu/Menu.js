@@ -3,24 +3,33 @@ import styled from "styled-components";
 import { bool, func } from 'prop-types';
 import {THEMES} from "../../THEMES";
 import Backdrop from "../Backdrop";
+import { signout } from "../../../helpers/auth";
+import {Link} from "react-router-dom";
 
 const Menu = ({ open, setOpen }) => {
+
+  React.useEffect(()=>{
+    return ()=>{
+      setOpen(false);
+    }
+  },[])
+
   return (
     <>
     <Backdrop show={open} closeHandler={() => setOpen(!open)} /> 
     <StyledMenu open={open}>
-      <a href="/">
-        <span role="img" aria-label="Profile">&#x1f481;&#x1f3fb;&#x200d;&#x2642;&#xfe0f;</span>
+      <StyledLink to="/" onClick={() => setOpen(!open)}>
         Profile
-      </a>
-      <a href="/">
-        <span role="img" aria-label="Messages">&#x1f4b8;</span>
+      </StyledLink>
+      <StyledLink to="/messages" onClick={() => setOpen(!open)}>
         Messages
-        </a>
-      <a href="/">
-        <span role="img" aria-label="Log Out">&#x1f4e9;</span>
+        </StyledLink>
+        <StyledLink to="/settings" onClick={() => setOpen(!open)}>
+        Settings
+        </StyledLink>
+      <StyledButton onClick={signout}>
         Log Out
-        </a>
+        </StyledButton>
     </StyledMenu>
     </>
   )
@@ -44,31 +53,45 @@ const StyledMenu = styled.div`
   transition: transform 0.3s ease-in-out;
   position: fixed;
   z-index: 9;
+  /* width: 30vw; */
   /* transform: translateX(-100%); */
   transform: ${({ open }) => open ? 'translateX(0)' : 'translateX(100%)'};
   
   /* @media (max-width: ${({ theme }) => theme.mobile}) {
     width: 100%;
   } */
+`;
 
-  a {
+const StyledLink = styled(Link)`
     font-size: 2rem;
-    text-transform: uppercase;
-    padding: 2rem 0;
+    /* text-decoration-color: none; */
+    color: ${THEMES.White};
     font-weight: bold;
-    letter-spacing: 0.5rem;
-    /* color: ${({ theme }) => theme.primaryDark}; */
+    /* letter-spacing: 0.5rem; */
     text-decoration: none;
     transition: color 0.3s linear;
-    
-    /* @media (max-width: ${({ theme }) => theme.mobile}) {
-      font-size: 1.5rem;
-      text-align: center;
-    }
 
     &:hover {
-      color: ${({ theme }) => theme.primaryHover};
-    } */
-  }
+      color: ${THEMES.BlackCoffee};
+    }
+`;
+
+const StyledButton = styled.button`
+    outline: none;
+    border: none;
+    background: none;
+    font-size: 2rem;
+    text-align: start;
+    color: ${THEMES.White};
+    font-weight: bold;
+    /* letter-spacing: 0.5rem; */
+    text-decoration: none;
+    transition: color 0.3s linear;
+    vertical-align: baseline;
+    cursor: pointer;
+	padding: 4px 0;
+    &:hover {
+      color: ${THEMES.BlackCoffee};
+    }
 `;
 export default Menu;

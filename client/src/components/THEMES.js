@@ -3,5 +3,5 @@ export const THEMES = {
   Secondary: "#00DA6D",
   BlackCoffee: "#3b2f2f",
   White: "#FFFFFE",
-  Cart: "#B33951",
+  Cart: "#26C485",
 };
