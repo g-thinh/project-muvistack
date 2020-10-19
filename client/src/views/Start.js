@@ -1,17 +1,13 @@
 import React from "react";
 import styled from "styled-components";
-import { Link } from "react-router-dom";
-import { signout, signin } from "../helpers/auth";
-import Profile from "./Profile";
-import Start from "./Start";
 import { AuthContext } from "../components/AuthContext";
 import { Logo, LogoName } from "../assets";
 import { THEMES } from "../components/THEMES";
 import Button from "../components/UI/Button";
 import Footer from "../components/Footer";
 
-const Home = () => {
-  const { appUser, authenticated } = React.useContext(AuthContext);
+const Start = () => {
+  const {authenticated } = React.useContext(AuthContext);
 
   const PageContainer = styled.div`
     position: relative;
@@ -25,14 +21,15 @@ const Home = () => {
 
   return (
     <PageContainer>
-      {authenticated ? (
-        <>
-        <Profile />
-        <Footer />
-        </>
-      ) : (
-        <Start/>
-      )}
+      <LogoImg src={Logo} alt="logo-no-bg" />
+      <Title src={LogoName} alt="logo-name" />
+      <Button redirect="/signup" size="md" type="fill">
+        Sign Up
+      </Button>
+      <br></br>
+      <Button redirect="/login" size="md" type="outline">
+        Login
+      </Button>
     </PageContainer>
   );
 };
@@ -49,4 +46,5 @@ const Title = styled.img`
   margin-top: 2vh;
   margin-bottom: 5vh;
 `;
-export default Home;
+
+export default Start;
