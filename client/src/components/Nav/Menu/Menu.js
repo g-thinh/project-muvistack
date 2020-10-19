@@ -2,7 +2,7 @@ import React from 'react';
 import styled from "styled-components";
 import { bool, func } from 'prop-types';
 import {THEMES} from "../../THEMES";
-import Backdrop from "../Backdrop";
+import Backdrop from "../../UI/Backdrop";
 import { signout } from "../../../helpers/auth";
 import {Link} from "react-router-dom";
 
@@ -45,6 +45,7 @@ const StyledMenu = styled.div`
   justify-content: center;
   background: ${THEMES.Cart};
   height: 100vh;
+  width: 30vw;
   text-align: left;
   padding: 2rem;
   position: absolute;

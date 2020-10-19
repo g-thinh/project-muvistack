@@ -5,8 +5,8 @@ import { AuthContext } from "../AuthContext";
 import { THEMES } from "../THEMES";
 import { Logo, LogoName } from "../../assets";
 import {FiMenu} from "react-icons/fi";
-import Burger from "../../components/UI/Burger";
-import Menu from "../../components/UI/Menu";
+import Burger from "./Burger";
+import Menu from "./Menu";
 
 const Nav = (props) => {
   const { authenticated } = React.useContext(AuthContext);
