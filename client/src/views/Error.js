@@ -1,12 +1,13 @@
 import React from "react";
 import styled from "styled-components";
+import PageContainer from "./PageContainer";
 import Footer from "../components/Footer";
 
 const Error = () => {
   return (
-    <Container>
+    <PageContainer>
       <h1>Sorry, page not found</h1>
-    </Container>
+    </PageContainer>
   );
 };
 

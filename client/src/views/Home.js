@@ -25,14 +25,7 @@ const Home = () => {
 
   return (
     <PageContainer>
-      {authenticated ? (
-        <>
-        <Profile />
-        <Footer />
-        </>
-      ) : (
-        <Start/>
-      )}
+      {authenticated ? <Profile/> : <Start/>}
     </PageContainer>
   );
 };

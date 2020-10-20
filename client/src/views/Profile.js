@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import { THEMES } from "../components/THEMES";
-import Footer from "../components/Footer";
+import PageContainer from "./PageContainer";
 import { AuthContext } from "../components/AuthContext";
 import { auth } from "../services/firebase";
 import Cards from "../components/Cards";
@@ -17,7 +17,7 @@ const Profile = () => {
   });
 
   return (
-      <PageContainer>
+      <PageContainer background="light">
         <ProfileContainer>
           <ProfilePicture>
             <img src={appUser.photoURL} alt="test-profile-pic" />
@@ -35,18 +35,18 @@ const Profile = () => {
 };
 
 
-const PageContainer = styled.div`
-  flex: 9;
-  position: relative;
-  display: flex;
-  flex-flow: column;
-  justify-content: center;
-  align-items: center;
-  /* min-height: 100vh; */
-  width: 100%;
-  /* border: 5px solid red; */
-  /* margin-top: 5vh; */
-`;
+// const PageContainer = styled.div`
+//   flex: 9;
+//   position: relative;
+//   display: flex;
+//   flex-flow: column;
+//   justify-content: center;
+//   align-items: center;
+//   /* min-height: 100vh; */
+//   width: 100%;
+//   /* border: 5px solid red; */
+//   /* margin-top: 5vh; */
+// `;
 
 const ProfileContainer = styled.div`
   width: 70%;
