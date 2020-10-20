@@ -1,10 +1,18 @@
 import { auth } from "../services/firebase";
+import { db } from "../services/firebase";
 
 //These functions will handle the sign-in and sign-up process of the app
 // for just email/password accounts
 
 export const signup = (email, password) => {
-  return auth().createUserWithEmailAndPassword(email, password);
+  return auth().createUserWithEmailAndPassword(email, password).then(res => {
+    console.log("New User has been created");
+    db.ref("users").push({
+      userID: res.user.uid,
+      email: res.user.email,
+      profileSetup: false,
+    })
+  });
 };
 
 export const signin = (email, password) => {

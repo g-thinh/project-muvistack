@@ -4,11 +4,12 @@ import { PrivateRoute, PublicRoute } from "../hoc";
 import { AuthContext } from "../components/AuthContext";
 import Nav from "../components/Nav";
 import GlobalStyles from "../components/GlobalStyles";
-import { Home, Profile, SignUp, Login, Error } from "../views";
+import { Home, Profile, SignUp, Login, Error, CreateProfile } from "../views";
 
 
 const App = () => {
-  const { authenticated } = React.useContext(AuthContext);
+  const { authenticated, hasProfile } = React.useContext(AuthContext);
+
   return (
       <Router>
         <Nav>
@@ -20,17 +21,23 @@ const App = () => {
             component={Profile}
             reroute="/"
           ></PrivateRoute>
+          <PrivateRoute
+            path="/create-profile"
+            authenticated={authenticated}
+            component={CreateProfile}
+            reroute="/profile"
+          ></PrivateRoute>
           <PublicRoute
             path="/login"
             authenticated={authenticated}
             component={Login}
-            reroute="/"
+            reroute="/create-profile"
           ></PublicRoute>
           <PublicRoute
             path="/signup"
-            authenticated={authenticated}
+            authenticated={authenticated && !hasProfile}
             component={SignUp}
-            reroute="/"
+            reroute="/create-profile"
           ></PublicRoute>
           <Route path="*" component={Error}></Route>
         </Switch>

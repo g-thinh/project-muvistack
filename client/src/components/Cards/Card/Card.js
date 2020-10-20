@@ -26,9 +26,9 @@ const Container = styled(Link)`
   }
 
   &:hover {
-    background: ${THEMES.Primary};
+    background: ${THEMES.BlackCoffee};
     color: white;
-    border: 1px solid ${THEMES.Primary}
+    border: 1px solid ${THEMES.BlackCoffee}
   }
 `;
 
