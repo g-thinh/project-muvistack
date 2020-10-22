@@ -1,13 +1,12 @@
 import React from "react";
 import styled from "styled-components";
 import Footer from "../../components/Footer";
-import {THEMES} from "../../components/THEMES";
+import { THEMES } from "../../components/THEMES";
 
 const PageContainer = ({ children, background }) => {
-
   let bg;
-  switch(background) {
-    case "dark":{
+  switch (background) {
+    case "dark": {
       bg = THEMES.BlackCoffee;
       break;
     }
@@ -20,7 +19,15 @@ const PageContainer = ({ children, background }) => {
     }
   }
 
-  const Container = styled.div`
+  return (
+    <>
+      <Container bg={bg}>{children}</Container>
+      <Footer height={15} />
+    </>
+  );
+};
+
+const Container = styled.div`
   position: relative;
   display: flex;
   flex-flow: column;
@@ -29,19 +36,7 @@ const PageContainer = ({ children, background }) => {
   width: 100%;
   /* border: 5px solid red; */
   min-height: 100vh;
-  background-color: ${bg};
+  background-color: ${(props) => props.bg};
 `;
-
-  return (
-    <>
-    <Container>
-      {children}
-    </Container>
-    <Footer height={15}/>
-    </>
-  );
-};
-
-
 
 export default PageContainer;
