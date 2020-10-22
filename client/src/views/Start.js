@@ -1,13 +1,14 @@
 import React from "react";
 import styled from "styled-components";
 import { AuthContext } from "../components/AuthContext";
+import { Redirect } from "react-router-dom";
 import { Logo, LogoName, TMDBLogo } from "../assets";
 import { THEMES } from "../components/THEMES";
 import Button from "../components/UI/Button";
 import Footer from "../components/Footer";
 
 const Start = () => {
-  const {authenticated } = React.useContext(AuthContext);
+  const { authenticated } = React.useContext(AuthContext);
 
   const PageContainer = styled.div`
     position: relative;
@@ -19,21 +20,21 @@ const Start = () => {
     background-color: ${authenticated ? THEMES.white : THEMES.BlackCoffee};
   `;
 
-  return (
+  return !authenticated ? (
     <PageContainer>
       <LogoSection>
         <LogoImg src={Logo} alt="logo-no-bg" />
         <Title src={LogoName} alt="logo-name" />
       </LogoSection>
       <ButtonSection>
-      <Button redirect="/signup" size="md" type="fill">
-        Sign Up
-      </Button>
-      <br></br>
-      <Button redirect="/login" size="md" type="outline">
-        Login
-      </Button>
-      <br></br>
+        <Button redirect="/signup" size="md" type="fill">
+          Sign Up
+        </Button>
+        <br></br>
+        <Button redirect="/login" size="md" type="outline">
+          Login
+        </Button>
+        <br></br>
       </ButtonSection>
       {/* <Button redirect="/signup" size="md" type="fill">
         Sign Up
@@ -44,11 +45,12 @@ const Start = () => {
       </Button>
       <br></br> */}
       <FooterContainer>
-      <h1>Powered by</h1>
-      <img src={TMDBLogo} alt="test" />
+        <h1>Powered by</h1>
+        <img src={TMDBLogo} alt="test" />
       </FooterContainer>
-
     </PageContainer>
+  ) : (
+    <Redirect to="/profile" />
   );
 };
 

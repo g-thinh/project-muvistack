@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import { signout, signin } from "../helpers/auth";
 import Profile from "./Profile";
 import Start from "./Start";
+import { Redirect } from "react-router-dom";
 import { AuthContext } from "../components/AuthContext";
 import { Logo, LogoName } from "../assets";
 import { THEMES } from "../components/THEMES";
@@ -25,7 +26,8 @@ const Home = () => {
 
   return (
     <PageContainer>
-      {authenticated ? <Profile/> : <Start/>}
+      {/* {authenticated ? <Redirect to="/profile" /> : <Start />} */}
+      <Start />
     </PageContainer>
   );
 };

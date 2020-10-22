@@ -7,39 +7,29 @@ export const AuthContext = createContext(null);
 const AuthProvider = ({ children, user }) => {
   const [loading, setLoading] = React.useState(true);
   const [authenticated, setAuthenticated] = React.useState(false);
-  const [hasProfile, setHasProfile] = React.useState();
+  const [hasProfile, setHasProfile] = React.useState(undefined);
   const [appUser, setAppUser] = React.useState({});
-
-
+  const [displayName, setDisplayName] = React.useState("");
 
   React.useEffect(() => {
     auth().onAuthStateChanged((user) => {
       if (user) {
         // console.log("user", user.uid);
-        // let checkProfile = [];
         setLoading(false);
         setAuthenticated(true);
         setAppUser(auth().currentUser);
-        // db.ref(`users`).on("value", snapshot => {
-
-        //   // snapshot.forEach((snap) => {
-        //   //   userDB.push(snap.val());
-        //   // });
-        //   // console.log(TEST);          
-        // });
 
         db.ref(`users`)
-          .orderByChild('userID')
+          .orderByChild("userID")
           .equalTo(user.uid)
-          .on("value", snapshot => {
+          .on("value", (snapshot) => {
             // console.log(snapshot.val());
-            snapshot.forEach(snap => {
-              // currentUser = (snap.val().profileSetup);
-              setHasProfile(snap.val().profileSetup);
-            })
-            // setHasProfile(currentUser);
+            snapshot.forEach((snap) => {
+              const val = snap.val();
+              setHasProfile(val.profileSetup);
+            });
             console.log("does the user have a profile setup?", hasProfile);
-          })
+          });
         // console.log("These are all the users", userDB);
         // // console.log("the newly created user has the ID", userId);
       } else {
@@ -47,14 +37,21 @@ const AuthProvider = ({ children, user }) => {
         setAuthenticated(false);
         setAppUser({});
       }
-
-
     });
   }, []);
 
   return (
     <AuthContext.Provider
-      value={{ appUser, authenticated, setAuthenticated, setLoading, loading, hasProfile}}
+      value={{
+        appUser,
+        authenticated,
+        setAuthenticated,
+        setLoading,
+        loading,
+        hasProfile,
+        displayName,
+        setDisplayName,
+      }}
     >
       {children}
     </AuthContext.Provider>

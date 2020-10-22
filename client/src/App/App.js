@@ -4,17 +4,16 @@ import { PrivateRoute, PublicRoute } from "../hoc";
 import { AuthContext } from "../components/AuthContext";
 import Nav from "../components/Nav";
 import GlobalStyles from "../components/GlobalStyles";
-import { Home, Profile, SignUp, Login, Error, CreateProfile } from "../views";
-
+import { Start, Profile, SignUp, Login, Error, CreateProfile } from "../views";
 
 const App = () => {
   const { authenticated, hasProfile } = React.useContext(AuthContext);
-
+  console.log("Currenth authentication:", authenticated);
   return (
-      <Router>
-        <Nav>
+    <Router>
+      <Nav>
         <Switch>
-          <Route exact path="/" component={Home}></Route>
+          <Route exact path="/" component={Start}></Route>
           <PrivateRoute
             path="/profile"
             authenticated={authenticated}
@@ -25,25 +24,31 @@ const App = () => {
             path="/create-profile"
             authenticated={authenticated}
             component={CreateProfile}
-            reroute="/profile"
+            reroute="/"
           ></PrivateRoute>
           <PublicRoute
             path="/login"
             authenticated={authenticated}
             component={Login}
-            reroute="/create-profile"
+            // reroute={hasProfile ? "/create-profile" : "/profile"}
+            reroute="/profile"
           ></PublicRoute>
           <PublicRoute
             path="/signup"
-            authenticated={authenticated && !hasProfile}
+            authenticated={authenticated}
             component={SignUp}
             reroute="/create-profile"
           ></PublicRoute>
-          <Route path="*" component={Error}></Route>
+          <PublicRoute
+            path="*"
+            authenticated={!authenticated}
+            component={Error}
+            reroute="/"
+          ></PublicRoute>
         </Switch>
-        </Nav>
-        <GlobalStyles />
-      </Router>
+      </Nav>
+      <GlobalStyles />
+    </Router>
   );
 };
 
