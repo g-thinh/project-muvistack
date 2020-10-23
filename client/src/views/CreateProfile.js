@@ -3,19 +3,19 @@ import styled from "styled-components";
 import PageContainer from "./PageContainer";
 import { Avatar, AvatarStyle, allOptions } from "avataaars";
 import { THEMES } from "../components/THEMES";
+import { Redirect } from "react-router-dom";
 
 import { AvatarContext } from "../components/AvatarContext";
 import { AuthContext } from "../components/AuthContext";
-import { auth } from "../services/firebase";
+import { db, auth } from "../services/firebase";
 
 const CreateProfile = () => {
-  const { appUser} = React.useContext(
-    AuthContext
-  );
+  const { appUser, appUserKey } = React.useContext(AuthContext);
   const { options, setOptions } = React.useContext(AvatarContext);
   const [error, setError] = React.useState(null);
   const [displayName, setDisplayName] = React.useState("");
   const [bioText, setBioText] = React.useState("");
+  const [redirect, setRedirect] = React.useState(false);
 
   function handleDisplayNameChange(event) {
     setDisplayName(event.target.value);
@@ -29,16 +29,28 @@ const CreateProfile = () => {
     event.preventDefault();
     setError("");
     try {
-      auth().currentUser.updateProfile({
-        displayName: displayName,
-        photoURL: "https://avataaars.io/?avatarStyle=Circle",
-      });
+      // auth().currentUser.updateProfile({
+      //   displayName: displayName,
+      //   photoURL: "https://avataaars.io/?avatarStyle=Circle",
+      // });
+      if (displayName && bioText) {
+        db.ref(`users/${appUserKey}`).update({
+          bio: bioText,
+          displayName: displayName,
+          photoURL: "https://avataaars.io/?avatarStyle=Circle",
+        });
+        setRedirect(true);
+      } else {
+        setError("Please fill in the form fields!");
+      }
     } catch (error) {
       setError(error.message);
     }
   };
 
-  return (
+  return redirect ? (
+    <Redirect to="/profile" />
+  ) : (
     <PageContainer>
       <Form onSubmit={handleSubmit}>
         <Title>Please fill out the form to create your new account</Title>
@@ -62,7 +74,7 @@ const CreateProfile = () => {
         </InputContainer>
         <ButtonContainer>
           {error ? <ErrorText>{error}</ErrorText> : null}
-          <Button type="submit" name="submitButton" id="submitButton">
+          <Button type="submit">
             <span>Submit</span>
           </Button>
         </ButtonContainer>

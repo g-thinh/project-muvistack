@@ -8,7 +8,7 @@ import { Start, Profile, SignUp, Login, Error, CreateProfile } from "../views";
 
 const App = () => {
   const { authenticated, hasProfile } = React.useContext(AuthContext);
-  console.log("Currenth authentication:", authenticated);
+  // console.log("Currenth authentication:", authenticated);
   return (
     <Router>
       <Nav>

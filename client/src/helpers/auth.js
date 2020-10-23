@@ -5,14 +5,16 @@ import { db } from "../services/firebase";
 // for just email/password accounts
 
 export const signup = (email, password) => {
-  return auth().createUserWithEmailAndPassword(email, password).then(res => {
-    console.log("New User has been created");
-    db.ref("users").push({
-      userID: res.user.uid,
-      email: res.user.email,
-      profileSetup: false,
-    })
-  });
+  return auth()
+    .createUserWithEmailAndPassword(email, password)
+    .then((res) => {
+      console.log("New User has been created");
+      db.ref("users").push({
+        userID: res.user.uid,
+        email: res.user.email,
+        profileSetup: false,
+      });
+    });
 };
 
 export const signin = (email, password) => {
@@ -31,4 +33,8 @@ export function signInWithGoogle() {
 export function signInWithGitHub() {
   const provider = new auth.GithubAuthProvider();
   return auth().signInWithPopup(provider);
+}
+
+export function getUser(key) {
+  return db.ref("users").child(key);
 }

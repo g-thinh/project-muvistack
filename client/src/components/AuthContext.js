@@ -9,12 +9,13 @@ const AuthProvider = ({ children, user }) => {
   const [authenticated, setAuthenticated] = React.useState(false);
   const [hasProfile, setHasProfile] = React.useState(undefined);
   const [appUser, setAppUser] = React.useState({});
-  const [displayName, setDisplayName] = React.useState("");
+  const [appUserKey, setAppUserKey] = React.useState("");
 
   React.useEffect(() => {
+    console.log("[AuthContext.js] is mounted...");
     auth().onAuthStateChanged((user) => {
       if (user) {
-        // console.log("user", user.uid);
+        // console.log("logged in user", user);
         setLoading(false);
         setAuthenticated(true);
         setAppUser(auth().currentUser);
@@ -23,12 +24,15 @@ const AuthProvider = ({ children, user }) => {
           .orderByChild("userID")
           .equalTo(user.uid)
           .on("value", (snapshot) => {
+            const key = Object.keys(snapshot.val())[0];
+            // console.log("The user's endpoint key is", key);
+            setAppUserKey(key);
+
             // console.log(snapshot.val());
             snapshot.forEach((snap) => {
               const val = snap.val();
               setHasProfile(val.profileSetup);
             });
-            console.log("does the user have a profile setup?", hasProfile);
           });
         // console.log("These are all the users", userDB);
         // // console.log("the newly created user has the ID", userId);
@@ -44,13 +48,12 @@ const AuthProvider = ({ children, user }) => {
     <AuthContext.Provider
       value={{
         appUser,
+        appUserKey,
         authenticated,
         setAuthenticated,
         setLoading,
         loading,
         hasProfile,
-        displayName,
-        setDisplayName,
       }}
     >
       {children}
