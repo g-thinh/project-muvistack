@@ -13,7 +13,7 @@ const Profile = () => {
   const [bioText, setBioText] = React.useState("");
   const [avatarURL, setAvatarURL] = React.useState(null);
   const [loading, setLoading] = React.useState(true);
-  const [data, setData] = React.useState({});
+
   // auth().currentUser.updateProfile({
   //   displayName: "Thinh Nguyen",
   //   photoURL:
@@ -22,62 +22,24 @@ const Profile = () => {
 
   React.useEffect(() => {
     console.log("[Profile.js] is mounted...");
-    console.log("[Profile.js] user is", appUser);
-    // console.log("[Profile.js] is fetching data...");
-    // console.log("appUserKey", appUser);
-
-    // const fetchData = () => {
-    //   const temp = [];
-    //   try {
-    //     db.ref(`users/${appUserKey}`)
-    //       .once("value", (snapshot) => {
-    //         snapshot.forEach((snap) => {
-    //           const val = snap.val();
-    //           console.log("[Profile.js]", val);
-    //           // temp.push(val);
-    //           setData(val);
-    //         });
-    //       })
-    //       .then(function () {
-    //         console.log("[Profile.js] now data is", data);
-    //         setData(temp);
-    //         setLoading(false);
-    //       });
-    //   } catch (error) {
-    //     console.log(error);
-    //   }
-    // };
-
-    // fetchData();
-
-    // console.log("The databased returned:", data);
-
-    db.ref("users")
-      // .orderByChild("userID")
-      // .equalTo(appUser.uid)
-      .child(appUserKey)
-      .once("value", (snapshot) => {
-        const data = snapshot.val();
-        if (data) {
-          setBioText(data.bio);
+    console.log("[Profile.js] current user is", appUser);
+    const fetchData = async () => {
+      const response = await db
+        .ref("users")
+        .child(appUser.uid)
+        .once("value", (snapshot) => {
+          const data = snapshot.val();
           setDisplayName(data.displayName);
-          setAvatarURL(data.photoURL);
-        }
-        // snapshot.forEach((snap) => {
-        //   const data = snap.val();
-        //   console.log("[DATA]", data);
-        //   //temp.push(data);
-        //   if (data) {
-        //     setBioText(data.bio);
-        //     setDisplayName(data.displayName);
-        //     setAvatarURL(data.photoURL);
-        //     setLoading(false);
-        //   }
-        // });
-      });
-    setLoading(false);
+          setBioText(data.bioText);
+          console.log("[Profile.js] user data is", data);
+        });
+      return response;
+    };
 
-    console.log("after fetch...", data);
+    if (appUser) {
+      fetchData();
+      setLoading(false);
+    }
   }, []);
 
   if (loading) {

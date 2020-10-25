@@ -11,7 +11,6 @@ import { db, auth } from "../services/firebase";
 
 const CreateProfile = () => {
   const { appUser, appUserKey } = React.useContext(AuthContext);
-  const { options, setOptions } = React.useContext(AvatarContext);
   const [error, setError] = React.useState(null);
   const [displayName, setDisplayName] = React.useState("");
   const [bioText, setBioText] = React.useState("");
@@ -29,15 +28,11 @@ const CreateProfile = () => {
     event.preventDefault();
     setError("");
     try {
-      // auth().currentUser.updateProfile({
-      //   displayName: displayName,
-      //   photoURL: "https://avataaars.io/?avatarStyle=Circle",
-      // });
       if (displayName && bioText) {
-        db.ref(`users/${appUserKey}`).update({
-          bio: bioText,
+        console.log("Created new user!");
+        db.ref("users").child(appUser.uid).update({
           displayName: displayName,
-          photoURL: "https://avataaars.io/?avatarStyle=Circle",
+          bioText: bioText,
         });
         setRedirect(true);
       } else {

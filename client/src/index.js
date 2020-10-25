@@ -5,10 +5,8 @@ import AuthProvider from "./components/AuthContext";
 import AvatarProvider from "./components/AvatarContext";
 
 ReactDOM.render(
-  <AvatarProvider>
-    <AuthProvider>
-      <App />
-    </AuthProvider>
-  </AvatarProvider>,
+  <AuthProvider>
+    <App />
+  </AuthProvider>,
   document.getElementById("root")
 );
