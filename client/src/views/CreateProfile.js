@@ -10,7 +10,7 @@ import { AuthContext } from "../components/AuthContext";
 import { db, auth } from "../services/firebase";
 
 const CreateProfile = () => {
-  const { appUser, appUserKey } = React.useContext(AuthContext);
+  const { appUser } = React.useContext(AuthContext);
   const [error, setError] = React.useState(null);
   const [displayName, setDisplayName] = React.useState("");
   const [bioText, setBioText] = React.useState("");
@@ -33,6 +33,8 @@ const CreateProfile = () => {
         db.ref("users").child(appUser.uid).update({
           displayName: displayName,
           bioText: bioText,
+          photoURL: "https://avataaars.io/?avatarStyle=Circle",
+          profileSetup: true,
         });
         setRedirect(true);
       } else {
@@ -120,14 +122,14 @@ const Input = styled.input`
   }
 `;
 
-const InputBio = styled.input`
+const InputBio = styled.textarea`
   width: 300px;
   height: 5rem;
   font-size: 16px;
   border-radius: 5px;
   border: 1px solid #d9d9d9;
   margin: 5px 0;
-  padding-left: 12px;
+  padding: 5px 12px;
 
   &::placeholder {
     color: #9e9e9e;

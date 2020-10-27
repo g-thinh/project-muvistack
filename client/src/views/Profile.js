@@ -6,19 +6,14 @@ import { AuthContext } from "../components/AuthContext";
 import { auth, db } from "../services/firebase";
 import Cards from "../components/Cards";
 import { getUser } from "../helpers/auth";
+import Spinner from "../components/UI/Spinner";
 
 const Profile = () => {
-  const { appUser, appUserKey } = React.useContext(AuthContext);
+  const { appUser } = React.useContext(AuthContext);
   const [displayName, setDisplayName] = React.useState("");
   const [bioText, setBioText] = React.useState("");
   const [avatarURL, setAvatarURL] = React.useState(null);
   const [loading, setLoading] = React.useState(true);
-
-  // auth().currentUser.updateProfile({
-  //   displayName: "Thinh Nguyen",
-  //   photoURL:
-  //     "https://avataaars.io/?avatarStyle=Circle&topType=ShortHairShortFlat&accessoriesType=Prescription02&hairColor=Black&facialHairType=Blank&clotheType=Hoodie&clotheColor=Gray02&eyeType=Surprised&eyebrowType=Default&mouthType=Smile&skinColor=Light",
-  // });
 
   React.useEffect(() => {
     console.log("[Profile.js] is mounted...");
@@ -31,6 +26,7 @@ const Profile = () => {
           const data = snapshot.val();
           setDisplayName(data.displayName);
           setBioText(data.bioText);
+          setAvatarURL(data.photoURL);
           console.log("[Profile.js] user data is", data);
         });
       return response;
@@ -43,7 +39,7 @@ const Profile = () => {
   }, []);
 
   if (loading) {
-    return <h1>Loading...</h1>;
+    return <Spinner />;
   }
 
   return (
@@ -111,12 +107,14 @@ const ProfileDesc = styled.div`
   justify-content: center;
   align-items: center;
   flex-flow: column;
+  margin: 1vh 0;
 `;
 
 const DisplayName = styled.h1`
   color: ${THEMES.BlackCoffee};
   font-size: 44px;
   text-align: center;
+  user-select: none;
 
   @media (max-width: 426px) {
     font-size: 34px;
@@ -128,6 +126,7 @@ const DescText = styled.p`
   font-size: 24px;
   text-align: center;
   margin-top: 12px;
+  user-select: none;
 
   @media (max-width: 426px) {
     font-size: 18px;
