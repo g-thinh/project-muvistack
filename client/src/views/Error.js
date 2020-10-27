@@ -2,11 +2,14 @@ import React from "react";
 import styled from "styled-components";
 import PageContainer from "./PageContainer";
 import Footer from "../components/Footer";
+import { FiAlertOctagon } from "react-icons/fi";
 
 const Error = () => {
   return (
     <PageContainer>
-      <h1>Sorry, page not found</h1>
+      <FiAlertOctagon size={66} color="red" />
+      <br></br>
+      <Text>Sorry, page not found</Text>
     </PageContainer>
   );
 };
@@ -21,12 +24,10 @@ const Container = styled.div`
     width: 100%;
     padding: 0 12px;
   }
-
-  & h1 {
-    font-size: 44px;
-    text-align: center;
-  }
 `;
 
+const Text = styled.h1`
+  font-size: 32px;
+`;
 
 export default Error;

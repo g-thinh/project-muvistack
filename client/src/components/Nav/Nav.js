@@ -1,10 +1,11 @@
 import React from "react";
 import styled from "styled-components";
 import { signout } from "../../helpers/auth";
+import { Link } from "react-router-dom";
 import { AuthContext } from "../AuthContext";
 import { THEMES } from "../THEMES";
 import { Logo, LogoName } from "../../assets";
-import {FiMenu} from "react-icons/fi";
+import { FiMenu } from "react-icons/fi";
 import Burger from "./Burger";
 import Menu from "./Menu";
 
@@ -14,10 +15,12 @@ const Nav = (props) => {
   return authenticated ? (
     <>
       <NavContainer>
-        <img src={Logo} alt="main-logo" />
+        <Link to="/">
+          <img src={Logo} alt="main-logo" />
+        </Link>
         <NavList>
-          <Burger open={open} setOpen={setOpen}/>
-          <Menu open={open} setOpen={setOpen}/>
+          <Burger open={open} setOpen={setOpen} />
+          <Menu open={open} setOpen={setOpen} />
         </NavList>
       </NavContainer>
 
@@ -92,11 +95,11 @@ export const StyledBurger = styled.button`
   cursor: pointer;
   padding: 0;
   z-index: 10;
-  
+
   &:focus {
     outline: none;
   }
-  
+
   div {
     width: 2rem;
     height: 0.25rem;

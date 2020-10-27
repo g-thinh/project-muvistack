@@ -5,6 +5,7 @@ import { AuthContext } from "../components/AuthContext";
 import Nav from "../components/Nav";
 import GlobalStyles from "../components/GlobalStyles";
 import { Start, Profile, SignUp, Login, Error, CreateProfile } from "../views";
+import Spinner from "../components/UI/Spinner";
 
 const App = () => {
   const { authenticated, hasProfile } = React.useContext(AuthContext);
@@ -22,7 +23,7 @@ const App = () => {
           ></PrivateRoute>
           <PrivateRoute
             path="/create-profile"
-            authenticated={authenticated}
+            authenticated={authenticated && hasProfile}
             component={CreateProfile}
             reroute="/"
           ></PrivateRoute>
@@ -30,8 +31,8 @@ const App = () => {
             path="/login"
             authenticated={authenticated}
             component={Login}
-            // reroute={hasProfile ? "/create-profile" : "/profile"}
-            reroute="/profile"
+            reroute={hasProfile ? "/create-profile" : "/profile"}
+            // reroute="/profile"
           ></PublicRoute>
           <PublicRoute
             path="/signup"
