@@ -2,7 +2,8 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const morgan = require("morgan");
-const fetch = require("isomorphic-fetch");
+
+const routes = require("./routes");
 require("dotenv").config();
 
 const PORT = 4000;
@@ -24,6 +25,7 @@ express()
   .use(bodyParser.json())
   .use(express.urlencoded({ extended: false }))
   .use("/", express.static(__dirname + "/"))
+  .use("/", routes)
 
   .listen(PORT, () => {
     console.info(`Listening on port ${PORT}`);
