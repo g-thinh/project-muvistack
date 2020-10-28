@@ -1,21 +1,10 @@
 const movies = require("express").Router();
 const byGenre = require("./byGenre");
-const admin = require("firebase-admin");
-require("dotenv").config();
-
-// const serviceAccount = require("path/to/serviceAccountKey.json");
-const serviceAccount = require(process.env.FIREBASE_SERVICE_ACCOUNT_KEY_PATH);
-
-admin.initializeApp({
-  credential: admin.credential.cert(serviceAccount),
-  databaseURL: "https://muvistack.firebaseio.com",
-});
+const { db } = require("../../firebase");
 
 movies.post("/", byGenre);
 
 movies.get("/test", (req, res) => {
-  const db = admin.database();
-
   db.ref("test").push({ test: "Hello World" });
 
   try {
