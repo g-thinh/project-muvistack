@@ -1,5 +1,6 @@
 const routes = require("express").Router();
 const genres = require("./genre");
+const movies = require("./movies");
 
 routes.get("/", (req, res) => {
   try {
@@ -16,5 +17,6 @@ routes.get("/", (req, res) => {
 });
 
 routes.use("/genre", genres);
+routes.use("/movies", movies);
 
 module.exports = routes;
