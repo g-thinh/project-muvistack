@@ -4,7 +4,15 @@ import { PrivateRoute, PublicRoute } from "../hoc";
 import { AuthContext } from "../components/AuthContext";
 import Nav from "../components/Nav";
 import GlobalStyles from "../components/GlobalStyles";
-import { Start, Profile, SignUp, Login, Error, CreateProfile } from "../views";
+import {
+  Start,
+  Profile,
+  SignUp,
+  Login,
+  Error,
+  CreateProfile,
+  Movies,
+} from "../views";
 import Spinner from "../components/UI/Spinner";
 
 const App = () => {
@@ -19,6 +27,12 @@ const App = () => {
             path="/profile"
             authenticated={authenticated}
             component={Profile}
+            reroute="/"
+          ></PrivateRoute>
+          <PrivateRoute
+            path="/movies"
+            authenticated={authenticated}
+            component={Movies}
             reroute="/"
           ></PrivateRoute>
           <PrivateRoute
