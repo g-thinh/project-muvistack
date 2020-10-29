@@ -17,8 +17,9 @@ const Profile = () => {
 
   React.useEffect(() => {
     console.log("[Profile.js] is mounted...");
-    console.log("[Profile.js] current user is", appUser);
+
     const fetchData = async () => {
+      console.log("appUser", appUser);
       const response = await db
         .ref("users")
         .child(appUser.uid)
@@ -33,10 +34,11 @@ const Profile = () => {
     };
 
     if (appUser) {
+      console.log("[Profile.js] current user is", appUser);
       fetchData();
       setLoading(false);
     }
-  }, []);
+  }, [appUser]);
 
   if (loading) {
     return <Spinner />;

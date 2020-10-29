@@ -8,22 +8,20 @@ export const AuthContext = createContext(null);
 const AuthProvider = ({ children, user }) => {
   const [loading, setLoading] = React.useState(true);
   const [authenticated, setAuthenticated] = React.useState(false);
-  const [appUser, setAppUser] = React.useState({});
+  const [appUser, setAppUser] = React.useState(null);
   const [hasProfile, setHasProfile] = React.useState(null);
   const [appUserKey, setAppUserKey] = React.useState("");
 
   React.useEffect(() => {
-    console.log("[AuthContext.js] is mounted...");
+    // console.log("[AuthContext.js] is mounted...");
     const unlisten = auth().onAuthStateChanged((user) => {
       if (user) {
-        console.log("[AuthContext.js] logged in user", user);
-
         db.ref("users")
           .child(user.uid)
           .on("value", (snapshot) => {
             const data = snapshot.val();
             setHasProfile(data.profileSetup);
-            console.log("[AuthContext.js] user data:", data);
+            // console.log("[AuthContext.js] user data:", data);
           });
 
         setAuthenticated(true);
@@ -31,7 +29,7 @@ const AuthProvider = ({ children, user }) => {
         setLoading(false);
       } else {
         setAuthenticated(false);
-        setAppUser({});
+        setAppUser(null);
         setLoading(false);
       }
     });

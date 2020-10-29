@@ -37,7 +37,7 @@ const App = () => {
           ></PrivateRoute>
           <PrivateRoute
             path="/create-profile"
-            authenticated={authenticated && hasProfile}
+            authenticated={authenticated && !hasProfile}
             component={CreateProfile}
             reroute="/"
           ></PrivateRoute>
