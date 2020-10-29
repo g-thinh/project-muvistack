@@ -6,6 +6,7 @@ import Spinner from "../components/UI/Spinner";
 import { AuthContext } from "../components/AuthContext";
 import { THEMES } from "../components/THEMES";
 import Categories from "../components/Categories";
+import Deck from "../components/Deck";
 
 const Movies = () => {
   const { appUser, loading } = React.useContext(AuthContext);
@@ -14,8 +15,18 @@ const Movies = () => {
   const [pref, setPref] = React.useState(null);
   const [getGenres, setGetGenres] = React.useState(false);
   const [genres, setGenres] = React.useState(null);
+  const [movies, setMovies] = React.useState([]);
 
-  const fetchMovies = () => {
+  function handleClick(id, name) {
+    console.log("The Genre Selected is:", name);
+    const data = [];
+    data.push(id);
+    setPref(data);
+    fetchMovies(data);
+    // setTest(false);
+  }
+
+  function fetchMovies(genres) {
     const options = {
       method: "POST",
       headers: {
@@ -23,23 +34,29 @@ const Movies = () => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        genres: [12, 16],
+        genres: genres,
       }),
     };
 
-    fetch("/movies", options);
-  };
+    fetch("/movies", options)
+      .then((res) => res.json())
+      .then((json) => {
+        console.log(json);
+        setMovies(json.data);
+        setTest(false);
+      });
+  }
 
-  const fetchGenres = () => {
+  function fetchGenres() {
     console.log("Fetching all Genres");
     fetch("/genre")
       .then((res) => res.json())
       .then((json) => {
-        console.log(json.data[0].genres);
+        // console.log(json.data[0].genres);
         setGenres(json.data[0].genres);
       });
     setGetGenres(true);
-  };
+  }
 
   React.useEffect(() => {
     console.log("[Movies.js] is mounted...");
@@ -62,30 +79,29 @@ const Movies = () => {
   return test ? (
     genres && (
       <PageContainer>
-        <h1>This is where you setup the page</h1>
-        <h1>{userName}</h1>
-        <button
-          onClick={(ev) => {
-            setTest(false);
-            setPref([12, 16]);
-          }}
-        >
-          Submit Settings
-        </button>
-        <Categories data={genres} />
-        {/* {genres &&
-          genres.map((genre) => {
-            return <h1>{genre.name}</h1>;
-          })} */}
+        <PageTitle>Please Select a Movie Category</PageTitle>
+        {/* <h1>{userName}</h1> */}
+        <Categories data={genres} setTest={handleClick} />
       </PageContainer>
     )
   ) : (
     <PageContainer>
       <h1>Hello There, this is where you swipe for movies</h1>
-      <h1>{userName}</h1>
-      <button onClick={(ev) => fetchMovies()}>Send Request</button>
+      <button
+        onClick={(ev) => {
+          setTest(true);
+        }}
+      >
+        Return
+      </button>
+      {movies && <Deck data={movies} />}
     </PageContainer>
   );
 };
+
+const PageTitle = styled.h1`
+  font-size: 28px;
+  margin: 2rem 0;
+`;
 
 export default Movies;
