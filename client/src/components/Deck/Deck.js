@@ -16,7 +16,7 @@ const Deck = (props) => {
   const imgBaseURL = "https://image.tmdb.org/t/p/original";
 
   function addMovie(name, id) {
-    console.log(`Added movie ${name}`);
+    // console.log(`Added movie ${name}`);
     db.ref(`users/${USER}`).child(`LikedMovies/${CATEGORY}`).push(id);
     removeMovie(id);
   }
@@ -37,9 +37,9 @@ const Deck = (props) => {
               <Poster src={imgBaseURL + movie.poster_path} alt={movie.id} />
               {/* <Description>{movie.overview}</Description> */}
             </Header>
-            <h1>
+            {/* <h1>
               Index: {index}, ID: {movie.id}
-            </h1>
+            </h1> */}
             <Title>
               {movie.title},{" "}
               <span>{moment(movie.release_date).format("YYYY")}</span>
@@ -72,32 +72,31 @@ const Deck = (props) => {
 };
 
 const DeckContainer = styled.div`
-  /* position: relative; */
+  position: relative;
   display: flex;
   flex-flow: column wrap;
-  /* flex-flow: column;
-
+  margin-top: 20px;
+  /* flex-flow: column; */
   /* overflow: hidden; */
-  border: 5px solid blue;
+  /* width: 450px; */
 `;
 
 const MovieCard = styled.div`
-  /* position: absolute;
-  top: 50%;
-  left: 50%; */
   flex: 1;
   /* z-index: ${(props) => -props.index}; */
   width: 450px;
+  /* height: 850px; */
   background-color: ${THEMES.Primary};
   /* height: 400px; */
   border: 1px solid ${THEMES.BlackCoffee};
-  display: flex;
-  flex-flow: column wrap;
-  margin: 20px 0;
+  /* display: flex; */
+  display: ${(props) => (props.index === 0 ? "flex" : "none")};
+  flex-flow: column;
+  /* margin: 20px 0; */
   border-radius: 22px;
   padding: 18px;
   justify-content: center;
-  margin-bottom: -20px;
+  /* margin-bottom: -20px; */
 `;
 
 const Action = styled.div`

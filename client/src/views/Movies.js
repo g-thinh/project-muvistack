@@ -7,10 +7,11 @@ import { AuthContext } from "../components/AuthContext";
 import { THEMES } from "../components/THEMES";
 import Categories from "../components/Categories";
 import Deck from "../components/Deck";
+import { FiArrowLeft } from "react-icons/fi";
 
 const Movies = () => {
   const { appUser, loading } = React.useContext(AuthContext);
-  const [test, setTest] = React.useState(true);
+  const [swipeMode, setSwipeMode] = React.useState(true);
   const [userName, setUserName] = React.useState("");
   const [pref, setPref] = React.useState(null);
   const [getGenres, setGetGenres] = React.useState(false);
@@ -27,7 +28,6 @@ const Movies = () => {
   }
 
   function handleDeleteMovie(id) {
-    const currentMovies = movies;
     const results = movies.filter((movie) => movie.id !== id);
     setMovies(results);
   }
@@ -57,10 +57,10 @@ const Movies = () => {
             (movie) => !chosenGenre.includes(movie.id)
           );
           setMovies(results);
-          setTest(false);
+          setSwipeMode(false);
         } else {
           setMovies(json.data.results);
-          setTest(false);
+          setSwipeMode(false);
         }
       });
   }
@@ -94,24 +94,28 @@ const Movies = () => {
     return <Spinner />;
   }
 
-  return test ? (
+  return swipeMode ? (
     genres && (
       <PageContainer>
         <PageTitle>Please Select a Movie Category</PageTitle>
-        <h1>{userName}</h1>
+        {/* <h1>{userName}</h1> */}
         <Categories data={genres} setTest={handleClick} />
       </PageContainer>
     )
   ) : (
     <PageContainer>
-      <h1>Hello There, this is where you swipe for movies</h1>
-      <button
-        onClick={(ev) => {
-          setTest(true);
-        }}
-      >
-        Return
-      </button>
+      {/* <h1>Hello There, this is where you swipe for movies</h1> */}
+      <Header>
+        <Button
+          onClick={(ev) => {
+            setSwipeMode(true);
+          }}
+        >
+          <FiArrowLeft size={32} />
+        </Button>
+        <p>Return to Genres</p>
+      </Header>
+
       {movies && (
         <Deck
           data={movies}
@@ -127,6 +131,36 @@ const Movies = () => {
 const PageTitle = styled.h1`
   font-size: 28px;
   margin: 2rem 0;
+`;
+
+const Header = styled.div`
+  display: flex;
+  align-self: flex-start;
+  margin: 20px;
+  align-items: center;
+  /* border: 5px solid goldenrod; */
+
+  & p {
+    margin-left: 6px;
+    font-size: 22px;
+    font-weight: 500;
+    user-select: none;
+  }
+`;
+
+const Button = styled.button`
+  display: flex;
+  border: none;
+  border-radius: 8px;
+  color: white;
+  cursor: pointer;
+  background-color: ${THEMES.BlackCoffee};
+  /* align-self: flex-start; */
+
+  &:hover {
+    background: ${THEMES.Primary};
+    transform: scale(1.1);
+  }
 `;
 
 export default Movies;
