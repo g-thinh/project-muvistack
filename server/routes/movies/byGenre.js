@@ -15,13 +15,12 @@ module.exports = async (req, res) => {
   // const genres = [12, 16];
   const formattedGenres = genres.join("%2C");
 
-  const params = `&language=en-US&include_adult=false&include_video=false&page=10&with_genres=${formattedGenres}`;
-
   // console.log("the url for the api is", baseURL + params);
   // console.log("the formatted genres query is now", formattedGenres);
 
-  const fetchData = async () => {
+  const fetchData = async (page) => {
     let data;
+    const params = `&language=en-US&include_adult=false&include_video=false&page=${page}&with_genres=${formattedGenres}`;
     await fetch(baseURL + params)
       .then((res) => res.json())
       .then((json) => (data = json));
@@ -29,7 +28,30 @@ module.exports = async (req, res) => {
     return data;
   };
 
-  const data = await fetchData();
+  const fetchPages = async () => {
+    let data;
+    const params = `&language=en-US&include_adult=false&include_video=false&with_genres=${formattedGenres}`;
+    await fetch(baseURL + params)
+      .then((res) => res.json())
+      .then((json) => (data = json.total_pages));
+    // .then(() => console.log(data));
+    return data;
+  };
+
+  const TotalPages = await fetchPages();
+
+  console.log("Total Pages", TotalPages);
+
+  // Now Randomize the page
+  function getRandomPage(min, max) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+  }
+
+  const randomPage = getRandomPage(0, TotalPages);
+
+  console.log("Random page is", randomPage);
+
+  const data = await fetchData(randomPage);
 
   console.log("Data received is", data.results.length);
 
