@@ -13,6 +13,7 @@ export const signup = (email, password) => {
         userID: res.user.uid,
         email: res.user.email,
         profileSetup: false,
+        LikedMovies: false,
       });
     });
 };

@@ -16,13 +16,14 @@ const Movies = () => {
   const [getGenres, setGetGenres] = React.useState(false);
   const [genres, setGenres] = React.useState(null);
   const [movies, setMovies] = React.useState(null);
+  const [likedMovies, setLikedMovies] = React.useState(null);
 
   function handleClick(id, name) {
-    console.log("The Genre Selected is:", name);
+    // console.log("The Genre Selected is:", name);
     const data = [];
     data.push(id);
     setPref(data);
-    fetchMovies(data, null);
+    fetchMovies(data);
   }
 
   function handleDeleteMovie(id) {
@@ -46,13 +47,26 @@ const Movies = () => {
     fetch("/movies", options)
       .then((res) => res.json())
       .then((json) => {
-        setMovies(json.data.results);
-        setTest(false);
+        // console.log("Users chose:", pref);
+        // Checks if the user liked movies in chosen category, and filters
+        // out the ones that were already liked.
+        if (likedMovies[genres]) {
+          const chosenGenre = Object.values(likedMovies[genres]);
+          // console.log("Users likes:", chosenGenre);
+          const results = json.data.results.filter(
+            (movie) => !chosenGenre.includes(movie.id)
+          );
+          setMovies(results);
+          setTest(false);
+        } else {
+          setMovies(json.data.results);
+          setTest(false);
+        }
       });
   }
 
   function fetchGenres() {
-    console.log("Fetching all Genres");
+    // console.log("Fetching all Genres");
     fetch("/genre")
       .then((res) => res.json())
       .then((json) => {
@@ -62,8 +76,8 @@ const Movies = () => {
   }
 
   React.useEffect(() => {
-    console.log("[Movies.js] is mounted...");
-    console.log("[Movies.js] auth user is:", appUser.uid);
+    // console.log("[Movies.js] is mounted...");
+    // console.log("[Movies.js] auth user is:", appUser.uid);
     fetchGenres();
     db.ref("users")
       .child(appUser.uid)
@@ -71,6 +85,7 @@ const Movies = () => {
         const data = snapshot.val();
         // console.log("[Movies.js] fetched data", data);
         setUserName(data.email);
+        setLikedMovies(data.LikedMovies);
         // setLoading(false);
       });
   }, [pref]);
