@@ -11,6 +11,7 @@ const moment = require("moment");
 
 const Deck = (props) => {
   const USER = props.user;
+  const USER_ID = props.user.uid;
   const CATEGORY = props.category;
   const MOVIES = props.data;
   const removeMovie = props.deleteMovie;
@@ -20,93 +21,33 @@ const Deck = (props) => {
 
   function addMovie(name, id) {
     // console.log(`Added movie ${name}`);
-    db.ref(`users/${USER}`).child(`LikedMovies/${CATEGORY}`).push(id);
-    db.ref("matches").child(USER).push(id);
+    db.ref(`users/${USER_ID}`).child(`LikedMovies/${CATEGORY}`).push(id);
+    db.ref(`matches/${id}`).child("users").push(USER.email);
+    db.ref(`matches/${id}`).update({ title: name });
+    updateMatches(id, USER.email);
     removeMovie(id);
   }
 
-  //STEP1: fetch my liked movies;
+  // This function will listen when movie is liked in the match pool
+  function updateMatches(movieID, user) {
+    db.ref(`matches/${movieID}/users`).on("value", (snapshot) => {
+      console.log(`Movie: ${movieID} was liked by ${user}`);
+      // do stuff when a new user likes a movie;
+      const data = Object.values(snapshot.val());
+      console.log("Data is now:", data);
 
-  const getStuff = async () => {
-    const myMovies = await getMyMovies();
-    const users = await getUsers();
-    const results = [];
-    console.log("My Movies:", myMovies);
-
-    users.forEach(async (user) => {
-      console.log(
-        `User: ${user.user} likes movies`,
-        Object.values(user.movies)
-      );
-
-      user.movies.forEach(async (movie) => {
-        if (myMovies.includes(movie)) {
-          console.log(`movie ${movie} has matched!`);
-          console.log(`You matched with user: ${user.user}`);
-          const matchedUser = await fetchUser(user.user);
-          console.log("fetched user!", matchedUser);
-          results.push(movie);
-        }
-      });
-    });
-    console.log("The results are:", results);
-  };
-
-  async function getMyMovies() {
-    // This is to search for the current users liked movies
-    // returns array of all movies liked by movieID i.e. [1, 2, 3, ...]
-    const myMovies = [];
-    await db
-      .ref(`users/${USER}/LikedMovies`)
-      .once("value", async (snapshot) => {
-        snapshot.forEach((snap) => {
-          const val = Object.values(snap.val()); //returns movie array [1,2,3,...]
-          myMovies.push(...val); //combines each movies from each genre into the myMovies array
+      // Check if there is at least 2 people and the person included is the
+      // User
+      if (data.length > 1 && data.includes(user)) {
+        // do stuff when users match
+        console.log("USERS HAVE MATCHED!");
+        db.ref(`chats/${movieID}`).update({
+          chatCreated: moment().format(),
+          users: data,
         });
-      });
-    // console.log("This user has liked movies:", myMovies);
-    return myMovies;
-  }
-
-  async function getUsers() {
-    // Stores all other users
-    const USERS = [];
-
-    // This is to find other user's movie likes;
-    // returns array of all other users and their movie likes in the form of
-    // [{user: "id", movies: [1,2,3,...]}]
-    await db.ref("matches").once("value", async (snapshot) => {
-      snapshot.forEach((snap) => {
-        const key = snap.key;
-        const val = snap.val();
-        // console.log(`Key ${key} has the following data:`, val);
-        if (key !== USER) {
-          // console.log("This is not the user:", key);
-          const other_user = {
-            user: key,
-            movies: Object.values(Object.values(val)),
-          };
-          USERS.push(other_user);
-          // console.log("Added user");
-        }
-      });
-      // console.log("Other users enjoy:", USERS);
+        setMatch(true);
+      }
     });
-    return USERS;
-  }
-
-  async function fetchUser(id) {
-    // console.log("fetching user with id:", id);
-    // This is to search for the current users liked movies
-    // returns array of all movies liked by movieID i.e. [1, 2, 3, ...]
-    const user = [];
-    await db.ref(`users/${id}`).once("value", async (snapshot) => {
-      const data = snapshot.val();
-      // console.log("The fetched user is", data);
-      user.push(data);
-    });
-    // console.log("This user has liked movies:", myMovies);
-    return user;
   }
 
   React.useEffect(() => {
@@ -114,11 +55,12 @@ const Deck = (props) => {
       top: 0,
       behavior: "smooth",
     });
-    getStuff();
+    // getStuff();
   }, []);
 
   return (
     <DeckContainer>
+      {match ? <h1>You just Matched!</h1> : <h1>No Matches</h1>}
       {MOVIES.map((movie, index) => {
         return (
           <MovieCard index={index} key={movie.id}>

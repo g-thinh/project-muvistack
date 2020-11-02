@@ -120,7 +120,7 @@ const Movies = () => {
         <>
           <Deck
             data={movies}
-            user={appUser.uid}
+            user={appUser}
             category={pref}
             deleteMovie={handleDeleteMovie}
           />
