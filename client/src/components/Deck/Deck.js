@@ -6,6 +6,7 @@ import { AuthContext } from "../AuthContext";
 import Spinner from "../UI/Spinner";
 import { db } from "../../services/firebase";
 import { object } from "prop-types";
+import MatchedModal from "../MatchedModal";
 
 const moment = require("moment");
 
@@ -18,6 +19,7 @@ const Deck = (props) => {
   const imgBaseURL = "https://image.tmdb.org/t/p/original";
 
   const [match, setMatch] = React.useState(false);
+  const [toggleModal, setToggleModal] = React.useState(false);
 
   function addMovie(name, id) {
     // console.log(`Added movie ${name}`);
@@ -41,11 +43,11 @@ const Deck = (props) => {
       if (data.length > 1 && data.includes(user)) {
         // do stuff when users match
         console.log("USERS HAVE MATCHED!");
-        db.ref(`chats/${movieID}`).update({
-          chatCreated: moment().format(),
+        db.ref(`matches/${movieID}`).update({
           users: data,
         });
         setMatch(true);
+        setToggleModal(true);
       }
     });
   }
@@ -60,7 +62,11 @@ const Deck = (props) => {
 
   return (
     <DeckContainer>
-      {match ? <h1>You just Matched!</h1> : <h1>No Matches</h1>}
+      {match ? (
+        <MatchedModal show={toggleModal} close={() => setToggleModal(false)} />
+      ) : (
+        <h1>No Matches</h1>
+      )}
       {MOVIES.map((movie, index) => {
         return (
           <MovieCard index={index} key={movie.id}>
