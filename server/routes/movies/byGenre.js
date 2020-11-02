@@ -19,6 +19,7 @@ module.exports = async (req, res) => {
   // console.log("the formatted genres query is now", formattedGenres);
 
   const fetchData = async (page) => {
+    console.log("Fetching Page:", page);
     let data;
     const params = `&language=en-US&include_adult=false&include_video=false&page=${page}&with_genres=${formattedGenres}`;
     await fetch(baseURL + params)
@@ -51,7 +52,8 @@ module.exports = async (req, res) => {
 
   console.log("Random page is", randomPage);
 
-  const data = await fetchData(randomPage);
+  // const data = await fetchData(randomPage);
+  const data = await fetchData(1);
 
   console.log("Data received is", data.results.length);
 
