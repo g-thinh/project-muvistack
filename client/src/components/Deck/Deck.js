@@ -5,6 +5,7 @@ import { FiCheck, FiStar, FiX } from "react-icons/fi";
 import { AuthContext } from "../AuthContext";
 import Spinner from "../UI/Spinner";
 import { db } from "../../services/firebase";
+import { object } from "prop-types";
 
 const moment = require("moment");
 
@@ -15,10 +16,97 @@ const Deck = (props) => {
   const removeMovie = props.deleteMovie;
   const imgBaseURL = "https://image.tmdb.org/t/p/original";
 
+  const [match, setMatch] = React.useState(false);
+
   function addMovie(name, id) {
     // console.log(`Added movie ${name}`);
     db.ref(`users/${USER}`).child(`LikedMovies/${CATEGORY}`).push(id);
+    db.ref("matches").child(USER).push(id);
     removeMovie(id);
+  }
+
+  //STEP1: fetch my liked movies;
+
+  const getStuff = async () => {
+    const myMovies = await getMyMovies();
+    const users = await getUsers();
+    const results = [];
+    console.log("My Movies:", myMovies);
+
+    users.forEach(async (user) => {
+      console.log(
+        `User: ${user.user} likes movies`,
+        Object.values(user.movies)
+      );
+
+      user.movies.forEach(async (movie) => {
+        if (myMovies.includes(movie)) {
+          console.log(`movie ${movie} has matched!`);
+          console.log(`You matched with user: ${user.user}`);
+          const matchedUser = await fetchUser(user.user);
+          console.log("fetched user!", matchedUser);
+          results.push(movie);
+        }
+      });
+    });
+    console.log("The results are:", results);
+  };
+
+  async function getMyMovies() {
+    // This is to search for the current users liked movies
+    // returns array of all movies liked by movieID i.e. [1, 2, 3, ...]
+    const myMovies = [];
+    await db
+      .ref(`users/${USER}/LikedMovies`)
+      .once("value", async (snapshot) => {
+        snapshot.forEach((snap) => {
+          const val = Object.values(snap.val()); //returns movie array [1,2,3,...]
+          myMovies.push(...val); //combines each movies from each genre into the myMovies array
+        });
+      });
+    // console.log("This user has liked movies:", myMovies);
+    return myMovies;
+  }
+
+  async function getUsers() {
+    // Stores all other users
+    const USERS = [];
+
+    // This is to find other user's movie likes;
+    // returns array of all other users and their movie likes in the form of
+    // [{user: "id", movies: [1,2,3,...]}]
+    await db.ref("matches").once("value", async (snapshot) => {
+      snapshot.forEach((snap) => {
+        const key = snap.key;
+        const val = snap.val();
+        // console.log(`Key ${key} has the following data:`, val);
+        if (key !== USER) {
+          // console.log("This is not the user:", key);
+          const other_user = {
+            user: key,
+            movies: Object.values(Object.values(val)),
+          };
+          USERS.push(other_user);
+          // console.log("Added user");
+        }
+      });
+      // console.log("Other users enjoy:", USERS);
+    });
+    return USERS;
+  }
+
+  async function fetchUser(id) {
+    // console.log("fetching user with id:", id);
+    // This is to search for the current users liked movies
+    // returns array of all movies liked by movieID i.e. [1, 2, 3, ...]
+    const user = [];
+    await db.ref(`users/${id}`).once("value", async (snapshot) => {
+      const data = snapshot.val();
+      // console.log("The fetched user is", data);
+      user.push(data);
+    });
+    // console.log("This user has liked movies:", myMovies);
+    return user;
   }
 
   React.useEffect(() => {
@@ -26,13 +114,14 @@ const Deck = (props) => {
       top: 0,
       behavior: "smooth",
     });
+    getStuff();
   }, []);
 
   return (
     <DeckContainer>
       {MOVIES.map((movie, index) => {
         return (
-          <MovieCard index={index}>
+          <MovieCard index={index} key={movie.id}>
             <Header>
               <Poster src={imgBaseURL + movie.poster_path} alt={movie.id} />
               {/* <Description>{movie.overview}</Description> */}

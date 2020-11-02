@@ -117,12 +117,14 @@ const Movies = () => {
       </Header>
 
       {movies && (
-        <Deck
-          data={movies}
-          user={appUser.uid}
-          category={pref}
-          deleteMovie={handleDeleteMovie}
-        />
+        <>
+          <Deck
+            data={movies}
+            user={appUser.uid}
+            category={pref}
+            deleteMovie={handleDeleteMovie}
+          />
+        </>
       )}
     </PageContainer>
   );
