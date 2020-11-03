@@ -13,29 +13,8 @@ export const requestCurrentUserError = () => ({
   type: "REQUEST_CURRENT_USER_ERROR",
 });
 
+// ############### SIGNOUT USER ########################
+
 export const requestCurrentUserSignout = () => ({
   type: "REQUEST_CURRENT_USER_SIGNOUT",
-});
-
-// ################## MODIFY CART ITEMS ###########################
-
-export const postCartItem = (item) => ({
-  type: "POST_CART_ITEM",
-  item,
-});
-
-export const addCartItem = () => ({
-  type: "ADD_CART_ITEM",
-});
-
-export const updateCartItem = () => ({
-  type: "UPDATE_CART_ITEM",
-});
-
-export const deleteAllCartItems = () => ({
-  type: "DELETE_ALL_CART_ITEMS",
-});
-
-export const deleteCartItem = () => ({
-  type: "DELETE_CART_ITEM",
 });
