@@ -12,6 +12,7 @@ import {
   Error,
   CreateProfile,
   Movies,
+  Chat,
 } from "../views";
 import Spinner from "../components/UI/Spinner";
 
@@ -33,6 +34,12 @@ const App = () => {
             path="/movies"
             authenticated={authenticated}
             component={Movies}
+            reroute="/"
+          ></PrivateRoute>
+          <PrivateRoute
+            path="/chat"
+            authenticated={authenticated}
+            component={Chat}
             reroute="/"
           ></PrivateRoute>
           <PrivateRoute
