@@ -10,7 +10,7 @@ import Burger from "./Burger";
 import Menu from "./Menu";
 
 const Nav = (props) => {
-  const { authenticated } = React.useContext(AuthContext);
+  const { authenticated, appUser } = React.useContext(AuthContext);
   const [open, setOpen] = React.useState(false);
   return authenticated ? (
     <>
@@ -18,6 +18,7 @@ const Nav = (props) => {
         <Link to="/">
           <img src={Logo} alt="main-logo" />
         </Link>
+        {appUser && <h1>{appUser.email}</h1>}
         <NavList>
           <Burger open={open} setOpen={setOpen} />
           <Menu open={open} setOpen={setOpen} />

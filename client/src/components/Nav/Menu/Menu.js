@@ -17,11 +17,14 @@ const Menu = ({ open, setOpen }) => {
     <>
       <Backdrop show={open} closeHandler={() => setOpen(!open)} />
       <StyledMenu open={open}>
+        <StyledLink to="/movies" onClick={() => setOpen(!open)}>
+          Movies
+        </StyledLink>
         <StyledLink to="/profile" onClick={() => setOpen(!open)}>
           Profile
         </StyledLink>
-        <StyledLink to="/messages" onClick={() => setOpen(!open)}>
-          Messages
+        <StyledLink to="/chat" onClick={() => setOpen(!open)}>
+          Chat
         </StyledLink>
         <StyledLink to="/settings" onClick={() => setOpen(!open)}>
           Settings
