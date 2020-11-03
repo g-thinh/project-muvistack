@@ -7,25 +7,30 @@ import { PartyPopper } from "../../assets";
 import { FiXCircle, FiMessageCircle } from "react-icons/fi";
 
 const MatchedModal = (props) => {
+  const MOVIE_ID = props.match.movieID;
+  const MOVIE_NAME = props.match.movieTitle;
   const [toggleRedirect, setToggleRedirect] = React.useState(false);
 
   return (
     <>
-      {toggleRedirect && <Redirect to="/chat" />}
+      {toggleRedirect && <Redirect to={`/chat/${MOVIE_ID}`} />}
       <Backdrop show={props.show} closeHandler={props.close} />
       {props.show ? (
         <Modal>
-          <h1>You have Matched!</h1>
-          <Img src={PartyPopper} alt="confirmed-match" />
-          <p>Keep matching or go to the new chat!</p>
-          <Buttons>
-            <Button onClick={() => setToggleRedirect(true)}>
-              <FiMessageCircle size={32} color="dodgerblue" />
-            </Button>
-            <Button onClick={props.close}>
-              <FiXCircle size={32} color="red" />
-            </Button>
-          </Buttons>
+          <Content>
+            <h1>You have Matched!</h1>
+            <p>{MOVIE_NAME}</p>
+            <Img src={PartyPopper} alt="confirmed-match" />
+            <p>Keep matching or go to the new chat!</p>
+            <Buttons>
+              <Button onClick={() => setToggleRedirect(true)}>
+                <FiMessageCircle size={32} color="dodgerblue" />
+              </Button>
+              <Button onClick={props.close}>
+                <FiXCircle size={32} color="red" />
+              </Button>
+            </Buttons>
+          </Content>
         </Modal>
       ) : null}
     </>
@@ -35,18 +40,24 @@ const MatchedModal = (props) => {
 const Modal = styled.div`
   /* border: 2px solid red; */
   position: fixed;
+  top: 30%;
+  /* bottom: 50%; */
   align-self: center;
+  justify-self: center;
+  z-index: 8;
+`;
+
+const Content = styled.div`
   display: flex;
   flex-flow: column;
   justify-content: center;
   align-items: center;
   border-radius: 12px;
-  z-index: 8;
+
   width: 500px;
   height: auto;
-
+  /* border: 5px solid goldenrod; */
   background: ${THEMES.Primary};
-
   & h1 {
     color: ${THEMES.White};
     font-size: 44px;

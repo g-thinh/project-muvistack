@@ -18,6 +18,7 @@ const Deck = (props) => {
   const removeMovie = props.deleteMovie;
   const imgBaseURL = "https://image.tmdb.org/t/p/original";
 
+  const [matchedMovie, setMatchedMovie] = React.useState(null);
   const [match, setMatch] = React.useState(false);
   const [toggleModal, setToggleModal] = React.useState(false);
 
@@ -26,12 +27,12 @@ const Deck = (props) => {
     db.ref(`users/${USER_ID}`).child(`LikedMovies/${CATEGORY}`).push(id);
     db.ref(`matches/${id}`).child("users").push(USER.email);
     db.ref(`matches/${id}`).update({ title: name });
-    updateMatches(id, USER.email);
+    updateMatches(id, USER.email, name);
     removeMovie(id);
   }
 
   // This function will listen when movie is liked in the match pool
-  function updateMatches(movieID, user) {
+  function updateMatches(movieID, user, movieTitle) {
     db.ref(`matches/${movieID}/users`).on("value", (snapshot) => {
       console.log(`Movie: ${movieID} was liked by ${user}`);
       // do stuff when a new user likes a movie;
@@ -46,6 +47,7 @@ const Deck = (props) => {
         db.ref(`matches/${movieID}`).update({
           users: data,
         });
+        setMatchedMovie({ movieID, movieTitle });
         setMatch(true);
         setToggleModal(true);
       }
@@ -63,24 +65,32 @@ const Deck = (props) => {
   return (
     <DeckContainer>
       {match ? (
-        <MatchedModal show={toggleModal} close={() => setToggleModal(false)} />
+        <MatchedModal
+          show={toggleModal}
+          close={() => setToggleModal(false)}
+          match={matchedMovie}
+        />
       ) : (
         <h1>No Matches</h1>
       )}
       {MOVIES.map((movie, index) => {
         return (
           <MovieCard index={index} key={movie.id}>
-            <Header>
-              <Poster src={imgBaseURL + movie.poster_path} alt={movie.id} />
-              {/* <Description>{movie.overview}</Description> */}
-            </Header>
             {/* <h1>
               Index: {index}, ID: {movie.id}
             </h1> */}
-            <Title>
-              {movie.title},{" "}
-              <span>{moment(movie.release_date).format("YYYY")}</span>
-            </Title>
+            <Header>
+              <Poster>
+                <Img src={imgBaseURL + movie.poster_path} alt={movie.id} />
+              </Poster>
+              <Description>
+                <Title>
+                  {movie.title},{" "}
+                  <span>{moment(movie.release_date).format("YYYY")}</span>
+                </Title>
+                <Text>{movie.overview}</Text>
+              </Description>
+            </Header>
             <Action>
               <Button
                 onClick={(ev) => {
@@ -111,63 +121,71 @@ const Deck = (props) => {
 const DeckContainer = styled.div`
   position: relative;
   display: flex;
-  flex-flow: column wrap;
-  margin-top: 20px;
+  flex-flow: column;
+  justify-content: center;
+  align-items: center;
+  /* margin-top: 20px; */
   /* flex-flow: column; */
   /* overflow: hidden; */
-  /* width: 450px; */
 `;
 
 const MovieCard = styled.div`
-  flex: 1;
-  /* z-index: ${(props) => -props.index}; */
-  width: 450px;
-  /* height: 850px; */
+  display: ${(props) => (props.index === 0 ? "flex" : "none")};
+  flex-flow: column;
+  justify-content: center;
+  align-items: center;
+  width: 95%;
+  height: auto;
   background-color: ${THEMES.Primary};
   /* height: 400px; */
   border: 1px solid ${THEMES.BlackCoffee};
-  /* display: flex; */
-  display: ${(props) => (props.index === 0 ? "flex" : "none")};
-  flex-flow: column;
+
   /* margin: 20px 0; */
   border-radius: 22px;
   padding: 18px;
-  justify-content: center;
+
   /* margin-bottom: -20px; */
 `;
 
 const Action = styled.div`
+  flex: 5;
+  /* border: 3px dashed blue; */
+  width: 30%;
   display: flex;
   justify-content: space-around;
   align-items: center;
   margin: 20px 0;
 `;
 
-const Button = styled.button`
-  border: 1px solid #d9d9d9d9;
-  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.5);
-  background-color: ${THEMES.White};
-  display: flex;
-  cursor: pointer;
-  justify-content: center;
-  align-items: center;
-  border-radius: 100%;
-  padding: 8px;
-
-  &:hover {
-    transform: scale(1.1);
-  }
-`;
-
 const Header = styled.div`
-  position: relative;
-  z-index: 1;
+  flex: 6;
   display: flex;
-  justify-content: center;
+  /* border: 5px solid goldenrod; */
+  justify-content: space-between;
 `;
 
-const Poster = styled.img`
+const Poster = styled.div`
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  /* border: 5px dashed purple; */
+`;
+
+const Description = styled.div`
+  flex: 1;
+  display: flex;
+  flex-flow: column;
+  justify-content: flex-start;
+  align-items: center;
+  /* border: 2px solid red; */
+  padding: 12px;
+`;
+
+const Img = styled.img`
+  /* max-width: 280px;
+  max-height: 400px; */
   width: 100%;
+
   border-radius: 22px;
   border: none;
 `;
@@ -184,18 +202,25 @@ const Title = styled.h1`
   }
 `;
 
-const Description = styled.p`
-  width: 100%;
-  height: 100%;
+const Text = styled.p`
   display: flex;
   justify-content: center;
   background-color: transparent;
-  position: absolute;
-  z-index: 50;
-  bottom: 0;
-  left: 0;
+`;
+
+const Button = styled.button`
+  border: 1px solid #d9d9d9d9;
+  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.5);
+  background-color: ${THEMES.White};
+  display: flex;
+  cursor: pointer;
+  justify-content: center;
+  align-items: center;
+  border-radius: 100%;
+  padding: 8px;
+
   &:hover {
-    background-color: blue;
+    transform: scale(1.1);
   }
 `;
 
