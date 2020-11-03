@@ -6,7 +6,7 @@ import { db } from "../../services/firebase";
 import { object } from "prop-types";
 import MatchedModal from "../MatchedModal";
 import { useDispatch } from "react-redux";
-import { deleteMovie } from "../../store/actions";
+import { deleteMovie, likeMovie } from "../../store/actions";
 
 const moment = require("moment");
 
@@ -24,7 +24,7 @@ const Deck = (props) => {
     db.ref(`matches/${id}`).child("users").push(USER.uid);
     db.ref(`matches/${id}`).update({ title: name });
     updateMatches(id, USER.uid, name);
-    dispatch(deleteMovie(id));
+    dispatch(likeMovie(id));
   }
 
   // This function will listen when movie is liked in the match pool

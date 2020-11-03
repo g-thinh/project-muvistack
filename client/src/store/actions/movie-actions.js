@@ -62,3 +62,8 @@ export const deleteMovie = (id) => ({
   type: "DELETE_MOVIE",
   id,
 });
+
+export const likeMovie = (id) => ({
+  type: "LIKE_MOVIE",
+  id,
+});

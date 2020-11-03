@@ -104,6 +104,16 @@ export default function uiReducer(state = initialState, action) {
       // console.log("[DELETE MOVIES RESULT]", results);
       return results;
     }
+
+    case "LIKE_MOVIE": {
+      const newArray = state.currentMovies.filter(
+        (movie) => movie.id !== action.id
+      );
+      const results = produce(state, (draftState) => {
+        draftState.currentMovies = newArray;
+      });
+      return results;
+    }
     default: {
       return state;
     }
