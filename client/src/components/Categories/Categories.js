@@ -1,13 +1,49 @@
 import React from "react";
 import styled from "styled-components";
 import { THEMES } from "../THEMES";
+import { useSelector, useDispatch } from "react-redux";
+import {
+  requestGenres,
+  receiveGenres,
+  requestGenresError,
+} from "../../store/actions";
+
+import Spinner from "../UI/Spinner";
 
 const Categories = (props) => {
-  const genres = props.data;
+  const dispatch = useDispatch();
+
+  const GENRES = useSelector((state) => state.MOVIE.genres);
+  const LOADING = useSelector((state) => state.MOVIE.status);
+
+  // const genres = props.data;
   const handleClick = props.setTest;
+
+  function fetchGenres() {
+    dispatch(requestGenres());
+    try {
+      fetch("/genre")
+        .then((res) => res.json())
+        .then((json) => {
+          // console.log(json.data);
+          dispatch(receiveGenres(json.data[0].genres));
+        });
+    } catch (error) {
+      dispatch(requestGenresError());
+    }
+  }
+
+  React.useEffect(() => {
+    fetchGenres();
+  }, []);
+
+  if (LOADING === "loading") {
+    return <Spinner />;
+  }
+
   return (
     <Wrapper>
-      {genres.map((genre) => {
+      {GENRES.map((genre) => {
         return (
           <Category
             onClick={() => handleClick(genre.id, genre.name)}
