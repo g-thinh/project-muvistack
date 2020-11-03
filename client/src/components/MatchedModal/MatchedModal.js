@@ -41,7 +41,7 @@ const Modal = styled.div`
   justify-content: center;
   align-items: center;
   border-radius: 12px;
-  z-index: 5000;
+  z-index: 8;
   width: 500px;
   height: auto;
 
