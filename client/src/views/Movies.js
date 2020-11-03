@@ -2,7 +2,6 @@ import React from "react";
 import styled from "styled-components";
 import PageContainer from "./PageContainer";
 import { db } from "../services/firebase";
-import Spinner from "../components/UI/Spinner";
 import { AuthContext } from "../components/AuthContext";
 import { THEMES } from "../components/THEMES";
 import Categories from "../components/Categories";
@@ -14,7 +13,6 @@ import {
   requestMovies,
   receiveMovies,
   requestMoviesError,
-  deleteMovie,
   requestUserMovies,
   receiveUserMovies,
   requestUserMoviesError,
@@ -25,21 +23,12 @@ const Movies = () => {
   const TOGGLE_SWIPE = useSelector((state) => state.MOVIE.swipeMode);
   const SELECTED_MOVIES = useSelector((state) => state.MOVIE.currentMovies);
   const LIKED_MOVIES = useSelector((state) => state.MOVIE.currentLikes);
-  const { appUser, loading } = React.useContext(AuthContext);
+  const { appUser } = React.useContext(AuthContext);
 
   function handleClick(id, name) {
     const data = [];
     data.push(id);
     fetchMovies(data);
-  }
-
-  // function handleDeleteMovie(id) {
-  //   const results = movies.filter((movie) => movie.id !== id);
-  //   setMovies(results);
-  // }
-
-  function handleDeleteMovie(id) {
-    dispatch(deleteMovie(id));
   }
 
   function fetchMovies(genres) {
@@ -119,7 +108,7 @@ const Movies = () => {
       <Deck
         data={SELECTED_MOVIES}
         user={appUser}
-        deleteMovie={handleDeleteMovie}
+        // deleteMovie={handleDeleteMovie}
       />
     </PageContainer>
   );

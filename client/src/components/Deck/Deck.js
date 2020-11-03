@@ -2,20 +2,18 @@ import React from "react";
 import styled from "styled-components";
 import { THEMES } from "../THEMES";
 import { FiCheck, FiStar, FiX } from "react-icons/fi";
-import { AuthContext } from "../AuthContext";
-import Spinner from "../UI/Spinner";
 import { db } from "../../services/firebase";
 import { object } from "prop-types";
 import MatchedModal from "../MatchedModal";
+import { useDispatch } from "react-redux";
+import { deleteMovie } from "../../store/actions";
 
 const moment = require("moment");
 
 const Deck = (props) => {
+  const dispatch = useDispatch();
   const USER = props.user;
-  const USER_ID = props.user.uid;
-  const CATEGORY = props.category;
   const MOVIES = props.data;
-  const removeMovie = props.deleteMovie;
   const imgBaseURL = "https://image.tmdb.org/t/p/original";
 
   const [matchedMovie, setMatchedMovie] = React.useState(null);
@@ -26,7 +24,7 @@ const Deck = (props) => {
     db.ref(`matches/${id}`).child("users").push(USER.uid);
     db.ref(`matches/${id}`).update({ title: name });
     updateMatches(id, USER.uid, name);
-    removeMovie(id);
+    dispatch(deleteMovie(id));
   }
 
   // This function will listen when movie is liked in the match pool
@@ -96,7 +94,7 @@ const Deck = (props) => {
               {/* <Button>
                 <FiStar size={32} color="dodgerblue" />
               </Button> */}
-              <Button onClick={() => removeMovie(movie.id)}>
+              <Button onClick={() => dispatch(deleteMovie(movie.id))}>
                 <FiX size={32} color="red" />
               </Button>
             </Action>
