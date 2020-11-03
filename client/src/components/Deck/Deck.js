@@ -23,11 +23,9 @@ const Deck = (props) => {
   const [toggleModal, setToggleModal] = React.useState(false);
 
   function addMovie(name, id) {
-    // console.log(`Added movie ${name}`);
-    db.ref(`users/${USER_ID}`).child(`LikedMovies/${CATEGORY}`).push(id);
-    db.ref(`matches/${id}`).child("users").push(USER.email);
+    db.ref(`matches/${id}`).child("users").push(USER.uid);
     db.ref(`matches/${id}`).update({ title: name });
-    updateMatches(id, USER.email, name);
+    updateMatches(id, USER.uid, name);
     removeMovie(id);
   }
 
@@ -59,7 +57,6 @@ const Deck = (props) => {
       top: 0,
       behavior: "smooth",
     });
-    // getStuff();
   }, []);
 
   return (
@@ -76,9 +73,6 @@ const Deck = (props) => {
       {MOVIES.map((movie, index) => {
         return (
           <MovieCard index={index} key={movie.id}>
-            {/* <h1>
-              Index: {index}, ID: {movie.id}
-            </h1> */}
             <Header>
               <Poster>
                 <Img src={imgBaseURL + movie.poster_path} alt={movie.id} />
@@ -102,12 +96,7 @@ const Deck = (props) => {
               {/* <Button>
                 <FiStar size={32} color="dodgerblue" />
               </Button> */}
-              <Button
-                // onClick={(ev) => {
-                //   removeMovie(movie.title, movie.id);
-                // }}
-                onClick={() => removeMovie(movie.id)}
-              >
+              <Button onClick={() => removeMovie(movie.id)}>
                 <FiX size={32} color="red" />
               </Button>
             </Action>
