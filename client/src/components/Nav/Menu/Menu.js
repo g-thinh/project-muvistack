@@ -5,8 +5,10 @@ import { THEMES } from "../../THEMES";
 import Backdrop from "../../UI/Backdrop";
 import { signout } from "../../../helpers/auth";
 import { Link } from "react-router-dom";
+import { useDispatch } from "react-redux";
 
 const Menu = ({ open, setOpen }) => {
+  const dispatch = useDispatch();
   React.useEffect(() => {
     return () => {
       setOpen(false);
@@ -15,18 +17,18 @@ const Menu = ({ open, setOpen }) => {
 
   return (
     <>
-      <Backdrop show={open} closeHandler={() => setOpen(!open)} />
+      <Backdrop show={open} closeHandler={() => dispatch(setOpen())} />
       <StyledMenu open={open}>
-        <StyledLink to="/movies" onClick={() => setOpen(!open)}>
+        <StyledLink to="/movies" onClick={() => dispatch(setOpen())}>
           Movies
         </StyledLink>
-        <StyledLink to="/profile" onClick={() => setOpen(!open)}>
+        <StyledLink to="/profile" onClick={() => dispatch(setOpen())}>
           Profile
         </StyledLink>
-        <StyledLink to="/chat" onClick={() => setOpen(!open)}>
+        <StyledLink to="/chat" onClick={() => dispatch(setOpen())}>
           Chat
         </StyledLink>
-        <StyledLink to="/settings" onClick={() => setOpen(!open)}>
+        <StyledLink to="/settings" onClick={() => dispatch(setOpen())}>
           Settings
         </StyledLink>
         <StyledButton onClick={signout}>Log Out</StyledButton>
