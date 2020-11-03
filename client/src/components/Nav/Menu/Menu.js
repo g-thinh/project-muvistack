@@ -6,6 +6,7 @@ import Backdrop from "../../UI/Backdrop";
 import { signout } from "../../../helpers/auth";
 import { Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
+import { requestCurrentUserSignout } from "../../../store/actions";
 
 const Menu = ({ open, setOpen }) => {
   const dispatch = useDispatch();
@@ -31,7 +32,15 @@ const Menu = ({ open, setOpen }) => {
         <StyledLink to="/settings" onClick={() => dispatch(setOpen())}>
           Settings
         </StyledLink>
-        <StyledButton onClick={signout}>Log Out</StyledButton>
+        <StyledButton
+          onClick={() => {
+            dispatch(requestCurrentUserSignout());
+            dispatch(setOpen());
+            signout();
+          }}
+        >
+          Log Out
+        </StyledButton>
       </StyledMenu>
     </>
   );

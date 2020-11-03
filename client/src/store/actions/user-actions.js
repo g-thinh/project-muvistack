@@ -13,6 +13,10 @@ export const requestCurrentUserError = () => ({
   type: "REQUEST_CURRENT_USER_ERROR",
 });
 
+export const requestCurrentUserSignout = () => ({
+  type: "REQUEST_CURRENT_USER_SIGNOUT",
+});
+
 // ################## MODIFY CART ITEMS ###########################
 
 export const postCartItem = (item) => ({

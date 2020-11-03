@@ -1,7 +1,7 @@
 import produce from "immer";
 
 const initialState = {
-  user: null,
+  profile: {},
   status: "idle",
 };
 
@@ -17,11 +17,7 @@ export default function uiReducer(state = initialState, action) {
       console.log("[RECEIVE USER ACTION]", action.user);
 
       const results = produce(state, (draftState) => {
-        if (!draftState.user) {
-          draftState.user = {};
-        }
-
-        draftState.user = action.user;
+        draftState.profile = action.user;
         draftState.status = "idle";
       });
 
@@ -35,6 +31,17 @@ export default function uiReducer(state = initialState, action) {
         ...state,
         status: "error",
       };
+    }
+
+    // ################# CURRENT USER SIGN OUT ####################
+
+    case "REQUEST_CURRENT_USER_SIGNOUT": {
+      const results = produce(state, (draftState) => {
+        draftState.profile = {};
+        draftState.status = "idle";
+      });
+
+      return results;
     }
     default: {
       return state;
