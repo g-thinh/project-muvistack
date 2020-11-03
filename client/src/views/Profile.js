@@ -7,54 +7,71 @@ import { auth, db } from "../services/firebase";
 import Cards from "../components/Cards";
 import { getUser } from "../helpers/auth";
 import Spinner from "../components/UI/Spinner";
+import { useSelector, useDispatch } from "react-redux";
+import {
+  requestCurrentUser,
+  receiveCurrentUser,
+  requestCurrentUserError,
+} from "../store/actions";
 
 const Profile = () => {
+  const dispatch = useDispatch();
+  const USER = useSelector((state) => state.USER.profile);
   const { appUser } = React.useContext(AuthContext);
-  const [displayName, setDisplayName] = React.useState("");
-  const [bioText, setBioText] = React.useState("");
-  const [avatarURL, setAvatarURL] = React.useState(null);
+  // const [displayName, setDisplayName] = React.useState("");
+  // const [bioText, setBioText] = React.useState("");
+  // const [avatarURL, setAvatarURL] = React.useState(null);
   const [loading, setLoading] = React.useState(true);
 
   React.useEffect(() => {
     console.log("[Profile.js] is mounted...");
 
     const fetchData = async () => {
+      dispatch(requestCurrentUser());
       console.log("appUser", appUser);
-      const response = await db
-        .ref("users")
-        .child(appUser.uid)
-        .once("value", (snapshot) => {
-          const data = snapshot.val();
-          setDisplayName(data.displayName);
-          setBioText(data.bioText);
-          setAvatarURL(data.photoURL);
-          console.log("[Profile.js] user data is", data);
-        });
-      return response;
+      try {
+        const response = await db
+          .ref("users")
+          .child(appUser.uid)
+          .once("value", (snapshot) => {
+            const data = snapshot.val();
+            dispatch(receiveCurrentUser(data));
+            // setDisplayName(data.displayName);
+            // setBioText(data.bioText);
+            // setAvatarURL(data.photoURL);
+            console.log("[Profile.js] user data is", data);
+          });
+        return response;
+      } catch (error) {
+        dispatch(requestCurrentUserError());
+      }
     };
 
     if (appUser) {
       console.log("[Profile.js] current user is", appUser);
       fetchData();
-      setLoading(false);
+      // setLoading(false);
     }
   }, [appUser]);
 
-  if (loading) {
-    return <Spinner />;
-  }
+  // if (loading) {
+  //   return <Spinner />;
+  // }
 
   return (
     <PageContainer background="light">
       <ProfileContainer>
         <ProfilePicture>
-          <img src={avatarURL} alt="test-profile-pic" />
+          {/* <img src={avatarURL} alt="test-profile-pic" /> */}
+          <img src={USER.photoURL} alt="test-profile-pic" />
         </ProfilePicture>
         <ProfileDesc>
-          <DisplayName>{displayName}</DisplayName>
+          {/* <DisplayName>{displayName}</DisplayName> */}
+          <DisplayName>{USER.displayName}</DisplayName>
           <DescText>
             {/* Avid moviegoer, typical netflix binger, casual bingo player. */}
-            {bioText}
+            {/* {bioText} */}
+            {USER.bioText}
           </DescText>
         </ProfileDesc>
       </ProfileContainer>

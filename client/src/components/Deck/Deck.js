@@ -2,20 +2,18 @@ import React from "react";
 import styled from "styled-components";
 import { THEMES } from "../THEMES";
 import { FiCheck, FiStar, FiX } from "react-icons/fi";
-import { AuthContext } from "../AuthContext";
-import Spinner from "../UI/Spinner";
 import { db } from "../../services/firebase";
 import { object } from "prop-types";
 import MatchedModal from "../MatchedModal";
+import { useDispatch } from "react-redux";
+import { deleteMovie, likeMovie } from "../../store/actions";
 
 const moment = require("moment");
 
 const Deck = (props) => {
+  const dispatch = useDispatch();
   const USER = props.user;
-  const USER_ID = props.user.uid;
-  const CATEGORY = props.category;
   const MOVIES = props.data;
-  const removeMovie = props.deleteMovie;
   const imgBaseURL = "https://image.tmdb.org/t/p/original";
 
   const [matchedMovie, setMatchedMovie] = React.useState(null);
@@ -23,12 +21,10 @@ const Deck = (props) => {
   const [toggleModal, setToggleModal] = React.useState(false);
 
   function addMovie(name, id) {
-    // console.log(`Added movie ${name}`);
-    db.ref(`users/${USER_ID}`).child(`LikedMovies/${CATEGORY}`).push(id);
-    db.ref(`matches/${id}`).child("users").push(USER.email);
+    db.ref(`matches/${id}`).child("users").push(USER.uid);
     db.ref(`matches/${id}`).update({ title: name });
-    updateMatches(id, USER.email, name);
-    removeMovie(id);
+    updateMatches(id, USER.uid, name);
+    dispatch(likeMovie(id));
   }
 
   // This function will listen when movie is liked in the match pool
@@ -59,7 +55,6 @@ const Deck = (props) => {
       top: 0,
       behavior: "smooth",
     });
-    // getStuff();
   }, []);
 
   return (
@@ -76,9 +71,6 @@ const Deck = (props) => {
       {MOVIES.map((movie, index) => {
         return (
           <MovieCard index={index} key={movie.id}>
-            {/* <h1>
-              Index: {index}, ID: {movie.id}
-            </h1> */}
             <Header>
               <Poster>
                 <Img src={imgBaseURL + movie.poster_path} alt={movie.id} />
@@ -102,12 +94,7 @@ const Deck = (props) => {
               {/* <Button>
                 <FiStar size={32} color="dodgerblue" />
               </Button> */}
-              <Button
-                // onClick={(ev) => {
-                //   removeMovie(movie.title, movie.id);
-                // }}
-                onClick={() => removeMovie(movie.id)}
-              >
+              <Button onClick={() => dispatch(deleteMovie(movie.id))}>
                 <FiX size={32} color="red" />
               </Button>
             </Action>

@@ -8,10 +8,14 @@ import { Logo, LogoName } from "../../assets";
 import { FiMenu } from "react-icons/fi";
 import Burger from "./Burger";
 import Menu from "./Menu";
+import { useSelector, useDispatch } from "react-redux";
+import { toggleMenu } from "../../store/actions";
 
 const Nav = (props) => {
   const { authenticated, appUser } = React.useContext(AuthContext);
-  const [open, setOpen] = React.useState(false);
+  const MENU_TOGGLE = useSelector((state) => state.TOGGLERS.navToggle);
+  // const [open, setOpen] = React.useState(false);
+
   return authenticated ? (
     <>
       <NavContainer>
@@ -20,8 +24,10 @@ const Nav = (props) => {
         </Link>
         {appUser && <h1>{appUser.email}</h1>}
         <NavList>
-          <Burger open={open} setOpen={setOpen} />
-          <Menu open={open} setOpen={setOpen} />
+          {/* <Burger open={open} setOpen={setOpen} />
+          <Menu open={open} setOpen={setOpen} /> */}
+          <Burger open={MENU_TOGGLE} setOpen={toggleMenu} />
+          <Menu open={MENU_TOGGLE} setOpen={toggleMenu} />
         </NavList>
       </NavContainer>
 

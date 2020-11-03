@@ -1,15 +1,15 @@
 import React from "react";
 import styled from "styled-components";
-import { bool, func } from 'prop-types';
-
-
-
+import { bool, func } from "prop-types";
+import { useDispatch } from "react-redux";
 const Burger = ({ open, setOpen }) => {
-  return(
-    <StyledBurger open={open} onClick={() => setOpen(!open)}>
-      <div/>
-      <div/>
-      <div/>
+  const dispatch = useDispatch();
+  return (
+    // <StyledBurger open={open} onClick={() => setOpen(!open)}>
+    <StyledBurger open={open} onClick={() => dispatch(setOpen())}>
+      <div />
+      <div />
+      <div />
     </StyledBurger>
   );
 };
@@ -33,11 +33,11 @@ const StyledBurger = styled.button`
   cursor: pointer;
   padding: 0;
   z-index: 10;
-  
+
   &:focus {
     outline: none;
   }
-  
+
   div {
     width: 2rem;
     height: 0.25rem;
@@ -49,16 +49,16 @@ const StyledBurger = styled.button`
     transform-origin: 1px;
 
     :first-child {
-      transform: ${({ open }) => open ? 'rotate(45deg)' : 'rotate(0)'};
+      transform: ${({ open }) => (open ? "rotate(45deg)" : "rotate(0)")};
     }
 
     :nth-child(2) {
-      opacity: ${({ open }) => open ? '0' : '1'};
-      transform: ${({ open }) => open ? 'translateX(20px)' : 'translateX(0)'};
+      opacity: ${({ open }) => (open ? "0" : "1")};
+      transform: ${({ open }) => (open ? "translateX(20px)" : "translateX(0)")};
     }
 
     :nth-child(3) {
-      transform: ${({ open }) => open ? 'rotate(-45deg)' : 'rotate(0)'};
+      transform: ${({ open }) => (open ? "rotate(-45deg)" : "rotate(0)")};
     }
   }
 `;
