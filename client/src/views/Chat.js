@@ -5,11 +5,11 @@ import { db } from "../services/firebase";
 import { AuthContext } from "../components/AuthContext";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import { THEMES } from "../components/THEMES";
 import {
   requestConvos,
   receiveConvos,
   requestConvosError,
-  receiveAllConvos,
 } from "../store/actions";
 
 const Chat = () => {
@@ -51,17 +51,25 @@ const Chat = () => {
       {!CONVOS ? (
         <Text>No Chats</Text>
       ) : (
-        <ConvoList>
-          {CONVOS.map((convo) => {
-            return (
-              <li>
-                <StyledLink to={`/chat/${convo.id}`}>
-                  <ConvoCard>{convo.title}</ConvoCard>
-                </StyledLink>
-              </li>
-            );
-          })}
-        </ConvoList>
+        <>
+          <Text>The Current Convos</Text>
+          <ConvoList>
+            {CONVOS.map((convo) => {
+              return (
+                <li>
+                  <StyledLink to={`/chat/${convo.id}`}>
+                    <ConvoCard>
+                      <img src={convo.posterURL} alt={`chat-${convo.id}`} />
+                      <CardDesc>
+                        <h1>{convo.title}</h1>
+                      </CardDesc>
+                    </ConvoCard>
+                  </StyledLink>
+                </li>
+              );
+            })}
+          </ConvoList>
+        </>
       )}
     </PageContainer>
   );
@@ -69,20 +77,23 @@ const Chat = () => {
 const Text = styled.h1`
   font-size: 32px;
   color: black;
+  margin: 10px;
 `;
 
 const ConvoList = styled.ul`
   width: 95%;
   height: auto;
-  border: 5px solid green;
+  /* border: 5px solid green; */
   position: relative;
   display: flex;
   flex-flow: column nowrap;
   align-items: flex-start;
   justify-content: center;
+  padding: 12px;
 
   & li {
     width: 100%;
+    margin: 5px;
   }
 `;
 
@@ -92,7 +103,33 @@ const StyledLink = styled(Link)`
 
 const ConvoCard = styled.button`
   width: 100%;
-  height: 50px;
+  height: auto;
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  background: white;
+  border: 2px solid #d9d9d9d9;
+  border-radius: 12px;
+  cursor: pointer;
+
+  &:hover {
+    background-color: ${THEMES.Primary};
+    border: 2px solid ${THEMES.BlackCoffee};
+  }
+
+  & img {
+    width: 120px;
+    height: 150px;
+    border-radius: 12px;
+  }
+`;
+
+const CardDesc = styled.div`
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+  font-size: 22px;
 `;
 
 export default Chat;

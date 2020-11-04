@@ -27,9 +27,9 @@ export default function chatReducer(state = initialState, action) {
       }
 
       const results = produce(state, (draftState) => {
-        if (draftState.currentConvos.length === 0) {
-          draftState.currentConvos = [];
-        }
+        // if (draftState.currentConvos.length === 0) {
+        //   draftState.currentConvos = [];
+        // }
         draftState.currentConvos = newData;
         draftState.status = "idle";
       });

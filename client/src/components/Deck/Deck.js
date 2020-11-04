@@ -20,9 +20,9 @@ const Deck = (props) => {
   const [match, setMatch] = React.useState(false);
   const [toggleModal, setToggleModal] = React.useState(false);
 
-  function addMovie(name, id) {
+  function addMovie(name, id, url) {
     db.ref(`matches/${id}`).child("users").push(USER.uid);
-    db.ref(`matches/${id}`).update({ title: name });
+    db.ref(`matches/${id}`).update({ title: name, id: id, posterURL: url });
     updateMatches(id, USER.uid, name);
     dispatch(likeMovie(id));
   }
@@ -86,7 +86,11 @@ const Deck = (props) => {
             <Action>
               <Button
                 onClick={(ev) => {
-                  addMovie(movie.title, movie.id);
+                  addMovie(
+                    movie.title,
+                    movie.id,
+                    imgBaseURL + movie.poster_path
+                  );
                 }}
               >
                 <FiCheck size={32} color="green" />
