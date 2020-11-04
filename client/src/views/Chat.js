@@ -6,6 +6,7 @@ import { AuthContext } from "../components/AuthContext";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { THEMES } from "../components/THEMES";
+import Spinner from "../components/UI/Spinner";
 import {
   requestConvos,
   receiveConvos,
@@ -43,7 +44,7 @@ const Chat = () => {
   }, []);
 
   if (LOADING === "loading") {
-    return <h1>Loading...</h1>;
+    return <Spinner />;
   }
 
   return (
