@@ -2,16 +2,22 @@ import React from "react";
 import styled from "styled-components";
 import PageContainer from "./PageContainer";
 import { auth, db } from "../services/firebase";
+import { AuthContext } from "../components/AuthContext";
 import { THEMES } from "../components/THEMES";
 import { useHistory } from "react-router-dom";
 import { FiArrowLeft } from "react-icons/fi";
+import ChatBox from "../components/ChatBox";
+
+const moment = require("moment");
 
 const GroupChat = () => {
-  const [user, setUser] = React.useState(auth().currentUser);
-  const [chats, setChats] = React.useState([]);
-  const [content, setContent] = React.useState("");
-  const [readError, setReadError] = React.useState(null);
-  const [writeError, setWriteError] = React.useState(null);
+  const { appUser } = React.useContext(AuthContext);
+
+  // const [user, setUser] = React.useState(auth().currentUser);
+  // const [chats, setChats] = React.useState([]);
+  // const [content, setContent] = React.useState("");
+  // const [readError, setReadError] = React.useState(null);
+  // const [writeError, setWriteError] = React.useState(null);
 
   const history = useHistory();
   const location = window.location.pathname;
@@ -22,45 +28,45 @@ const GroupChat = () => {
     history.goBack();
   }
 
-  function handleChange(ev) {
-    setContent(ev.target.value);
-  }
+  // function handleChange(ev) {
+  //   setContent(ev.target.value);
+  // }
 
-  async function handleSubmit(ev) {
-    ev.preventDefault();
+  // async function handleSubmit(ev) {
+  //   ev.preventDefault();
 
-    setWriteError(null);
-    try {
-      await db.ref(`matches/${URL_ID}/chat`).child("messages").push({
-        content: content,
-        timestamp: Date.now(),
-        uid: user.uid,
-      });
-      setContent("");
-    } catch (error) {
-      setWriteError(error.message);
-    }
-  }
+  //   setWriteError(null);
+  //   try {
+  //     await db.ref(`matches/${URL_ID}/chat`).child("messages").push({
+  //       content: content,
+  //       timestamp: Date.now(),
+  //       user: appUser.uid,
+  //     });
+  //     setContent("");
+  //   } catch (error) {
+  //     setWriteError(error.message);
+  //   }
+  // }
 
-  React.useEffect(() => {
-    console.log("[Chat.js mounted]");
-    setReadError(null);
-    try {
-      db.ref(`matches/${URL_ID}/chat`)
-        .child("messages")
-        .on("value", (snapshot) => {
-          let chats = [];
-          snapshot.forEach((snap) => {
-            if (snap) {
-              chats.push(snap.val());
-            }
-          });
-          setChats(chats);
-        });
-    } catch (error) {
-      setReadError(error.message);
-    }
-  }, []);
+  // React.useEffect(() => {
+  //   console.log("[Chat.js mounted]");
+  //   setReadError(null);
+  //   try {
+  //     db.ref(`matches/${URL_ID}/chat`)
+  //       .child("messages")
+  //       .on("value", (snapshot) => {
+  //         let chats = [];
+  //         snapshot.forEach((snap) => {
+  //           if (snap) {
+  //             chats.push(snap.val());
+  //           }
+  //         });
+  //         setChats(chats);
+  //       });
+  //   } catch (error) {
+  //     setReadError(error.message);
+  //   }
+  // }, []);
 
   return (
     <PageContainer>
@@ -71,22 +77,57 @@ const GroupChat = () => {
         <p>Return to Convos List</p>
       </Header>
       <Text>This is a single Group Chat</Text>
-      <div>
-        <div style={{ border: "1px solid red" }}>
-          {chats.map((chat) => {
-            return <p>{chat.content}</p>;
-          })}
-        </div>
-        # message form #
-        <form onSubmit={handleSubmit}>
-          <input onChange={handleChange} value={content} />
-          {readError ? <p>{writeError}</p> : null}
-          <button type="submit">Send</button>
-        </form>
-      </div>
+      <ChatBox url={URL_ID} />
     </PageContainer>
   );
 };
+
+const ChatContainer = styled.div`
+  border: 3px solid green;
+  width: 95vw;
+  display: flex;
+  flex-direction: column;
+  height: 80vh;
+`;
+
+const Messages = styled.div`
+  flex: 9;
+  min-height: 20vh;
+  width: 100%;
+  overflow-y: scroll hidden;
+  border: 5px solid goldenrod;
+  /* word-wrap: break-word; */
+`;
+
+const MyText = styled.div`
+  display: flex;
+  justify-content: flex-start;
+  padding: 4px 12px;
+  & p {
+    background: ${THEMES.Primary};
+    color: white;
+    padding: 3px 14px;
+    border-radius: 15px;
+    word-break: break-all;
+  }
+`;
+
+const OtherText = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  padding: 5px 12px;
+  & p {
+    background: #d9d9d9;
+    color: ${THEMES.BlackCoffee};
+    padding: 3px 14px;
+    border-radius: 15px;
+    word-break: break-all;
+  }
+`;
+
+const InputForm = styled.form`
+  flex: 1;
+`;
 
 const Text = styled.h1`
   font-size: 32px;
