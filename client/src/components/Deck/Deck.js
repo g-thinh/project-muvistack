@@ -23,6 +23,7 @@ const Deck = (props) => {
   function addMovie(name, id, url) {
     db.ref(`matches/${id}`).child("users").push(USER.uid);
     db.ref(`matches/${id}`).update({ title: name, id: id, posterURL: url });
+
     updateMatches(id, USER.uid, name);
     dispatch(likeMovie(id));
   }
@@ -43,6 +44,7 @@ const Deck = (props) => {
         db.ref(`matches/${movieID}`).update({
           users: data,
         });
+        db.ref(`matches/${movieID}/chat`).update({ created: Date.now() });
         setMatchedMovie({ movieID, movieTitle });
         setMatch(true);
         setToggleModal(true);

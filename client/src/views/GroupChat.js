@@ -11,62 +11,56 @@ import ChatBox from "../components/ChatBox";
 const moment = require("moment");
 
 const GroupChat = () => {
-  const { appUser } = React.useContext(AuthContext);
-
-  // const [user, setUser] = React.useState(auth().currentUser);
-  // const [chats, setChats] = React.useState([]);
-  // const [content, setContent] = React.useState("");
-  // const [readError, setReadError] = React.useState(null);
-  // const [writeError, setWriteError] = React.useState(null);
-
   const history = useHistory();
+  const [movieInfo, setMovieInfo] = React.useState(null);
+  const [chatUsers, setChatUsers] = React.useState(null);
+
   const location = window.location.pathname;
   const array = location.split("/");
   const URL_ID = array[array.length - 1];
 
   function goBack() {
-    history.goBack();
+    history.push("/chat");
+    // history.goBack();
   }
 
-  // function handleChange(ev) {
-  //   setContent(ev.target.value);
-  // }
+  function getUsersList(id) {
+    let users;
+    let results = [];
 
-  // async function handleSubmit(ev) {
-  //   ev.preventDefault();
+    // Get a list of the users first
+    db.ref(`matches/${id}/users`).on("value", (snapshot) => {
+      const data = snapshot.val();
+      users = Object.values(data);
+      console.log("The users in this chat are:", users);
+      db.ref("users").on("value", (snapshot) => {
+        const data = snapshot.val();
+        snapshot.forEach((snap) => {
+          // console.log(snap.val());
+          if (users.includes(snap.val().userID)) {
+            results.push(snap.val());
+          }
+        });
+        console.log("final results:", results);
+        setChatUsers(results);
+      });
+    });
 
-  //   setWriteError(null);
-  //   try {
-  //     await db.ref(`matches/${URL_ID}/chat`).child("messages").push({
-  //       content: content,
-  //       timestamp: Date.now(),
-  //       user: appUser.uid,
-  //     });
-  //     setContent("");
-  //   } catch (error) {
-  //     setWriteError(error.message);
-  //   }
-  // }
+    // Push users that have matched into the results array
+  }
 
-  // React.useEffect(() => {
-  //   console.log("[Chat.js mounted]");
-  //   setReadError(null);
-  //   try {
-  //     db.ref(`matches/${URL_ID}/chat`)
-  //       .child("messages")
-  //       .on("value", (snapshot) => {
-  //         let chats = [];
-  //         snapshot.forEach((snap) => {
-  //           if (snap) {
-  //             chats.push(snap.val());
-  //           }
-  //         });
-  //         setChats(chats);
-  //       });
-  //   } catch (error) {
-  //     setReadError(error.message);
-  //   }
-  // }, []);
+  function getMovieInfo() {
+    fetch(`/movies/${URL_ID}`)
+      .then((res) => res.json())
+      .then((json) => {
+        setMovieInfo(json.data);
+      });
+  }
+
+  React.useEffect(() => {
+    getMovieInfo();
+    getUsersList(URL_ID);
+  }, []);
 
   return (
     <PageContainer>
@@ -76,61 +70,51 @@ const GroupChat = () => {
         </Button>
         <p>Return to Convos List</p>
       </Header>
-      <Text>This is a single Group Chat</Text>
+      {movieInfo && (
+        <TopChat>
+          <Text>
+            {movieInfo.original_title},{" "}
+            {moment(movieInfo.release_date).format("YYYY")}
+          </Text>
+          <ChatUsers>
+            {chatUsers &&
+              chatUsers.map((user) => {
+                return (
+                  <Avatar src={user.photoURL} alt={`user-${user.userID}`} />
+                );
+              })}
+          </ChatUsers>
+        </TopChat>
+      )}
       <ChatBox url={URL_ID} />
     </PageContainer>
   );
 };
 
-const ChatContainer = styled.div`
-  border: 3px solid green;
-  width: 95vw;
+const TopChat = styled.div`
   display: flex;
   flex-direction: column;
-  height: 80vh;
-`;
-
-const Messages = styled.div`
-  flex: 9;
-  min-height: 20vh;
   width: 100%;
-  overflow-y: scroll hidden;
-  border: 5px solid goldenrod;
-  /* word-wrap: break-word; */
+  margin: 10px 0;
 `;
 
-const MyText = styled.div`
+const ChatUsers = styled.div`
   display: flex;
-  justify-content: flex-start;
-  padding: 4px 12px;
-  & p {
-    background: ${THEMES.Primary};
-    color: white;
-    padding: 3px 14px;
-    border-radius: 15px;
-    word-break: break-all;
-  }
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  /* border: 5px solid red; */
+  height: 100%;
+  user-select: none;
 `;
 
-const OtherText = styled.div`
-  display: flex;
-  justify-content: flex-end;
-  padding: 5px 12px;
-  & p {
-    background: #d9d9d9;
-    color: ${THEMES.BlackCoffee};
-    padding: 3px 14px;
-    border-radius: 15px;
-    word-break: break-all;
-  }
+const Avatar = styled.img`
+  width: 8%;
+  user-select: none;
 `;
-
-const InputForm = styled.form`
-  flex: 1;
-`;
-
 const Text = styled.h1`
-  font-size: 32px;
+  font-size: 44px;
+  text-align: center;
 `;
 
 const Header = styled.div`

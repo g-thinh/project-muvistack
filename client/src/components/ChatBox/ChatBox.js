@@ -8,6 +8,8 @@ import Message from "./Message";
 
 import { FiSend } from "react-icons/fi";
 
+const moment = require("moment");
+
 const ChatBox = (props) => {
   const { appUser } = React.useContext(AuthContext);
   const [chats, setChats] = React.useState([]);
@@ -15,6 +17,7 @@ const ChatBox = (props) => {
   const [readError, setReadError] = React.useState(null);
   const [writeError, setWriteError] = React.useState(null);
   const [loading, setLoading] = React.useState(true);
+  const [time, setTime] = React.useState(null);
 
   function handleChange(ev) {
     setContent(ev.target.value);
@@ -42,6 +45,12 @@ const ChatBox = (props) => {
     }
   }
 
+  function fetchChatInfo(url) {
+    db.ref(`matches/${url}/chat`).once("value", (snapshot) => {
+      setTime(snapshot.val().created);
+    });
+  }
+
   function fetchMessages(url) {
     setReadError(null);
     try {
@@ -64,6 +73,7 @@ const ChatBox = (props) => {
 
   React.useEffect(() => {
     fetchMessages(props.url);
+    fetchChatInfo(props.url);
   }, []);
 
   // if (loading) {
@@ -75,6 +85,9 @@ const ChatBox = (props) => {
       {!loading ? (
         <>
           <Messages id="messages">
+            {time && (
+              <Time>Created on {moment(time).format("MMMM Do, YYYY")}</Time>
+            )}
             {chats.map((chat) => {
               return chat.user === appUser.uid ? (
                 <Message
@@ -116,7 +129,7 @@ const ChatContainer = styled.div`
   width: 100%;
   display: flex;
   flex-direction: column;
-  height: 80vh;
+  height: 100vh;
   border-bottom-left-radius: 12px;
   border-bottom-right-radius: 12px;
 `;
@@ -148,23 +161,40 @@ const Input = styled.input`
   font-size: 16px;
   margin: 5px 0;
   padding: 20px;
+  border-radius: 22px;
+
+  &:focus {
+    outline: none;
+  }
 `;
 
 const Button = styled.button`
   flex: 1;
   /* height: 100%; */
   margin: 5px 0;
+  margin-left: 8px;
   height: 20px;
-  padding: 20px;
+  padding: 20px 12px;
   display: flex;
   justify-content: center;
   align-items: center;
   background: ${THEMES.Primary};
+  border-radius: 22px;
   cursor: pointer;
+  border: 1px solid ${THEMES.Primary};
 
   &:hover {
     background: ${THEMES.Secondary};
   }
+`;
+
+const Time = styled.h1`
+  width: 100%;
+  font-size: 14px;
+  text-align: center;
+  color: darkgrey;
+  opacity: 0.8;
+  font-weight: 400;
 `;
 
 export default ChatBox;

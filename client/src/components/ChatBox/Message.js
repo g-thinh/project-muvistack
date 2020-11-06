@@ -51,6 +51,7 @@ const MessageLine = styled.div`
   align-items: center;
   justify-content: ${(props) => (props.isUser ? "flex-start" : "flex-end")};
   padding: 4px 12px;
+  width: 100%;
   & p {
     background: ${(props) => (props.isUser ? THEMES.Primary : "#D9D9D9")};
     color: ${(props) => (props.isUser ? "white" : THEMES.BlackCoffee)};
@@ -64,6 +65,7 @@ const MessageLine = styled.div`
 const Content = styled.div`
   display: flex;
   flex-direction: column;
+  max-width: 70%;
 `;
 
 const Time = styled.span`
