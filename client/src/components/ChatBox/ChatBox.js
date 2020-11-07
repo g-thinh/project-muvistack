@@ -5,8 +5,9 @@ import { THEMES } from "../THEMES";
 import { AuthContext } from "../AuthContext";
 import Spinner from "../UI/Spinner";
 import Message from "./Message";
+import DateModal from "../DateModal";
 
-import { FiSend } from "react-icons/fi";
+import { FiSend, FiCalendar } from "react-icons/fi";
 
 const moment = require("moment");
 
@@ -18,15 +19,17 @@ const ChatBox = (props) => {
   const [writeError, setWriteError] = React.useState(null);
   const [loading, setLoading] = React.useState(true);
   const [time, setTime] = React.useState(null);
+  const [toggleModal, setToggleModal] = React.useState(false);
+  const [startDate, setStartDate] = React.useState(new Date());
+  const [movieDate, setMovieDate] = React.useState(null);
 
   function handleChange(ev) {
     setContent(ev.target.value);
   }
 
-  // function scrollToBottom() {
-  //   const list = document.getElementById("messages");
-  //   list.scrollTop = list.scrollHeight;
-  // }
+  function toggleDateModal(ev) {
+    setToggleModal(!toggleModal);
+  }
 
   async function handleSubmit(ev) {
     ev.preventDefault();
@@ -43,6 +46,14 @@ const ChatBox = (props) => {
     } catch (error) {
       setWriteError(error.message);
     }
+  }
+
+  function fetchMovieDate(url) {
+    db.ref(`matches/${url}/dates`).on("value", (snapshot) => {
+      if (snapshot.val()) {
+        setMovieDate(snapshot.val().date);
+      }
+    });
   }
 
   function fetchChatInfo(url) {
@@ -74,14 +85,20 @@ const ChatBox = (props) => {
   React.useEffect(() => {
     fetchMessages(props.url);
     fetchChatInfo(props.url);
+    fetchMovieDate(props.url);
   }, []);
-
-  // if (loading) {
-  //   return <Spinner />;
-  // }
 
   return (
     <ChatContainer>
+      {/* This is just to test the dates */}
+      {/* <h1>{moment(startDate).format("YYYY MMMM Do h:mm A")}</h1> */}
+      <DateModal
+        show={toggleModal}
+        close={() => setToggleModal(false)}
+        date={startDate}
+        handleDateChange={setStartDate}
+        movieID={props.url}
+      />
       {!loading ? (
         <>
           <Messages id="messages">
@@ -104,7 +121,19 @@ const ChatBox = (props) => {
               );
             })}
           </Messages>
+          {movieDate ? (
+            <DateTime>
+              The next date is: {moment(movieDate).format("MMMM Do")} at{" "}
+              {moment(movieDate).format("h:mm A")}{" "}
+            </DateTime>
+          ) : (
+            <DateTime>No Movie Date</DateTime>
+          )}
+
           <InputForm onSubmit={handleSubmit}>
+            <Button2 type="button" onClick={(ev) => toggleDateModal(ev)}>
+              <FiCalendar size={28} color="white" />
+            </Button2>
             <Input
               placeholder="Write your message here..."
               onChange={handleChange}
@@ -136,7 +165,7 @@ const ChatContainer = styled.div`
 
 const Messages = styled.div`
   flex: 9;
-  min-height: 20vh;
+  min-height: 10vh;
   width: 100%;
   overflow-y: scroll;
   background: ${THEMES.BlackCoffee};
@@ -188,6 +217,26 @@ const Button = styled.button`
   }
 `;
 
+const Button2 = styled.button`
+  flex: 1;
+  /* height: 100%; */
+  margin: 5px 0;
+  margin-right: 8px;
+  height: 20px;
+  padding: 20px 0px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: ${THEMES.Primary};
+  border-radius: 22px;
+  cursor: pointer;
+  border: 1px solid ${THEMES.Primary};
+
+  &:hover {
+    background: ${THEMES.Secondary};
+  }
+`;
+
 const Time = styled.h1`
   width: 100%;
   font-size: 14px;
@@ -195,6 +244,16 @@ const Time = styled.h1`
   color: darkgrey;
   opacity: 0.8;
   font-weight: 400;
+`;
+
+const DateTime = styled.h1`
+  width: 100%;
+  font-size: 14px;
+  text-align: center;
+  color: ${THEMES.BlackCoffee};
+  opacity: 0.8;
+  font-weight: 400;
+  background-color: ${THEMES.Primary};
 `;
 
 export default ChatBox;
