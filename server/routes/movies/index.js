@@ -1,8 +1,10 @@
 const movies = require("express").Router();
 const byGenre = require("./byGenre");
+const single = require("./single");
 const { db } = require("../../firebase");
 
 movies.post("/", byGenre);
+movies.get("/:id", single);
 
 movies.get("/test", (req, res) => {
   db.ref("test").push({ test: "Hello World" });

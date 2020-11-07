@@ -12,6 +12,8 @@ import {
   Error,
   CreateProfile,
   Movies,
+  Chat,
+  GroupChat,
 } from "../views";
 import Spinner from "../components/UI/Spinner";
 
@@ -33,6 +35,19 @@ const App = () => {
             path="/movies"
             authenticated={authenticated}
             component={Movies}
+            reroute="/"
+          ></PrivateRoute>
+          <PrivateRoute
+            exact
+            path="/chat"
+            authenticated={authenticated}
+            component={Chat}
+            reroute="/"
+          ></PrivateRoute>
+          <PrivateRoute
+            path="/chat/:id"
+            authenticated={authenticated}
+            component={GroupChat}
             reroute="/"
           ></PrivateRoute>
           <PrivateRoute
