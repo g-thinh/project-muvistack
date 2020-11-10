@@ -11,6 +11,11 @@ export const setMovieGenre = (genre) => ({
   genre,
 });
 
+export const setCurrentMatch = (match) => ({
+  type: "SET_CURRENT_MATCH",
+  match,
+});
+
 // ################## GET CATEGORIES ###############
 
 export const requestGenres = () => ({

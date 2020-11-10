@@ -15,14 +15,20 @@ import {
   Chat,
   GroupChat,
 } from "../views";
-import Spinner from "../components/UI/Spinner";
+import MatchedModal from "../components/MatchedModal";
+import { toggleMatchModal } from "../store/actions";
+import { useDispatch, useSelector } from "react-redux";
 
 const App = () => {
+  const TOGGLE_MATCH = useSelector((state) => state.TOGGLERS.matchToggle);
   const { authenticated, hasProfile } = React.useContext(AuthContext);
   // console.log("Currenth authentication:", authenticated);
   return (
     <Router>
       <Nav>
+        {TOGGLE_MATCH ? (
+          <MatchedModal show={TOGGLE_MATCH} close={toggleMatchModal} />
+        ) : null}
         <Switch>
           <Route exact path="/" component={Start}></Route>
           <PrivateRoute

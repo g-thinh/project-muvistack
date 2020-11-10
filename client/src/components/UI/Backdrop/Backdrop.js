@@ -1,10 +1,17 @@
 import React from "react";
 import styled from "styled-components";
+import { useDispatch } from "react-redux";
 
-const Backdrop = (props) =>
-  props.show ? (
-    <BackdropContainer onClick={props.closeHandler}></BackdropContainer>
+const Backdrop = (props) => {
+  const dispatch = useDispatch();
+  const closeHandler = props.closeHandler;
+
+  return props.show ? (
+    <BackdropContainer
+      onClick={(ev) => dispatch(closeHandler(!props.show))}
+    ></BackdropContainer>
   ) : null;
+};
 
 const BackdropContainer = styled.div`
   width: 100%;

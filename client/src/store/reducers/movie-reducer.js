@@ -2,6 +2,7 @@ import produce from "immer";
 
 const initialState = {
   currentMovies: null,
+  currentMatch: null,
   genres: [],
   currentLikes: null,
   swipeMode: true,
@@ -14,6 +15,13 @@ export default function uiReducer(state = initialState, action) {
     case "TOGGLE_SWIPE_MODE": {
       return produce(state, (draftState) => {
         draftState.swipeMode = !draftState.swipeMode;
+      });
+    }
+
+    case "SET_CURRENT_MATCH": {
+      console.log("CURRENT MATCH IS:", action);
+      return produce(state, (draftState) => {
+        draftState.currentMatch = action.match;
       });
     }
 
