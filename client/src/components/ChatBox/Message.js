@@ -29,7 +29,7 @@ const Message = (props) => {
 
   return (
     <MessageLine isUser={props.isUser} key={chat.timestamp}>
-      {avatar && props.isUser && (
+      {avatar && !props.isUser && (
         <Avatar src={avatar} alt={`user-${chat.user}`} />
       )}
       <Content>
@@ -39,7 +39,7 @@ const Message = (props) => {
         </Time>
       </Content>
 
-      {avatar && !props.isUser && (
+      {avatar && props.isUser && (
         <Avatar src={avatar} alt={`user-${chat.user}`} />
       )}
     </MessageLine>
@@ -49,7 +49,7 @@ const Message = (props) => {
 const MessageLine = styled.div`
   display: flex;
   align-items: center;
-  justify-content: ${(props) => (props.isUser ? "flex-start" : "flex-end")};
+  justify-content: ${(props) => (props.isUser ? "flex-end" : "flex-start")};
   padding: 4px 12px;
   width: 100%;
   & p {
@@ -71,9 +71,9 @@ const Content = styled.div`
 const Time = styled.span`
   color: darkgrey;
   font-size: 12px;
-  text-align: ${(props) => (props.isUser ? "left" : "right")};
-  margin-left: ${(props) => (props.isUser ? "5px" : "0px")};
-  margin-right: ${(props) => (!props.isUser ? "5px" : "0px")};
+  text-align: ${(props) => (props.isUser ? "right" : "left")};
+  margin-left: ${(props) => (props.isUser ? "0px" : "5px")};
+  margin-right: ${(props) => (!props.isUser ? "0px" : "5px")};
 `;
 
 const Avatar = styled.img`
