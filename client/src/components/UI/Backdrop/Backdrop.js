@@ -8,7 +8,7 @@ const Backdrop = (props) => {
 
   return props.show ? (
     <BackdropContainer
-      onClick={(ev) => dispatch(closeHandler(!props.show))}
+      onClick={(ev) => dispatch(closeHandler(false))}
     ></BackdropContainer>
   ) : null;
 };

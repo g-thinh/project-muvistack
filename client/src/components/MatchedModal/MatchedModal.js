@@ -28,7 +28,18 @@ const MatchedModal = (props) => {
             <Img src={PartyPopper} alt="confirmed-match" />
             <p>Keep matching or go to the new chat!</p>
             <Buttons>
-              <Button onClick={() => setToggleRedirect(true)}>
+              <Button
+                onClick={(ev) => {
+                  console.log(
+                    "Redirecting to",
+                    MOVIE_INFO.currentMatch.movieID
+                  );
+                  setToggleRedirect(true);
+                  setTimeout(() => {
+                    dispatch(closeHandler(false));
+                  }, 500);
+                }}
+              >
                 <FiMessageCircle size={32} color="dodgerblue" />
               </Button>
               <Button onClick={(ev) => dispatch(closeHandler(false))}>

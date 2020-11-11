@@ -6,12 +6,16 @@ import { AuthContext } from "../AuthContext";
 import Spinner from "../UI/Spinner";
 import Message from "./Message";
 import DateModal from "../DateModal";
+import { toggleDateModal } from "../../store/actions";
 
 import { FiSend, FiCalendar } from "react-icons/fi";
+import { useDispatch, useSelector } from "react-redux";
 
 const moment = require("moment");
 
 const ChatBox = (props) => {
+  const dispatch = useDispatch();
+  const TOGGLE_MODAL = useSelector((state) => state.TOGGLERS.dateToggle);
   const { appUser } = React.useContext(AuthContext);
   const [chats, setChats] = React.useState([]);
   const [content, setContent] = React.useState("");
@@ -22,14 +26,15 @@ const ChatBox = (props) => {
   const [toggleModal, setToggleModal] = React.useState(false);
   const [startDate, setStartDate] = React.useState(new Date());
   const [movieDate, setMovieDate] = React.useState(null);
+  const [hasDate, setHasDate] = React.useState(null);
 
   function handleChange(ev) {
     setContent(ev.target.value);
   }
 
-  function toggleDateModal(ev) {
-    setToggleModal(!toggleModal);
-  }
+  // function toggleDateModal(ev) {
+  //   setToggleModal(!toggleModal);
+  // }
 
   async function handleSubmit(ev) {
     ev.preventDefault();
@@ -52,6 +57,7 @@ const ChatBox = (props) => {
     db.ref(`matches/${url}/dates`).on("value", (snapshot) => {
       if (snapshot.val()) {
         setMovieDate(snapshot.val().date);
+        setHasDate(snapshot.val().suggestDate);
       }
     });
   }
@@ -92,13 +98,15 @@ const ChatBox = (props) => {
     <ChatContainer>
       {/* This is just to test the dates */}
       {/* <h1>{moment(startDate).format("YYYY MMMM Do h:mm A")}</h1> */}
-      <DateModal
-        show={toggleModal}
-        close={() => setToggleModal(false)}
-        date={startDate}
-        handleDateChange={setStartDate}
-        movieID={props.url}
-      />
+      {TOGGLE_MODAL && (
+        <DateModal
+          show={TOGGLE_MODAL}
+          close={toggleDateModal}
+          date={startDate}
+          handleDateChange={setStartDate}
+          movieID={props.url}
+        />
+      )}
       {!loading ? (
         <>
           <Messages id="messages">
@@ -110,28 +118,32 @@ const ChatBox = (props) => {
                 <Message
                   isUser={true}
                   data={chat}
+                  movieID={props.url}
                   key={`chat-${props.url}-${chat.user}-${chat.timestamp}`}
                 />
               ) : (
                 <Message
                   isUser={false}
                   data={chat}
+                  movieID={props.url}
                   key={`chat-${props.url}-${chat.user}-${chat.timestamp}`}
                 />
               );
             })}
           </Messages>
-          {movieDate ? (
+          {hasDate ? (
             <DateTime>
               The next date is: {moment(movieDate).format("MMMM Do")} at{" "}
               {moment(movieDate).format("h:mm A")}{" "}
             </DateTime>
-          ) : (
-            <DateTime>No Movie Date</DateTime>
-          )}
+          ) : // <DateTime>No Movie Date</DateTime>
+          null}
 
           <InputForm onSubmit={handleSubmit}>
-            <Button2 type="button" onClick={(ev) => toggleDateModal(ev)}>
+            <Button2
+              type="button"
+              onClick={(ev) => dispatch(toggleDateModal(true))}
+            >
               <FiCalendar size={28} color="white" />
             </Button2>
             <Input
