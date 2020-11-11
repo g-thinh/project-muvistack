@@ -199,7 +199,7 @@ const Time = styled.span`
 `;
 
 const Avatar = styled.img`
-  width: 4%;
+  width: 8%;
 `;
 
 const Form = styled.div`

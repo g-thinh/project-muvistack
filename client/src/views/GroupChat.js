@@ -110,7 +110,7 @@ const ChatUsers = styled.div`
 `;
 
 const Avatar = styled.img`
-  width: 8%;
+  width: 15%;
   user-select: none;
 `;
 const Text = styled.h1`
