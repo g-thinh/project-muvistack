@@ -131,13 +131,16 @@ const ChatBox = (props) => {
               );
             })}
           </Messages>
-          {hasDate ? (
-            <DateTime>
-              The next date is: {moment(movieDate).format("MMMM Do")} at{" "}
-              {moment(movieDate).format("h:mm A")}{" "}
-            </DateTime>
-          ) : // <DateTime>No Movie Date</DateTime>
-          null}
+          <DateWrapper>
+            {hasDate ? (
+              <DateTime hasDate>
+                The next date is: {moment(movieDate).format("MMMM Do")} at{" "}
+                {moment(movieDate).format("h:mm A")}{" "}
+              </DateTime>
+            ) : (
+              <DateTime hasDate={false}>No Movie Date</DateTime>
+            )}
+          </DateWrapper>
 
           <InputForm onSubmit={handleSubmit}>
             <Button2
@@ -189,7 +192,7 @@ const InputForm = styled.form`
   flex: 1;
   display: flex;
   align-items: center;
-  border-top: 3px solid ${THEMES.Secondary};
+  /* border-top: 3px solid ${THEMES.Blue}; */
   padding: 10px;
   border-bottom-left-radius: 12px;
   border-bottom-right-radius: 12px;
@@ -258,14 +261,23 @@ const Time = styled.h1`
   font-weight: 400;
 `;
 
+const DateWrapper = styled.div`
+  background-color: ${THEMES.BlackCoffee};
+  width: 100%;
+  padding: 1% 0;
+`;
+
 const DateTime = styled.h1`
   width: 100%;
   font-size: 14px;
   text-align: center;
-  color: ${THEMES.BlackCoffee};
-  opacity: 0.8;
-  font-weight: 400;
-  background-color: ${THEMES.Primary};
+  color: ${(props) => (props.hasDate ? "white" : THEMES.BlackCoffee)};
+  font-weight: 500;
+  padding: 3px 0;
+  border-radius: 22px;
+  /* background-color: ${THEMES.Primary}; */
+  background-color: ${(props) =>
+    props.hasDate ? THEMES.Blue : THEMES.Secondary};
 `;
 
 export default ChatBox;

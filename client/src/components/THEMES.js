@@ -4,4 +4,5 @@ export const THEMES = {
   BlackCoffee: "#3b2f2f",
   White: "#FFFFFE",
   Cart: "#26C485",
+  Blue: "#08B2E3",
 };
