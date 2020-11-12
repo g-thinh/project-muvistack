@@ -6,7 +6,12 @@ import { db } from "../../services/firebase";
 import { object } from "prop-types";
 import MatchedModal from "../MatchedModal";
 import { useDispatch } from "react-redux";
-import { deleteMovie, likeMovie } from "../../store/actions";
+import {
+  deleteMovie,
+  likeMovie,
+  toggleMatchModal,
+  setCurrentMatch,
+} from "../../store/actions";
 
 const moment = require("moment");
 
@@ -25,6 +30,7 @@ const Deck = (props) => {
     db.ref(`matches/${id}`).update({ title: name, id: id, posterURL: url });
 
     updateMatches(id, USER.uid, name);
+
     dispatch(likeMovie(id));
   }
 
@@ -40,14 +46,19 @@ const Deck = (props) => {
       // User
       if (data.length > 1 && data.includes(user)) {
         // do stuff when users match
-        console.log("USERS HAVE MATCHED!");
+        // console.log("USERS HAVE MATCHED!");
         db.ref(`matches/${movieID}`).update({
           users: data,
         });
         db.ref(`matches/${movieID}/chat`).update({ created: Date.now() });
+        dispatch(setCurrentMatch({ movieID, movieTitle }));
         setMatchedMovie({ movieID, movieTitle });
-        setMatch(true);
-        setToggleModal(true);
+
+        console.log("TOGGLE MATCH MODE");
+
+        dispatch(toggleMatchModal(true));
+        // setMatch(true);
+        // setToggleModal(true);
       }
     });
   }
@@ -61,7 +72,7 @@ const Deck = (props) => {
 
   return (
     <DeckContainer>
-      {match ? (
+      {/* {match ? (
         <MatchedModal
           show={toggleModal}
           close={() => setToggleModal(false)}
@@ -69,7 +80,7 @@ const Deck = (props) => {
         />
       ) : (
         <h1>No Matches</h1>
-      )}
+      )} */}
       {MOVIES.map((movie, index) => {
         return (
           <MovieCard index={index} key={movie.id}>

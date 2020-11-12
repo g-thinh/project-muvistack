@@ -21,7 +21,6 @@ const GroupChat = () => {
 
   function goBack() {
     history.push("/chat");
-    // history.goBack();
   }
 
   function getUsersList(id) {
@@ -32,7 +31,7 @@ const GroupChat = () => {
     db.ref(`matches/${id}/users`).on("value", (snapshot) => {
       const data = snapshot.val();
       users = Object.values(data);
-      console.log("The users in this chat are:", users);
+      // console.log("The users in this chat are:", users);
       db.ref("users").on("value", (snapshot) => {
         const data = snapshot.val();
         snapshot.forEach((snap) => {
@@ -41,12 +40,10 @@ const GroupChat = () => {
             results.push(snap.val());
           }
         });
-        console.log("final results:", results);
+        // console.log("final results:", results);
         setChatUsers(results);
       });
     });
-
-    // Push users that have matched into the results array
   }
 
   function getMovieInfo() {
@@ -73,8 +70,8 @@ const GroupChat = () => {
       {movieInfo && (
         <TopChat>
           <Text>
-            {movieInfo.original_title},{" "}
-            {moment(movieInfo.release_date).format("YYYY")}
+            {movieInfo.title},{" "}
+            <span>{moment(movieInfo.release_date).format("YYYY")}</span>
           </Text>
           <ChatUsers>
             {chatUsers &&
@@ -94,8 +91,11 @@ const GroupChat = () => {
 const TopChat = styled.div`
   display: flex;
   flex-direction: column;
-  width: 100%;
-  margin: 10px 0;
+  width: 95%;
+  padding: 18px;
+  margin: 2% 0;
+  border-radius: 12px;
+  background-color: ${THEMES.Primary};
 `;
 
 const ChatUsers = styled.div`
@@ -104,24 +104,31 @@ const ChatUsers = styled.div`
   align-items: center;
   width: 100%;
   /* border: 5px solid red; */
+  padding: 5px;
   height: 100%;
   user-select: none;
 `;
 
 const Avatar = styled.img`
-  width: 8%;
+  width: 15%;
   user-select: none;
 `;
 const Text = styled.h1`
-  font-size: 44px;
+  font-size: 2.4rem;
   text-align: center;
+  color: white;
+
+  & span {
+    color: ${THEMES.BlackCoffee};
+  }
 `;
 
 const Header = styled.div`
   display: flex;
   align-self: flex-start;
   justify-self: flex-start;
-  margin: 20px;
+  margin: 0 20px;
+  margin-top: 10px;
   align-items: center;
   /* border: 5px solid goldenrod; */
 

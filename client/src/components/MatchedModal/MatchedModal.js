@@ -5,28 +5,44 @@ import { THEMES } from "../THEMES";
 import { Redirect } from "react-router-dom";
 import { PartyPopper } from "../../assets";
 import { FiXCircle, FiMessageCircle } from "react-icons/fi";
+import { useDispatch, useSelector } from "react-redux";
 
 const MatchedModal = (props) => {
-  const MOVIE_ID = props.match.movieID;
-  const MOVIE_NAME = props.match.movieTitle;
+  const dispatch = useDispatch();
+
+  const MOVIE_INFO = useSelector((state) => state.MOVIE);
+  const closeHandler = props.close;
   const [toggleRedirect, setToggleRedirect] = React.useState(false);
 
   return (
     <>
-      {toggleRedirect && <Redirect to={`/chat/${MOVIE_ID}`} />}
-      <Backdrop show={props.show} closeHandler={props.close} />
+      {toggleRedirect && (
+        <Redirect to={`/chat/${MOVIE_INFO.currentMatch.movieID}`} />
+      )}
+      <Backdrop show={props.show} closeHandler={closeHandler} />
       {props.show ? (
         <Modal>
           <Content>
             <h1>You have Matched!</h1>
-            <p>{MOVIE_NAME}</p>
+            <p>{MOVIE_INFO.currentMatch.movieTitle}</p>
             <Img src={PartyPopper} alt="confirmed-match" />
             <p>Keep matching or go to the new chat!</p>
             <Buttons>
-              <Button onClick={() => setToggleRedirect(true)}>
+              <Button
+                onClick={(ev) => {
+                  console.log(
+                    "Redirecting to",
+                    MOVIE_INFO.currentMatch.movieID
+                  );
+                  setToggleRedirect(true);
+                  setTimeout(() => {
+                    dispatch(closeHandler(false));
+                  }, 500);
+                }}
+              >
                 <FiMessageCircle size={32} color="dodgerblue" />
               </Button>
-              <Button onClick={props.close}>
+              <Button onClick={(ev) => dispatch(closeHandler(false))}>
                 <FiXCircle size={32} color="red" />
               </Button>
             </Buttons>
@@ -41,6 +57,8 @@ const Modal = styled.div`
   /* border: 2px solid red; */
   position: fixed;
   top: 30%;
+  left: 50%;
+  transform: translate(-50%, 0);
   /* bottom: 50%; */
   align-self: center;
   justify-self: center;
