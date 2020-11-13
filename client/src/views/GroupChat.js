@@ -97,10 +97,16 @@ const GroupChat = () => {
                 return user.userID != currentUser.uid ? (
                   <AddFriend onClick={(ev) => addFriend(user.userID)}>
                     <Avatar src={user.photoURL} alt={`user-${user.userID}`} />
-                    <StyledFiPlus size={100} />
+                    <StyledFiPlus size={64} />
                   </AddFriend>
                 ) : (
-                  <Avatar src={user.photoURL} alt={`user-${user.userID}`} />
+                  <AddFriend
+                    isUser
+                    onClick={(ev) => console.log("Cant add self as friend")}
+                  >
+                    <Avatar src={user.photoURL} alt={`user-${user.userID}`} />
+                    <StyledFiPlus size={64} />
+                  </AddFriend>
                 );
               })}
           </ChatUsers>
@@ -184,7 +190,7 @@ const StyledFiPlus = styled(FiPlus)`
 
 const Avatar = styled.img`
   max-width: 100%;
-  height: 100%;
+  height: auto;
   object-fit: cover;
   user-select: none;
   /* position: relative;
@@ -195,25 +201,26 @@ const AddFriend = styled.button`
   position: relative;
   /* border: 1px solid red; */
   overflow: hidden;
-  margin: 0 2%;
-  cursor: pointer;
+  margin: 0 1%;
+  cursor: ${(props) => (props.isUser ? "default" : "pointer")};
   background-color: transparent;
   border-radius: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
   border: none;
-  /* width: 100%; */
-
   &:hover {
     & ${StyledFiPlus} {
-      opacity: 0.9;
+      opacity: ${(props) => (props.isUser ? "0" : "0.9")};
       /* z-index: 8; */
     }
     & ${Avatar} {
-      filter: brightness(70%);
+      filter: ${(props) =>
+        props.isUser ? "brightness(100%)" : "brightness(70%)"};
+      /* filter: brightness(70%); */
     }
   }
+  width: 25%;
 `;
 
 export default GroupChat;
