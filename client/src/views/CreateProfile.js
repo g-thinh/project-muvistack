@@ -30,12 +30,15 @@ const CreateProfile = () => {
     try {
       if (displayName && bioText) {
         console.log("Created new user!");
-        db.ref("users").child(appUser.uid).update({
-          displayName: displayName,
-          bioText: bioText,
-          photoURL: "https://avataaars.io/?avatarStyle=Circle",
-          profileSetup: true,
-        });
+        db.ref("users")
+          .child(appUser.uid)
+          .update({
+            displayName: displayName,
+            bioText: bioText,
+            photoURL: "https://avataaars.io/?avatarStyle=Circle",
+            profileSetup: true,
+            friends: { bool: true },
+          });
         setRedirect(true);
       } else {
         setError("Please fill in the form fields!");
