@@ -109,6 +109,9 @@ const GroupChat = () => {
                   </AddFriend>
                 );
               })}
+            <InviteFriend onClick={() => console.log("Invite a friend!")}>
+              <FiPlus size={64} color={THEMES.White} />
+            </InviteFriend>
           </ChatUsers>
         </TopChat>
       )}
@@ -189,12 +192,32 @@ const StyledFiPlus = styled(FiPlus)`
 `;
 
 const Avatar = styled.img`
-  max-width: 100%;
+  max-width: 100px;
   height: auto;
   object-fit: cover;
   user-select: none;
   /* position: relative;
   z-index: 7; */
+`;
+
+const InviteFriend = styled.button`
+  position: relative;
+  width: 85px;
+  height: 85px;
+  margin: 0 1%;
+  border-radius: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: ${THEMES.BlackCoffee};
+  border: none;
+  cursor: pointer;
+
+  &:hover {
+    background-color: ${THEMES.Blue};
+    border: 3px solid ${THEMES.White};
+  }
+  /* border: 5px solid red; */
 `;
 
 const AddFriend = styled.button`
@@ -220,7 +243,6 @@ const AddFriend = styled.button`
       /* filter: brightness(70%); */
     }
   }
-  width: 25%;
 `;
 
 export default GroupChat;
