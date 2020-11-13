@@ -14,7 +14,7 @@ const GroupChat = () => {
   const history = useHistory();
   const [movieInfo, setMovieInfo] = React.useState(null);
   const [chatUsers, setChatUsers] = React.useState(null);
-  const [user, setUser] = React.useState(auth().currentUser);
+  const [currentUser, setCurrentUser] = React.useState(auth().currentUser);
 
   const location = window.location.pathname;
   const array = location.split("/");
@@ -56,10 +56,23 @@ const GroupChat = () => {
   }
 
   function addFriend(id) {
-    db.ref(`users/${user.uid}`).child("friends").push({ id });
+    // check if that friend already exists
+    db.ref(`users/${currentUser.uid}/friends`).once("value", (snapshot) => {
+      const data = snapshot.val();
+      if (data) {
+        const allFriends = Object.values(data);
+        if (!allFriends.includes(id)) {
+          // console.log("Added a new friend!");
+          db.ref(`users/${currentUser.uid}`).child("friends").push(id);
+        } else {
+          console.log("this friend was already added");
+        }
+      }
+    });
   }
 
   React.useEffect(() => {
+    console.log("GroupChat current user is", currentUser.uid);
     getMovieInfo();
     getUsersList(URL_ID);
   }, []);
@@ -81,11 +94,13 @@ const GroupChat = () => {
           <ChatUsers>
             {chatUsers &&
               chatUsers.map((user) => {
-                return (
+                return user.userID != currentUser.uid ? (
                   <AddFriend onClick={(ev) => addFriend(user.userID)}>
                     <Avatar src={user.photoURL} alt={`user-${user.userID}`} />
                     <StyledFiPlus size={100} />
                   </AddFriend>
+                ) : (
+                  <Avatar src={user.photoURL} alt={`user-${user.userID}`} />
                 );
               })}
           </ChatUsers>
