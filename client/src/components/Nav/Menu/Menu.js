@@ -29,6 +29,9 @@ const Menu = ({ open, setOpen }) => {
         <StyledLink to="/chat" onClick={() => dispatch(setOpen(false))}>
           Chat
         </StyledLink>
+        <StyledLink to="/friends" onClick={() => dispatch(setOpen(false))}>
+          Friends
+        </StyledLink>
         <StyledLink to="/settings" onClick={() => dispatch(setOpen(false))}>
           Settings
         </StyledLink>

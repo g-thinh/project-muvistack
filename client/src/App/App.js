@@ -14,6 +14,7 @@ import {
   Movies,
   Chat,
   GroupChat,
+  Friends,
 } from "../views";
 import MatchedModal from "../components/MatchedModal";
 import { toggleMatchModal } from "../store/actions";
@@ -41,6 +42,12 @@ const App = () => {
             path="/movies"
             authenticated={authenticated}
             component={Movies}
+            reroute="/"
+          ></PrivateRoute>
+          <PrivateRoute
+            path="/friends"
+            authenticated={authenticated}
+            component={Friends}
             reroute="/"
           ></PrivateRoute>
           <PrivateRoute
