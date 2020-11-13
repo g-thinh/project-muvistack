@@ -5,7 +5,7 @@ import { auth, db } from "../services/firebase";
 import { AuthContext } from "../components/AuthContext";
 import { THEMES } from "../components/THEMES";
 import { useHistory } from "react-router-dom";
-import { FiArrowLeft } from "react-icons/fi";
+import { FiArrowLeft, FiPlus } from "react-icons/fi";
 import ChatBox from "../components/ChatBox";
 
 const moment = require("moment");
@@ -14,6 +14,7 @@ const GroupChat = () => {
   const history = useHistory();
   const [movieInfo, setMovieInfo] = React.useState(null);
   const [chatUsers, setChatUsers] = React.useState(null);
+  const [user, setUser] = React.useState(auth().currentUser);
 
   const location = window.location.pathname;
   const array = location.split("/");
@@ -54,6 +55,10 @@ const GroupChat = () => {
       });
   }
 
+  function addFriend(id) {
+    db.ref(`users/${user.uid}`).child("friends").push({ id });
+  }
+
   React.useEffect(() => {
     getMovieInfo();
     getUsersList(URL_ID);
@@ -77,7 +82,10 @@ const GroupChat = () => {
             {chatUsers &&
               chatUsers.map((user) => {
                 return (
-                  <Avatar src={user.photoURL} alt={`user-${user.userID}`} />
+                  <AddFriend onClick={(ev) => addFriend(user.userID)}>
+                    <Avatar src={user.photoURL} alt={`user-${user.userID}`} />
+                    <StyledFiPlus size={100} />
+                  </AddFriend>
                 );
               })}
           </ChatUsers>
@@ -98,21 +106,6 @@ const TopChat = styled.div`
   background-color: ${THEMES.Primary};
 `;
 
-const ChatUsers = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  /* border: 5px solid red; */
-  padding: 5px;
-  height: 100%;
-  user-select: none;
-`;
-
-const Avatar = styled.img`
-  width: 15%;
-  user-select: none;
-`;
 const Text = styled.h1`
   font-size: 2.4rem;
   text-align: center;
@@ -154,4 +147,58 @@ const Button = styled.button`
     transform: scale(1.1);
   }
 `;
+
+const ChatUsers = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  /* border: 5px solid red; */
+  padding: 5px;
+  /* border: 5px solid red; */
+  user-select: none;
+`;
+
+const StyledFiPlus = styled(FiPlus)`
+  /* border: 5px solid goldenrod; */
+  position: absolute;
+  z-index: 10;
+  opacity: 0;
+  color: darkgrey;
+`;
+
+const Avatar = styled.img`
+  max-width: 100%;
+  height: 100%;
+  object-fit: cover;
+  user-select: none;
+  /* position: relative;
+  z-index: 7; */
+`;
+
+const AddFriend = styled.button`
+  position: relative;
+  /* border: 1px solid red; */
+  overflow: hidden;
+  margin: 0 2%;
+  cursor: pointer;
+  background-color: transparent;
+  border-radius: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: none;
+  /* width: 100%; */
+
+  &:hover {
+    & ${StyledFiPlus} {
+      opacity: 0.9;
+      /* z-index: 8; */
+    }
+    & ${Avatar} {
+      filter: brightness(70%);
+    }
+  }
+`;
+
 export default GroupChat;
