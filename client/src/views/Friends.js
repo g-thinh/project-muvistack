@@ -16,16 +16,34 @@ const Friends = () => {
   const [user, setUser] = React.useState(auth().currentUser);
   const FRIENDS = useSelector((state) => state.FRIENDS.friends);
 
+  function removeFriend(id) {
+    try {
+      db.ref(`users/${user.uid}/friends`).once("value", (snapshot) => {
+        const data = snapshot.val();
+        console.log("User's has friends", data);
+        snapshot.forEach((snap) => {
+          if (snap.val() === id) {
+            db.ref(`users/${user.uid}/friends/${snap.key}`).remove();
+            console.log("Deleted Friend!");
+          }
+        });
+        fetchFriends();
+      });
+    } catch (error) {
+      throw error;
+    }
+  }
+
   function fetchFriends() {
     let friends = [];
 
     dispatch(requestFriends());
     try {
-      db.ref(`users/${user.uid}/friends`).on("value", (snapshot) => {
+      db.ref(`users/${user.uid}/friends`).once("value", (snapshot) => {
         const data = snapshot.val();
         snapshot.forEach((snap) => {
-          console.log(snap.val());
           friends.push(snap.val());
+          console.log(snap.val());
         });
         //this is just to remove the first fake element in the friends dB
         friends.shift();
@@ -51,7 +69,7 @@ const Friends = () => {
       ) : (
         <FriendsList>
           {FRIENDS.map((friend) => {
-            return <Friend data={friend} key={friend} />;
+            return <Friend data={friend} key={friend} delete={removeFriend} />;
           })}
         </FriendsList>
       )}
