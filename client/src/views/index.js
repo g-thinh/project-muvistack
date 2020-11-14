@@ -8,3 +8,4 @@ export { default as Error } from "./Error";
 export { default as Movies } from "./Movies";
 export { default as Chat } from "./Chat";
 export { default as GroupChat } from "./GroupChat";
+export { default as Friends } from "./Friends";
