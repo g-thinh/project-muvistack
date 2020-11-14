@@ -17,20 +17,21 @@ export default function chatReducer(state = initialState, action) {
     }
     case "RECEIVE_CONVOS": {
       console.log("[RECEIVE CONVOS]", action.convos);
-      let data;
-      let newData;
-      if (action.convos) {
-        data = action.convos;
-        newData = Object.keys(data).map((key) => {
-          return data[key];
-        });
-      }
+      // let data;
+      // let newData;
+      // if (action.convos) {
+      //   data = action.convos;
+      //   newData = Object.keys(data).map((key) => {
+      //     return data[key];
+      //   });
+      // }
 
       const results = produce(state, (draftState) => {
         // if (draftState.currentConvos.length === 0) {
         //   draftState.currentConvos = [];
         // }
-        draftState.currentConvos = newData;
+        // draftState.currentConvos = newData;
+        draftState.currentConvos = action.convos;
         draftState.status = "idle";
       });
       console.log("[RECEIVE CONVOS RESULT]", results);

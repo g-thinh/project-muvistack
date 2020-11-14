@@ -28,11 +28,22 @@ const Chat = () => {
   }
 
   function fetchConvos() {
+    // Also must check if there are enough users in chat
     dispatch(requestConvos());
+    let convos = [];
     try {
       db.ref("matches").once("value", (snapshot) => {
         const data = snapshot.val();
-        dispatch(receiveConvos(data));
+        snapshot.forEach((snap) => {
+          let users = Object.values(snap.val().users);
+          // console.log("MOVIE!", users);
+          if (users.length > 1) {
+            convos.push(snap.val());
+          }
+        });
+        // console.log("THE RESULTS CONVOS", convos);
+        dispatch(receiveConvos(convos));
+        // dispatch(receiveConvos(data));
       });
     } catch (error) {
       dispatch(requestConvosError());
@@ -56,6 +67,7 @@ const Chat = () => {
           <Text>The Current Convos</Text>
           <ConvoList>
             {CONVOS.map((convo) => {
+              console.log("convo", convo);
               return (
                 <li>
                   <StyledLink to={`/chat/${convo.id}`}>

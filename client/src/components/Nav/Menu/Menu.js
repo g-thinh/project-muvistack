@@ -18,24 +18,27 @@ const Menu = ({ open, setOpen }) => {
 
   return (
     <>
-      <Backdrop show={open} closeHandler={() => dispatch(setOpen())} />
+      <Backdrop show={open} closeHandler={setOpen} />
       <StyledMenu open={open}>
-        <StyledLink to="/movies" onClick={() => dispatch(setOpen())}>
+        <StyledLink to="/movies" onClick={() => dispatch(setOpen(false))}>
           Movies
         </StyledLink>
-        <StyledLink to="/profile" onClick={() => dispatch(setOpen())}>
+        <StyledLink to="/profile" onClick={() => dispatch(setOpen(false))}>
           Profile
         </StyledLink>
-        <StyledLink to="/chat" onClick={() => dispatch(setOpen())}>
+        <StyledLink to="/chat" onClick={() => dispatch(setOpen(false))}>
           Chat
         </StyledLink>
-        <StyledLink to="/settings" onClick={() => dispatch(setOpen())}>
+        <StyledLink to="/friends" onClick={() => dispatch(setOpen(false))}>
+          Friends
+        </StyledLink>
+        <StyledLink to="/settings" onClick={() => dispatch(setOpen(false))}>
           Settings
         </StyledLink>
         <StyledButton
           onClick={() => {
             dispatch(requestCurrentUserSignout());
-            dispatch(setOpen());
+            dispatch(setOpen(false));
             signout();
           }}
         >
@@ -56,7 +59,7 @@ const StyledMenu = styled.div`
   justify-content: center;
   background: ${THEMES.Cart};
   height: 100vh;
-  width: 30vw;
+  width: 45vw;
   text-align: left;
   padding: 2rem;
   position: absolute;
