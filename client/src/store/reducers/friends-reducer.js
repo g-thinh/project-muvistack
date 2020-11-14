@@ -2,7 +2,7 @@ import produce from "immer";
 
 const initialState = {
   status: "idle",
-  friends: null,
+  friends: [],
 };
 
 export default function friendsReducer(state = initialState, action) {
