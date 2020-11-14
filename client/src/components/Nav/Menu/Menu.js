@@ -32,8 +32,11 @@ const Menu = ({ open, setOpen }) => {
         <StyledLink to="/friends" onClick={() => dispatch(setOpen(false))}>
           Friends
         </StyledLink>
-        <StyledLink to="/settings" onClick={() => dispatch(setOpen(false))}>
-          Settings
+        <StyledLink
+          to="/create-avatar"
+          onClick={() => dispatch(setOpen(false))}
+        >
+          My Avatar
         </StyledLink>
         <StyledButton
           onClick={() => {

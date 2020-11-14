@@ -9,3 +9,4 @@ export { default as Movies } from "./Movies";
 export { default as Chat } from "./Chat";
 export { default as GroupChat } from "./GroupChat";
 export { default as Friends } from "./Friends";
+export { default as CreateAvatar } from "./CreateAvatar";

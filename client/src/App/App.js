@@ -15,6 +15,7 @@ import {
   Chat,
   GroupChat,
   Friends,
+  CreateAvatar,
 } from "../views";
 import MatchedModal from "../components/MatchedModal";
 import { toggleMatchModal } from "../store/actions";
@@ -67,6 +68,12 @@ const App = () => {
             path="/create-profile"
             authenticated={authenticated && !hasProfile}
             component={CreateProfile}
+            reroute="/"
+          ></PrivateRoute>
+          <PrivateRoute
+            path="/create-avatar"
+            authenticated={authenticated}
+            component={CreateAvatar}
             reroute="/"
           ></PrivateRoute>
           <PublicRoute
