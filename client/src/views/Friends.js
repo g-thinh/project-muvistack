@@ -46,6 +46,7 @@ const Friends = () => {
           console.log(snap.val());
         });
         //this is just to remove the first fake element in the friends dB
+        friends.reverse();
         friends.shift();
         console.log("These are all my friends!", friends);
         dispatch(receiveFriends(friends));
@@ -63,15 +64,19 @@ const Friends = () => {
 
   return (
     <PageContainer>
-      <Text>My Friends</Text>
-      {!FRIENDS ? (
+      {FRIENDS.length < 1 ? (
         <Text>You Have No Friends!</Text>
       ) : (
-        <FriendsList>
-          {FRIENDS.map((friend) => {
-            return <Friend data={friend} key={friend} delete={removeFriend} />;
-          })}
-        </FriendsList>
+        <>
+          <Text>My Friends</Text>
+          <FriendsList>
+            {FRIENDS.map((friend) => {
+              return (
+                <Friend data={friend} key={friend} delete={removeFriend} />
+              );
+            })}
+          </FriendsList>
+        </>
       )}
     </PageContainer>
   );
