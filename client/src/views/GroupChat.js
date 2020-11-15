@@ -14,7 +14,7 @@ const GroupChat = () => {
   const history = useHistory();
   const [movieInfo, setMovieInfo] = React.useState(null);
   const [chatUsers, setChatUsers] = React.useState(null);
-  const [currentUser, setCurrentUser] = React.useState(auth().currentUser);
+  const [currentUser, setCurrentUser] = React.useState(auth().currentUser.uid);
 
   const location = window.location.pathname;
   const array = location.split("/");
@@ -57,15 +57,23 @@ const GroupChat = () => {
 
   function addFriend(id) {
     // check if that friend already exists
-    db.ref(`users/${currentUser.uid}/friends`).once("value", (snapshot) => {
+    db.ref(`users/${id}/friends`).once("value", (snapshot) => {
       const data = snapshot.val();
       if (data) {
         const allFriends = Object.values(data);
         if (!allFriends.includes(id)) {
           // console.log("Added a new friend!");
-          db.ref(`users/${currentUser.uid}`)
+          console.log("GROUP CHAT USER IS:", currentUser);
+          console.log("GROUP CHAT USER ADDS:", id);
+          // The user Adds the request to their profile
+          db.ref(`users/${currentUser}`)
             .child("friends")
             .push({ id, isFriend: false, isPending: true });
+
+          // The other user receives a request
+          db.ref(`users/${id}`)
+            .child("friends")
+            .push({ id: currentUser, isFriend: false, isPending: false });
         } else {
           console.log("this friend was already added");
         }
@@ -74,7 +82,7 @@ const GroupChat = () => {
   }
 
   React.useEffect(() => {
-    console.log("GroupChat current user is", currentUser.uid);
+    // console.log("GroupChat current user is", currentUser);
     getMovieInfo();
     getUsersList(URL_ID);
   }, []);
@@ -96,7 +104,7 @@ const GroupChat = () => {
           <ChatUsers>
             {chatUsers &&
               chatUsers.map((user) => {
-                return user.userID != currentUser.uid ? (
+                return user.userID != currentUser ? (
                   <AddFriend onClick={(ev) => addFriend(user.userID)}>
                     <Avatar src={user.photoURL} alt={`user-${user.userID}`} />
                     <StyledFiPlus size={64} />

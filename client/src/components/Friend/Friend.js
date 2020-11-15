@@ -15,6 +15,7 @@ const Friend = (props) => {
   const [friendInfo, setFriendInfo] = React.useState(null);
 
   function getFriend(id) {
+    console.log("[FRIEND.js] fetching user", id);
     try {
       db.ref(`users/${id}`).on("value", (snapshot) => {
         const data = snapshot.val();
@@ -27,31 +28,57 @@ const Friend = (props) => {
   }
 
   function AcceptFriendRequest(id) {
-    // console.log("accepted friend request");
-    try {
-      db.ref(`users/${user.uid}/friends`).on("value", (snapshot) => {
-        const data = snapshot.val();
-        snapshot.forEach((snap) => {
-          console.log(snap.val());
-          if (snap.val().id === FRIEND_ID) {
-            // console.log("This is a friend request");
-            db.ref(`users/${user.uid}/friends/${snap.key}`).update({
-              isFriend: true,
-              isPending: false,
-            });
-            setIsFriend(true);
-            setIsPending(false);
-          } else {
-            // console.log("Not a friend request");
-          }
-        });
+    // receive my friends ID either way
+    // this updates my friends status
+    updateA(id);
+
+    // this updates my status
+    updateB(id);
+  }
+
+  function updateA(friend) {
+    db.ref(`users/${friend}/friends`).once("value", (snapshot) => {
+      console.log("this is to update user A");
+      const data = snapshot.val();
+      snapshot.forEach((snap) => {
+        // updates friends/{myID}
+        if (snap.val().id === user.uid) {
+          db.ref(`users/${friend}/friends/${snap.key}`).update({
+            isFriend: true,
+            isPending: false,
+          });
+
+          setIsFriend(true);
+          setIsPending(false);
+        }
       });
-    } catch (error) {
-      throw error;
-    }
+    });
+  }
+
+  function updateB(friend) {
+    db.ref(`users/${user.uid}/friends`).once("value", (snapshot) => {
+      console.log("this is to update user B");
+      const data = snapshot.val();
+      snapshot.forEach((snap) => {
+        // updates my status with this friend
+        if (snap.val().id === friend) {
+          // console.log("This is a friend request");
+          db.ref(`users/${user.uid}/friends/${snap.key}`).update({
+            isFriend: true,
+            isPending: false,
+          });
+
+          // setIsFriend(true);
+          // setIsPending(false);
+        } else {
+          // console.log("Not a friend request");
+        }
+      });
+    });
   }
 
   React.useEffect(() => {
+    console.log("[FRIEND.js] data is:", props.data);
     getFriend(FRIEND_ID);
     // db.ref(`users/${user.uid}/friends`).on("value", (snapshot) => {
     //   const data = snapshot.val();
@@ -68,17 +95,17 @@ const Friend = (props) => {
       <Right>
         <Name>{friendInfo.displayName}</Name>
         <Text>{friendInfo.bioText}</Text>
-        {isFriend && !isPending && (
+        {isFriend && (
           <RemoveButton onClick={() => removeFriend(FRIEND_ID)}>
             <FiXCircle size={32} color="red" />
           </RemoveButton>
         )}
-        {isPending && isFriend && (
+        {!isPending && !isFriend && (
           <button onClick={() => AcceptFriendRequest(FRIEND_ID)}>
             Accept Friend Request
           </button>
         )}
-        {isPending && <h1>Friend Request Pending</h1>}
+        {isPending && !isFriend && <h1>Friend Request Pending</h1>}
       </Right>
     </Container>
   ) : (
