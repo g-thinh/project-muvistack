@@ -6,4 +6,5 @@ export const THEMES = {
   White: "#FFFFFE",
   Cart: "#26C485",
   Blue: "#08B2E3",
+  SecondaryBlue: "#39C1E8",
 };
