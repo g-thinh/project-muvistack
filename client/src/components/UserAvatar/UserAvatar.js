@@ -3,8 +3,10 @@ import styled from "styled-components";
 import { randomFeature, FEATURES } from "./FEATURES";
 import { THEMES } from "../THEMES";
 import { auth, db } from "../../services/firebase";
+import { useHistory } from "react-router-dom";
 
 const UserAvatar = (props) => {
+  const history = useHistory();
   const [user, setUser] = React.useState(auth().currentUser);
 
   // ############################### AVATAR FEATURES #########################
@@ -328,7 +330,12 @@ const UserAvatar = (props) => {
         </Button>
       </Grid>
 
-      <Submit onClick={() => updateAvatar()}>
+      <Submit
+        onClick={() => {
+          updateAvatar();
+          history.push("/profile");
+        }}
+      >
         <span>Submit</span>
       </Submit>
     </Wrapper>
