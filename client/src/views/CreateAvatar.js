@@ -4,11 +4,22 @@ import PageContainer from "./PageContainer";
 import UserAvatar from "../components/UserAvatar";
 import Wave from "../components/UI/Wave";
 
+import { db, auth } from "../services/firebase";
+
 const CreateAvatar = () => {
+  const [user, setUser] = React.useState(auth().currentUser);
+  const [avatar, setAvatar] = React.useState(null);
+
+  React.useEffect(() => {
+    db.ref(`users/${user.uid}`).once("value", (snapshot) => {
+      setAvatar(snapshot.val().photoURL);
+    });
+  }, []);
+
   return (
     <PageContainer>
       <Text>Create an Avatar here!</Text>
-      <UserAvatar />
+      {avatar && <UserAvatar photo={avatar} />}
     </PageContainer>
   );
 };

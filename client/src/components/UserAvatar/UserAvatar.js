@@ -1,11 +1,12 @@
 import React from "react";
 import styled from "styled-components";
-import Avatar from "avataaars";
 import { randomFeature, FEATURES } from "./FEATURES";
 import { THEMES } from "../THEMES";
-import Wave from "../UI/Wave";
+import { auth, db } from "../../services/firebase";
 
-const UserAvatar = ({ styles }) => {
+const UserAvatar = (props) => {
+  const [user, setUser] = React.useState(auth().currentUser);
+
   // ############################### AVATAR FEATURES #########################
   const [topType, setTopType] = React.useState(randomFeature("topType"));
   const [accessoriesType, setAccessoriesType] = React.useState(
@@ -40,7 +41,7 @@ const UserAvatar = ({ styles }) => {
   // ############################# FUNCTIONS ################################
   function changeTop(feature, type) {
     console.log(`Current ${feature}:`, type);
-    const Arr = FEATURES[feature];
+    let Arr = FEATURES[feature];
     const length = Arr.length - 1;
     let currentIndex = Arr.indexOf(type);
     console.log("The current index is:", currentIndex);
@@ -53,7 +54,6 @@ const UserAvatar = ({ styles }) => {
       // console.log("New Top:", Arr[currentIndex + 1]);
       setTopType(Arr[currentIndex + 1]);
     }
-    setUrl(baseURL);
   }
 
   function changeAccesories(feature, type) {
@@ -71,7 +71,6 @@ const UserAvatar = ({ styles }) => {
       // console.log("New Top:", Arr[currentIndex + 1]);
       setAccessoriesType(Arr[currentIndex + 1]);
     }
-    setUrl(baseURL);
   }
 
   function changeHairColor(feature, type) {
@@ -89,7 +88,143 @@ const UserAvatar = ({ styles }) => {
       // console.log("New Top:", Arr[currentIndex + 1]);
       setHairColor(Arr[currentIndex + 1]);
     }
-    setUrl(baseURL);
+    // setUrl(baseURL);
+  }
+
+  function changeFacialHairColor(feature, type) {
+    console.log(`Current ${feature}:`, type);
+    const Arr = FEATURES[feature];
+    const length = Arr.length - 1;
+    let currentIndex = Arr.indexOf(type);
+    console.log("The current index is:", currentIndex);
+    console.log("The current length is:", length);
+
+    if (currentIndex + 1 > length || currentIndex === -1) {
+      // console.log("Back to 0", Arr[1]);
+      setFacialHairColor(Arr[0]);
+    } else {
+      // console.log("New Top:", Arr[currentIndex + 1]);
+      setFacialHairColor(Arr[currentIndex + 1]);
+    }
+  }
+
+  function changeClotheColor(feature, type) {
+    console.log(`Current ${feature}:`, type);
+    const Arr = FEATURES[feature];
+    const length = Arr.length - 1;
+    let currentIndex = Arr.indexOf(type);
+    console.log("The current index is:", currentIndex);
+    console.log("The current length is:", length);
+
+    if (currentIndex + 1 > length || currentIndex === -1) {
+      // console.log("Back to 0", Arr[1]);
+      setClotheColor(Arr[0]);
+    } else {
+      // console.log("New Top:", Arr[currentIndex + 1]);
+      setClotheColor(Arr[currentIndex + 1]);
+    }
+  }
+
+  function changeSkinColor(feature, type) {
+    console.log(`Current ${feature}:`, type);
+    const Arr = FEATURES[feature];
+    const length = Arr.length - 1;
+    let currentIndex = Arr.indexOf(type);
+    console.log("The current index is:", currentIndex);
+    console.log("The current length is:", length);
+
+    if (currentIndex + 1 > length || currentIndex === -1) {
+      // console.log("Back to 0", Arr[1]);
+      setSkinColor(Arr[0]);
+    } else {
+      // console.log("New Top:", Arr[currentIndex + 1]);
+      setSkinColor(Arr[currentIndex + 1]);
+    }
+  }
+
+  function changeFacialHair(feature, type) {
+    console.log(`Current ${feature}:`, type);
+    const Arr = FEATURES[feature];
+    const length = Arr.length - 1;
+    let currentIndex = Arr.indexOf(type);
+    console.log("The current index is:", currentIndex);
+    console.log("The current length is:", length);
+
+    if (currentIndex + 1 > length || currentIndex === -1) {
+      // console.log("Back to 0", Arr[1]);
+      setFacialHairType(Arr[0]);
+    } else {
+      // console.log("New Top:", Arr[currentIndex + 1]);
+      setFacialHairType(Arr[currentIndex + 1]);
+    }
+  }
+
+  function changeClothe(feature, type) {
+    console.log(`Current ${feature}:`, type);
+    const Arr = FEATURES[feature];
+    const length = Arr.length - 1;
+    let currentIndex = Arr.indexOf(type);
+    console.log("The current index is:", currentIndex);
+    console.log("The current length is:", length);
+
+    if (currentIndex + 1 > length || currentIndex === -1) {
+      // console.log("Back to 0", Arr[1]);
+      setClotheType(Arr[0]);
+    } else {
+      // console.log("New Top:", Arr[currentIndex + 1]);
+      setClotheType(Arr[currentIndex + 1]);
+    }
+  }
+
+  function changeEye(feature, type) {
+    console.log(`Current ${feature}:`, type);
+    const Arr = FEATURES[feature];
+    const length = Arr.length - 1;
+    let currentIndex = Arr.indexOf(type);
+    console.log("The current index is:", currentIndex);
+    console.log("The current length is:", length);
+
+    if (currentIndex + 1 > length || currentIndex === -1) {
+      // console.log("Back to 0", Arr[1]);
+      setEyeType(Arr[0]);
+    } else {
+      // console.log("New Top:", Arr[currentIndex + 1]);
+      setEyeType(Arr[currentIndex + 1]);
+    }
+  }
+
+  function changeEyebrow(feature, type) {
+    console.log(`Current ${feature}:`, type);
+    const Arr = FEATURES[feature];
+    const length = Arr.length - 1;
+    let currentIndex = Arr.indexOf(type);
+    console.log("The current index is:", currentIndex);
+    console.log("The current length is:", length);
+
+    if (currentIndex + 1 > length || currentIndex === -1) {
+      // console.log("Back to 0", Arr[1]);
+      setEyebrowType(Arr[0]);
+    } else {
+      // console.log("New Top:", Arr[currentIndex + 1]);
+      setEyebrowType(Arr[currentIndex + 1]);
+    }
+  }
+
+  function changeMouth(feature, type) {
+    console.log(`Current ${feature}:`, type);
+    const Arr = FEATURES[feature];
+    const length = Arr.length - 1;
+    let currentIndex = Arr.indexOf(type);
+    console.log("The current index is:", currentIndex);
+    console.log("The current length is:", length);
+
+    if (currentIndex + 1 > length || currentIndex === -1) {
+      // console.log("Back to 0", Arr[1]);
+      setMouthType(Arr[0]);
+    } else {
+      // console.log("New Top:", Arr[currentIndex + 1]);
+      setMouthType(Arr[currentIndex + 1]);
+    }
   }
 
   function randomize() {
@@ -105,7 +240,11 @@ const UserAvatar = ({ styles }) => {
     setEyebrowType(randomFeature("eyebrowType"));
     setMouthType(randomFeature("mouthType"));
     setSkinColor(randomFeature("skinColor"));
-    setUrl(baseURL);
+    // setUrl(baseURL);
+  }
+
+  function updateAvatar() {
+    db.ref(`users/${user.uid}`).update({ photoURL: url });
   }
 
   // ############################# RETURN #############################
@@ -113,33 +252,90 @@ const UserAvatar = ({ styles }) => {
   React.useEffect(() => {
     console.log("AVATAR MAKER MOUNTED");
     console.log("FEATURES:", FEATURES);
-  }, []);
+    setUrl(baseURL);
+  }, [
+    topType,
+    accessoriesType,
+    hairColor,
+    facialHairType,
+    facialHairColor,
+    clotheType,
+    clotheColor,
+    eyeType,
+    eyebrowType,
+    mouthType,
+    skinColor,
+  ]);
 
   return (
     <Wrapper>
       <Top>
-        <CircleButton onClick={() => changeHairColor("hairColor", hairColor)}>
-          <span>Hair Color</span>
-        </CircleButton>
+        <Side>
+          <CircleButton
+            color={hairColor}
+            onClick={() => changeHairColor("hairColor", hairColor)}
+          />
+          <CircleButton
+            color={facialHairColor}
+            onClick={() =>
+              changeFacialHairColor("facialHairColor", facialHairColor)
+            }
+          />
+        </Side>
+        <Middle>
+          <Avatar src={url} alt="user-avatar" />
+        </Middle>
+        <Side>
+          <CircleButton
+            color={clotheColor}
+            onClick={() => changeClotheColor("clotheColor", clotheColor)}
+          />
+          <CircleButton
+            color={skinColor}
+            onClick={() => changeSkinColor("skinColor", skinColor)}
+          />
+        </Side>
       </Top>
-      <img src={url} alt="user-avatar" />
-      <Button onClick={() => randomize()}>
-        <span>Random</span>
-      </Button>
-      <Button onClick={() => changeTop("topType", topType)}>
-        <span>Top</span>
-      </Button>
-      <Button
-        onClick={() => changeAccesories("accesoriesType", accessoriesType)}
-      >
-        <span>Accesories</span>
-      </Button>
-      <Button onClick={() => changeHairColor("hairColor", hairColor)}>
-        <span>Hair Color</span>
-      </Button>
+
+      <Grid>
+        <Button onClick={() => randomize()}>
+          <span>Random</span>
+        </Button>
+        <Button onClick={() => changeTop("topType", topType)}>
+          <span>Top</span>
+        </Button>
+        <Button
+          onClick={() => changeAccesories("accesoriesType", accessoriesType)}
+        >
+          <span>Accesories</span>
+        </Button>
+        <Button
+          onClick={() => changeFacialHair("facialHairType", facialHairType)}
+        >
+          <span>Facial Hair</span>
+        </Button>
+        <Button onClick={() => changeClothe("clotheType", clotheType)}>
+          <span>Clothing</span>
+        </Button>
+        <Button onClick={() => changeEye("eyeType", eyeType)}>
+          <span>Eye</span>
+        </Button>
+        <Button onClick={() => changeEyebrow("eyebrowType", eyebrowType)}>
+          <span>Eyebrow</span>
+        </Button>
+        <Button onClick={() => changeMouth("mouthType", mouthType)}>
+          <span>Mouth</span>
+        </Button>
+      </Grid>
+
+      <Submit onClick={() => updateAvatar()}>
+        <span>Submit</span>
+      </Submit>
     </Wrapper>
   );
 };
+
+// ###################### CSS FOR LAYOUT ##########################
 
 const Wrapper = styled.div`
   display: flex;
@@ -148,14 +344,62 @@ const Wrapper = styled.div`
   flex-flow: column nowrap;
 `;
 
-const Top = styled.div``;
+const Top = styled.div`
+  /* border: 5px solid red; */
+  display: flex;
+  /* justify-content: center; */
+  align-items: center;
+`;
+const Middle = styled.div`
+  flex: 8;
+  display: flex;
+  justify-content: center;
+`;
+const Side = styled.div`
+  flex: 2;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  /* border: 1px dashed green; */
 
-const CircleButton = styled.button``;
+  & :first-child {
+    transform: translateY(-20px);
+  }
+
+  & :last-child {
+    transform: translateY(20px);
+    /* width: 50px; */
+  }
+`;
+
+const Grid = styled.div`
+  display: grid;
+  height: 100%;
+  /* gap: 30px 30px; */
+  grid-template-columns: repeat(2, 250px);
+  grid-template-rows: repeat(4, auto);
+  /* border: 5px solid red; */
+  justify-items: center;
+`;
+
+// ############################ CSS FOR ELEMENTS #######################
+
+const Avatar = styled.img`
+  width: 100%;
+`;
+
+const CircleButton = styled.button`
+  background-color: ${(props) => props.color};
+  width: 30px;
+  height: 30px;
+  border-radius: 100%;
+`;
 
 const Button = styled.button`
   margin-top: 10px;
-  width: 250px;
-  height: 3.3rem;
+  width: 70%;
+  height: 2.3rem;
   cursor: pointer;
   border-radius: 8px;
   background-color: ${THEMES.Blue};
@@ -167,7 +411,7 @@ const Button = styled.button`
   align-items: center;
   text-decoration: none;
   & span {
-    font-size: 20px;
+    font-size: 1.3rem;
     font-weight: 400;
   }
 
@@ -182,6 +426,44 @@ const Button = styled.button`
     color: white;
     border: 2px solid ${THEMES.SecondaryBlue};
     background-color: ${THEMES.SecondaryBlue};
+    /* transform: scale(1.1); */
+  }
+
+  &:active {
+    transform: scale(1.1);
+  }
+`;
+
+const Submit = styled.button`
+  margin-top: 30px;
+  width: 320px;
+  height: 3.3rem;
+  cursor: pointer;
+  border-radius: 8px;
+  background-color: ${THEMES.BlackCoffee};
+  color: white;
+  border: 2px solid ${THEMES.BlackCoffee};
+  outline: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-decoration: none;
+  & span {
+    font-size: 20px;
+    font-weight: 400;
+  }
+
+  &:focus {
+    border: 2px solid ${THEMES.SecondaryBlack};
+    background-color: ${THEMES.SecondaryBlack};
+    color: white;
+    /* transform: scale(1.1); */
+  }
+
+  &:hover {
+    color: white;
+    border: 2px solid ${THEMES.SecondaryBlack};
+    background-color: ${THEMES.SecondaryBlack};
     /* transform: scale(1.1); */
   }
 
