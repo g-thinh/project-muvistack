@@ -6,14 +6,17 @@ import { THEMES } from "../THEMES";
 import { FiXCircle } from "react-icons/fi";
 
 const Friend = (props) => {
-  const FRIEND_ID = props.data;
+  const FRIEND_ID = props.data.id;
+  // const isFriend = props.data.isFriend;
+  const [isFriend, setIsFriend] = React.useState(props.data.isFriend);
+  const [isPending, setIsPending] = React.useState(props.data.isPending);
   const removeFriend = props.delete;
   const [user, setUser] = React.useState(auth().currentUser);
   const [friendInfo, setFriendInfo] = React.useState(null);
 
   function getFriend(id) {
     try {
-      db.ref(`users/${id}`).once("value", (snapshot) => {
+      db.ref(`users/${id}`).on("value", (snapshot) => {
         const data = snapshot.val();
         console.log("User's friend is", data);
         setFriendInfo(data);
@@ -22,9 +25,39 @@ const Friend = (props) => {
       throw error;
     }
   }
+
+  function AcceptFriendRequest(id) {
+    // console.log("accepted friend request");
+    try {
+      db.ref(`users/${user.uid}/friends`).on("value", (snapshot) => {
+        const data = snapshot.val();
+        snapshot.forEach((snap) => {
+          console.log(snap.val());
+          if (snap.val().id === FRIEND_ID) {
+            // console.log("This is a friend request");
+            db.ref(`users/${user.uid}/friends/${snap.key}`).update({
+              isFriend: true,
+              isPending: false,
+            });
+            setIsFriend(true);
+            setIsPending(false);
+          } else {
+            // console.log("Not a friend request");
+          }
+        });
+      });
+    } catch (error) {
+      throw error;
+    }
+  }
+
   React.useEffect(() => {
     getFriend(FRIEND_ID);
-  }, []);
+    // db.ref(`users/${user.uid}/friends`).on("value", (snapshot) => {
+    //   const data = snapshot.val();
+    //   console.log("User's friends are", data);
+    // });
+  }, [isFriend]);
 
   return friendInfo ? (
     <Container>
@@ -35,9 +68,17 @@ const Friend = (props) => {
       <Right>
         <Name>{friendInfo.displayName}</Name>
         <Text>{friendInfo.bioText}</Text>
-        <RemoveButton onClick={() => removeFriend(FRIEND_ID)}>
-          <FiXCircle size={32} color="red" />
-        </RemoveButton>
+        {isFriend && !isPending && (
+          <RemoveButton onClick={() => removeFriend(FRIEND_ID)}>
+            <FiXCircle size={32} color="red" />
+          </RemoveButton>
+        )}
+        {isPending && isFriend && (
+          <button onClick={() => AcceptFriendRequest(FRIEND_ID)}>
+            Accept Friend Request
+          </button>
+        )}
+        {isPending && <h1>Friend Request Pending</h1>}
       </Right>
     </Container>
   ) : (

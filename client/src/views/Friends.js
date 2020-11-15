@@ -22,7 +22,7 @@ const Friends = () => {
         const data = snapshot.val();
         console.log("User's has friends", data);
         snapshot.forEach((snap) => {
-          if (snap.val() === id) {
+          if (snap.val().id === id) {
             db.ref(`users/${user.uid}/friends/${snap.key}`).remove();
             console.log("Deleted Friend!");
           }
@@ -43,7 +43,7 @@ const Friends = () => {
         const data = snapshot.val();
         snapshot.forEach((snap) => {
           friends.push(snap.val());
-          console.log(snap.val());
+          console.log("rendering friend", snap.val());
         });
         //this is just to remove the first fake element in the friends dB
         friends.reverse();

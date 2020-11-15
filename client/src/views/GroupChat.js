@@ -63,7 +63,9 @@ const GroupChat = () => {
         const allFriends = Object.values(data);
         if (!allFriends.includes(id)) {
           // console.log("Added a new friend!");
-          db.ref(`users/${currentUser.uid}`).child("friends").push(id);
+          db.ref(`users/${currentUser.uid}`)
+            .child("friends")
+            .push({ id, isFriend: false, isPending: true });
         } else {
           console.log("this friend was already added");
         }
