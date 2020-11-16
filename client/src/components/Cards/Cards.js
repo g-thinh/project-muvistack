@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import Card from "./Card";
-import { FiMessageSquare, FiVideo, FiUsers, FiCalendar } from "react-icons/fi";
+import { FiMessageSquare, FiVideo, FiUsers, FiEdit } from "react-icons/fi";
 
 const Cards = () => {
   return (
@@ -19,9 +19,9 @@ const Cards = () => {
           <FiMessageSquare size={56} />
           <span>Convos</span>
         </Card>
-        <Card link="/dates">
-          <FiCalendar size={56} />
-          <span>Dates</span>
+        <Card link="/create-avatar">
+          <FiEdit size={56} />
+          <span>Avatar</span>
         </Card>
       </Wrapper>
     </CardsContainer>

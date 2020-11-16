@@ -22,7 +22,7 @@ const Friends = () => {
         const data = snapshot.val();
         console.log("User's has friends", data);
         snapshot.forEach((snap) => {
-          if (snap.val() === id) {
+          if (snap.val().id === id) {
             db.ref(`users/${user.uid}/friends/${snap.key}`).remove();
             console.log("Deleted Friend!");
           }
@@ -43,9 +43,10 @@ const Friends = () => {
         const data = snapshot.val();
         snapshot.forEach((snap) => {
           friends.push(snap.val());
-          console.log(snap.val());
+          console.log("rendering friend", snap.val());
         });
         //this is just to remove the first fake element in the friends dB
+        friends.reverse();
         friends.shift();
         console.log("These are all my friends!", friends);
         dispatch(receiveFriends(friends));
@@ -63,15 +64,19 @@ const Friends = () => {
 
   return (
     <PageContainer>
-      <Text>My Friends</Text>
-      {!FRIENDS ? (
+      {FRIENDS.length < 1 ? (
         <Text>You Have No Friends!</Text>
       ) : (
-        <FriendsList>
-          {FRIENDS.map((friend) => {
-            return <Friend data={friend} key={friend} delete={removeFriend} />;
-          })}
-        </FriendsList>
+        <>
+          <Text>My Friends</Text>
+          <FriendsList>
+            {FRIENDS.map((friend) => {
+              return (
+                <Friend data={friend} key={friend} delete={removeFriend} />
+              );
+            })}
+          </FriendsList>
+        </>
       )}
     </PageContainer>
   );

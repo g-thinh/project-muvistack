@@ -36,8 +36,8 @@ const Chat = () => {
         const data = snapshot.val();
         snapshot.forEach((snap) => {
           let users = Object.values(snap.val().users);
-          // console.log("MOVIE!", users);
-          if (users.length > 1) {
+          console.log("MOVIE!", users);
+          if (users.length > 1 && users.includes(appUser.uid)) {
             convos.push(snap.val());
           }
         });
@@ -60,8 +60,8 @@ const Chat = () => {
 
   return (
     <PageContainer>
-      {!CONVOS ? (
-        <Text>No Chats</Text>
+      {CONVOS.length < 1 ? (
+        <Text>Currently No Matches</Text>
       ) : (
         <>
           <Text>The Current Convos</Text>

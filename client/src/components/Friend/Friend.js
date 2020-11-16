@@ -6,14 +6,18 @@ import { THEMES } from "../THEMES";
 import { FiXCircle } from "react-icons/fi";
 
 const Friend = (props) => {
-  const FRIEND_ID = props.data;
+  const FRIEND_ID = props.data.id;
+  // const isFriend = props.data.isFriend;
+  const [isFriend, setIsFriend] = React.useState(props.data.isFriend);
+  const [isPending, setIsPending] = React.useState(props.data.isPending);
   const removeFriend = props.delete;
   const [user, setUser] = React.useState(auth().currentUser);
   const [friendInfo, setFriendInfo] = React.useState(null);
 
   function getFriend(id) {
+    console.log("[FRIEND.js] fetching user", id);
     try {
-      db.ref(`users/${id}`).once("value", (snapshot) => {
+      db.ref(`users/${id}`).on("value", (snapshot) => {
         const data = snapshot.val();
         console.log("User's friend is", data);
         setFriendInfo(data);
@@ -22,9 +26,65 @@ const Friend = (props) => {
       throw error;
     }
   }
+
+  function AcceptFriendRequest(id) {
+    // receive my friends ID either way
+    // this updates my friends status
+    updateA(id);
+
+    // this updates my status
+    updateB(id);
+  }
+
+  function updateA(friend) {
+    db.ref(`users/${friend}/friends`).once("value", (snapshot) => {
+      console.log("this is to update user A");
+      const data = snapshot.val();
+      snapshot.forEach((snap) => {
+        // updates friends/{myID}
+        if (snap.val().id === user.uid) {
+          db.ref(`users/${friend}/friends/${snap.key}`).update({
+            isFriend: true,
+            isPending: false,
+          });
+
+          setIsFriend(true);
+          setIsPending(false);
+        }
+      });
+    });
+  }
+
+  function updateB(friend) {
+    db.ref(`users/${user.uid}/friends`).once("value", (snapshot) => {
+      console.log("this is to update user B");
+      const data = snapshot.val();
+      snapshot.forEach((snap) => {
+        // updates my status with this friend
+        if (snap.val().id === friend) {
+          // console.log("This is a friend request");
+          db.ref(`users/${user.uid}/friends/${snap.key}`).update({
+            isFriend: true,
+            isPending: false,
+          });
+
+          // setIsFriend(true);
+          // setIsPending(false);
+        } else {
+          // console.log("Not a friend request");
+        }
+      });
+    });
+  }
+
   React.useEffect(() => {
+    console.log("[FRIEND.js] data is:", props.data);
     getFriend(FRIEND_ID);
-  }, []);
+    // db.ref(`users/${user.uid}/friends`).on("value", (snapshot) => {
+    //   const data = snapshot.val();
+    //   console.log("User's friends are", data);
+    // });
+  }, [isFriend]);
 
   return friendInfo ? (
     <Container>
@@ -35,9 +95,19 @@ const Friend = (props) => {
       <Right>
         <Name>{friendInfo.displayName}</Name>
         <Text>{friendInfo.bioText}</Text>
-        <RemoveButton onClick={() => removeFriend(FRIEND_ID)}>
-          <FiXCircle size={32} color="red" />
-        </RemoveButton>
+        {isFriend && (
+          <RemoveButton onClick={() => removeFriend(FRIEND_ID)}>
+            <FiXCircle size={32} color="red" />
+          </RemoveButton>
+        )}
+        {!isPending && !isFriend && (
+          <AcceptButton onClick={() => AcceptFriendRequest(FRIEND_ID)}>
+            Accept Friend Request
+          </AcceptButton>
+        )}
+        {isPending && !isFriend && (
+          <PendingText>Friend Request Pending</PendingText>
+        )}
       </Right>
     </Container>
   ) : (
@@ -81,6 +151,10 @@ const Container = styled.div`
       color: white;
     }
 
+    & h2 {
+      color: white;
+    }
+
     & ${RemoveButton} {
       visibility: visible;
     }
@@ -113,6 +187,49 @@ const Right = styled.div`
 const Text = styled.p`
   font-size: 20px;
   user-select: none;
+  text-align: center;
+`;
+
+const AcceptButton = styled.button`
+  margin-top: 10px;
+  width: 70%;
+  height: 2.3rem;
+  cursor: pointer;
+  border-radius: 8px;
+  background-color: ${THEMES.Blue};
+  color: white;
+  border: 2px solid ${THEMES.Blue};
+  outline: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-decoration: none;
+  font-size: 18px;
+  font-weight: 500;
+
+  &:focus {
+    border: 2px solid ${THEMES.SecondaryBlue};
+    background-color: ${THEMES.SecondaryBlue};
+    color: white;
+    /* transform: scale(1.1); */
+  }
+
+  &:hover {
+    color: white;
+    border: 2px solid ${THEMES.SecondaryBlue};
+    background-color: ${THEMES.SecondaryBlue};
+    /* transform: scale(1.1); */
+  }
+
+  &:active {
+    transform: scale(1.1);
+  }
+`;
+
+const PendingText = styled.h2`
+  margin-top: 2%;
+  font-size: 22px;
+  color: ${THEMES.Blue};
 `;
 
 export default Friend;
