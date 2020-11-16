@@ -101,11 +101,13 @@ const Friend = (props) => {
           </RemoveButton>
         )}
         {!isPending && !isFriend && (
-          <button onClick={() => AcceptFriendRequest(FRIEND_ID)}>
+          <AcceptButton onClick={() => AcceptFriendRequest(FRIEND_ID)}>
             Accept Friend Request
-          </button>
+          </AcceptButton>
         )}
-        {isPending && !isFriend && <h1>Friend Request Pending</h1>}
+        {isPending && !isFriend && (
+          <PendingText>Friend Request Pending</PendingText>
+        )}
       </Right>
     </Container>
   ) : (
@@ -149,6 +151,10 @@ const Container = styled.div`
       color: white;
     }
 
+    & h2 {
+      color: red;
+    }
+
     & ${RemoveButton} {
       visibility: visible;
     }
@@ -181,6 +187,50 @@ const Right = styled.div`
 const Text = styled.p`
   font-size: 20px;
   user-select: none;
+`;
+
+const AcceptButton = styled.button`
+  margin-top: 10px;
+  width: 70%;
+  height: 2.3rem;
+  cursor: pointer;
+  border-radius: 8px;
+  background-color: ${THEMES.Blue};
+  color: white;
+  border: 2px solid ${THEMES.Blue};
+  outline: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-decoration: none;
+  & span {
+    font-size: 1.3rem;
+    font-weight: 400;
+  }
+
+  &:focus {
+    border: 2px solid ${THEMES.SecondaryBlue};
+    background-color: ${THEMES.SecondaryBlue};
+    color: white;
+    /* transform: scale(1.1); */
+  }
+
+  &:hover {
+    color: white;
+    border: 2px solid ${THEMES.SecondaryBlue};
+    background-color: ${THEMES.SecondaryBlue};
+    /* transform: scale(1.1); */
+  }
+
+  &:active {
+    transform: scale(1.1);
+  }
+`;
+
+const PendingText = styled.h2`
+  margin-top: 2%;
+  font-size: 22px;
+  color: ${THEMES.Blue};
 `;
 
 export default Friend;
