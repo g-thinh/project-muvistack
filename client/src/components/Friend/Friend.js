@@ -152,7 +152,7 @@ const Container = styled.div`
     }
 
     & h2 {
-      color: red;
+      color: white;
     }
 
     & ${RemoveButton} {
@@ -187,6 +187,7 @@ const Right = styled.div`
 const Text = styled.p`
   font-size: 20px;
   user-select: none;
+  text-align: center;
 `;
 
 const AcceptButton = styled.button`
@@ -203,10 +204,8 @@ const AcceptButton = styled.button`
   justify-content: center;
   align-items: center;
   text-decoration: none;
-  & span {
-    font-size: 1.3rem;
-    font-weight: 400;
-  }
+  font-size: 18px;
+  font-weight: 500;
 
   &:focus {
     border: 2px solid ${THEMES.SecondaryBlue};
