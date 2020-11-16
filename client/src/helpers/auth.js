@@ -9,12 +9,15 @@ export const signup = (email, password) => {
     .createUserWithEmailAndPassword(email, password)
     .then((res) => {
       console.log("New User has been created");
-      db.ref(`users`).child(res.user.uid).set({
-        userID: res.user.uid,
-        email: res.user.email,
-        profileSetup: false,
-        LikedMovies: false,
-      });
+      db.ref(`users`)
+        .child(res.user.uid)
+        .set({
+          userID: res.user.uid,
+          email: res.user.email,
+          profileSetup: false,
+          LikedMovies: false,
+          friends: { bool: true },
+        });
     });
 };
 

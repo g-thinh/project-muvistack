@@ -49,7 +49,7 @@ const CreateProfile = () => {
   };
 
   return redirect ? (
-    <Redirect to="/profile" />
+    <Redirect to="/create-avatar" />
   ) : (
     <PageContainer>
       <Form onSubmit={handleSubmit}>

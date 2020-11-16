@@ -7,18 +7,36 @@ import { THEMES } from "../components/THEMES";
 import { useHistory } from "react-router-dom";
 import { FiArrowLeft, FiPlus } from "react-icons/fi";
 import ChatBox from "../components/ChatBox";
+import Snackbar from "../components/Snackbar";
 
 const moment = require("moment");
+
+function removeDuplicates(myArr, prop) {
+  return myArr.filter((obj, pos, arr) => {
+    return arr.map((mapObj) => mapObj[prop]).indexOf(obj[prop]) === pos;
+  });
+}
 
 const GroupChat = () => {
   const history = useHistory();
   const [movieInfo, setMovieInfo] = React.useState(null);
   const [chatUsers, setChatUsers] = React.useState(null);
-  const [currentUser, setCurrentUser] = React.useState(auth().currentUser);
+  const [currentUser, setCurrentUser] = React.useState(auth().currentUser.uid);
+
+  const [isActive, setIsActive] = React.useState(false);
+  const [snackMessage, setSnackMessage] = React.useState(null);
 
   const location = window.location.pathname;
   const array = location.split("/");
   const URL_ID = array[array.length - 1];
+
+  function openSnackbar(message) {
+    setSnackMessage(message);
+    setIsActive(true);
+    setTimeout(() => {
+      setIsActive(false);
+    }, 3000);
+  }
 
   function goBack() {
     history.push("/chat");
@@ -41,8 +59,13 @@ const GroupChat = () => {
             results.push(snap.val());
           }
         });
+        // whenever the snackbar fires, it re-fetches the user list, and every users
+        // adds each other so it exponentially increases
+        // this function is to remove duplicates quickly
+        let test = removeDuplicates(results, "displayName");
+        // console.log("test", test);
         // console.log("final results:", results);
-        setChatUsers(results);
+        setChatUsers(test);
       });
     });
   }
@@ -57,28 +80,62 @@ const GroupChat = () => {
 
   function addFriend(id) {
     // check if that friend already exists
-    db.ref(`users/${currentUser.uid}/friends`).once("value", (snapshot) => {
+    db.ref(`users/${id}/friends`).once("value", (snapshot) => {
       const data = snapshot.val();
+      let currentFriends = [];
       if (data) {
         const allFriends = Object.values(data);
-        if (!allFriends.includes(id)) {
-          // console.log("Added a new friend!");
-          db.ref(`users/${currentUser.uid}`).child("friends").push(id);
+        allFriends.forEach((friend) => {
+          if (friend.id) {
+            currentFriends.push(friend.id);
+          }
+        });
+        // console.log("this friend has friends:", currentFriends);
+
+        if (!currentFriends.includes(currentUser)) {
+          openSnackbar("Friend Request Sent!");
+          console.log("adding this user as a friend");
+
+          db.ref(`users/${currentUser}`)
+            .child("friends")
+            .push({ id, isFriend: false, isPending: true });
+
+          db.ref(`users/${id}`)
+            .child("friends")
+            .push({ id: currentUser, isFriend: false, isPending: false });
         } else {
           console.log("this friend was already added");
+          openSnackbar("Already a Friend!");
         }
+        // if (!allFriends.includes(id)) {
+        //   console.log(allFriends);
+        //   console.log("GROUP CHAT USER IS:", currentUser);
+        //   console.log("GROUP CHAT USER ADDS:", id);
+        //   // The user Adds the request to their profile
+        //   // db.ref(`users/${currentUser}`)
+        //   //   .child("friends")
+        //   //   .push({ id, isFriend: false, isPending: true });
+
+        //   // // The other user receives a request
+        //   // db.ref(`users/${id}`)
+        //   //   .child("friends")
+        //   //   .push({ id: currentUser, isFriend: false, isPending: false });
+        // } else {
+        //   console.log("this friend was already added");
+        // }
       }
     });
   }
 
   React.useEffect(() => {
-    console.log("GroupChat current user is", currentUser.uid);
+    // console.log("GroupChat current user is", currentUser);
     getMovieInfo();
     getUsersList(URL_ID);
-  }, []);
+  }, [snackMessage]);
 
   return (
     <PageContainer>
+      <Snackbar show={isActive}>{snackMessage}</Snackbar>
       <Header>
         <Button onClick={() => goBack()}>
           <FiArrowLeft size={32} />
@@ -94,7 +151,7 @@ const GroupChat = () => {
           <ChatUsers>
             {chatUsers &&
               chatUsers.map((user) => {
-                return user.userID != currentUser.uid ? (
+                return user.userID != currentUser ? (
                   <AddFriend onClick={(ev) => addFriend(user.userID)}>
                     <Avatar src={user.photoURL} alt={`user-${user.userID}`} />
                     <StyledFiPlus size={64} />
