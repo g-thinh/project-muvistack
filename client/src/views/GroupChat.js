@@ -167,9 +167,9 @@ const GroupChat = () => {
                   </AddFriend>
                 );
               })}
-            <InviteFriend onClick={() => console.log("Invite a friend!")}>
+            {/* <InviteFriend onClick={() => console.log("Invite a friend!")}>
               <FiPlus size={64} color={THEMES.White} />
-            </InviteFriend>
+            </InviteFriend> */}
           </ChatUsers>
         </TopChat>
       )}
