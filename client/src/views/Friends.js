@@ -2,7 +2,8 @@ import React from "react";
 import styled from "styled-components";
 import PageContainer from "./PageContainer";
 import { auth, db } from "../services/firebase";
-import { FiAlertOctagon } from "react-icons/fi";
+import { Cry } from "../assets";
+import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import {
   requestFriends,
@@ -10,6 +11,7 @@ import {
   requestFriendsError,
 } from "../store/actions";
 import Friend from "../components/Friend";
+import { THEMES } from "../components/THEMES";
 
 const Friends = () => {
   const dispatch = useDispatch();
@@ -66,7 +68,13 @@ const Friends = () => {
   return (
     <PageContainer>
       {FRIENDS.length < 1 ? (
-        <Text>You Have No Friends!</Text>
+        <>
+          <Text>You Have No Friends!</Text>
+          <Image src={Cry} alt="no-friends" />
+          <Start to="/movies">
+            <span>Start Matching Now!</span>
+          </Start>
+        </>
       ) : (
         <>
           <Text>My Friends</Text>
@@ -95,8 +103,47 @@ const FriendsList = styled.div`
   padding: 12px;
 `;
 
+const Image = styled.img`
+  margin-top: 1%;
+  margin-bottom: 5%;
+`;
+
+const Start = styled(Link)`
+  width: auto;
+  height: 4.3rem;
+  cursor: pointer;
+  border-radius: 8px;
+  background-color: ${THEMES.Blue};
+  color: white;
+  border: 2px solid ${THEMES.Blue};
+  outline: none;
+  display: flex;
+  padding: 0 2%;
+  justify-content: center;
+  align-items: center;
+  text-decoration: none;
+  & span {
+    font-size: 1.3rem;
+    font-weight: 400;
+  }
+
+  &:focus {
+    border: 2px solid ${THEMES.SecondaryBlue};
+    background-color: ${THEMES.SecondaryBlue};
+    color: white;
+    /* transform: scale(1.1); */
+  }
+
+  &:hover {
+    color: white;
+    border: 2px solid ${THEMES.SecondaryBlue};
+    background-color: ${THEMES.SecondaryBlue};
+    /* transform: scale(1.1); */
+  }
+`;
+
 const Text = styled.h1`
-  font-size: 32px;
+  font-size: 2.5rem;
   color: black;
   margin: 10px;
 `;

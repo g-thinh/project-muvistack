@@ -12,6 +12,7 @@ import {
   receiveConvos,
   requestConvosError,
 } from "../store/actions";
+import { Uh } from "../assets";
 
 const Chat = () => {
   const dispatch = useDispatch();
@@ -62,7 +63,13 @@ const Chat = () => {
   return (
     <PageContainer>
       {CONVOS.length < 1 ? (
-        <Text>Currently No Matches</Text>
+        <>
+          <Text>Oof... No matches yet...</Text>
+          <Image src={Uh} alt="no-matches" />
+          <Start to="/movies">
+            <span>Start Matching!</span>
+          </Start>
+        </>
       ) : (
         <>
           <Text>The Current Convos</Text>
@@ -89,7 +96,7 @@ const Chat = () => {
   );
 };
 const Text = styled.h1`
-  font-size: 32px;
+  font-size: 2.5rem;
   color: black;
   margin: 10px;
 `;
@@ -144,6 +151,45 @@ const CardDesc = styled.div`
   justify-content: center;
   align-items: center;
   font-size: 22px;
+`;
+
+const Image = styled.img`
+  margin-top: 1%;
+  margin-bottom: 5%;
+`;
+
+const Start = styled(Link)`
+  width: auto;
+  height: 4.3rem;
+  cursor: pointer;
+  border-radius: 8px;
+  background-color: ${THEMES.Blue};
+  color: white;
+  border: 2px solid ${THEMES.Blue};
+  outline: none;
+  display: flex;
+  padding: 0 2%;
+  justify-content: center;
+  align-items: center;
+  text-decoration: none;
+  & span {
+    font-size: 1.3rem;
+    font-weight: 400;
+  }
+
+  &:focus {
+    border: 2px solid ${THEMES.SecondaryBlue};
+    background-color: ${THEMES.SecondaryBlue};
+    color: white;
+    /* transform: scale(1.1); */
+  }
+
+  &:hover {
+    color: white;
+    border: 2px solid ${THEMES.SecondaryBlue};
+    background-color: ${THEMES.SecondaryBlue};
+    /* transform: scale(1.1); */
+  }
 `;
 
 export default Chat;
