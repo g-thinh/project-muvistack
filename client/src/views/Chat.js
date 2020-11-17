@@ -14,6 +14,8 @@ import {
 } from "../store/actions";
 import { Uh } from "../assets";
 
+const moment = require("moment");
+
 const Chat = () => {
   const dispatch = useDispatch();
   const CONVOS = useSelector((state) => state.CHAT.currentConvos);
@@ -35,9 +37,10 @@ const Chat = () => {
     try {
       db.ref("matches").once("value", (snapshot) => {
         const data = snapshot.val();
+        // console.log(data);
         snapshot.forEach((snap) => {
           let users = Object.values(snap.val().users);
-          console.log("MOVIE!", users);
+          // console.log("MOVIE!", users);
           if (users.length > 1 && users.includes(appUser.uid)) {
             convos.push(snap.val());
           }
@@ -81,9 +84,24 @@ const Chat = () => {
                   <StyledLink to={`/chat/${convo.id}`}>
                     <ConvoCard>
                       <img src={convo.posterURL} alt={`chat-${convo.id}`} />
-                      <CardDesc>
-                        <h1>{convo.title}</h1>
-                      </CardDesc>
+                      <Content>
+                        <CardDesc>
+                          <h1>{convo.title}</h1>
+                        </CardDesc>
+                        <CardDate>
+                          {convo.dates ? (
+                            <Date>
+                              <span>Next Watch Date: </span>{" "}
+                              {moment(convo.dates.date).format("MMMM Do")} at{" "}
+                              {moment(convo.dates.date).format("hh:mm A")}
+                            </Date>
+                          ) : (
+                            <Date>
+                              <span>No Date Set</span>
+                            </Date>
+                          )}
+                        </CardDate>
+                      </Content>
                     </ConvoCard>
                   </StyledLink>
                 </li>
@@ -99,6 +117,22 @@ const Text = styled.h1`
   font-size: 2.5rem;
   color: black;
   margin: 10px;
+`;
+
+const Content = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  width: 90%;
+`;
+
+const CardDate = styled.div``;
+
+const Date = styled.h1`
+  font-weight: 400;
+  font-size: 1.3rem;
+  margin: 5% 0;
 `;
 
 const ConvoList = styled.ul`
@@ -136,6 +170,10 @@ const ConvoCard = styled.button`
   &:hover {
     background-color: ${THEMES.Primary};
     border: 2px solid ${THEMES.BlackCoffee};
+
+    & ${Date} {
+      color: ${THEMES.White};
+    }
   }
 
   & img {
@@ -150,7 +188,7 @@ const CardDesc = styled.div`
   width: 100%;
   justify-content: center;
   align-items: center;
-  font-size: 22px;
+  font-size: 1.8rem;
 `;
 
 const Image = styled.img`
