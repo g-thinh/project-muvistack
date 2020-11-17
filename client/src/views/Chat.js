@@ -51,6 +51,7 @@ const Chat = () => {
   }
 
   React.useEffect(() => {
+    window.scrollTo(0, 0);
     fetchConvos();
   }, []);
 

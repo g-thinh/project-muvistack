@@ -24,6 +24,7 @@ const Profile = () => {
   const [loading, setLoading] = React.useState(true);
 
   React.useEffect(() => {
+    window.scrollTo(0, 0);
     console.log("[Profile.js] is mounted...");
 
     const fetchData = async () => {

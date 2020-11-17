@@ -128,6 +128,7 @@ const GroupChat = () => {
   }
 
   React.useEffect(() => {
+    window.scrollTo(0, 0);
     // console.log("GroupChat current user is", currentUser);
     getMovieInfo();
     getUsersList(URL_ID);
