@@ -6,6 +6,7 @@ import { AuthContext } from "../AuthContext";
 import { THEMES } from "../THEMES";
 import { Logo, LogoName } from "../../assets";
 import { FiMenu } from "react-icons/fi";
+import { db } from "../../services/firebase";
 import Burger from "./Burger";
 import Menu from "./Menu";
 import { useSelector, useDispatch } from "react-redux";
@@ -14,7 +15,16 @@ import { toggleMenu } from "../../store/actions";
 const Nav = (props) => {
   const { authenticated, appUser } = React.useContext(AuthContext);
   const MENU_TOGGLE = useSelector((state) => state.TOGGLERS.navToggle);
-  // const [open, setOpen] = React.useState(false);
+  const [name, setName] = React.useState(null);
+
+  React.useEffect(() => {
+    db.ref(`users/${appUser.uid}`).once("value", (snapshot) => {
+      const fname = snapshot.val().displayName;
+      const name = fname.split(" ")[0];
+
+      setName(name);
+    });
+  }, []);
 
   return authenticated ? (
     <>
@@ -22,7 +32,7 @@ const Nav = (props) => {
         <Link to="/">
           <img src={Logo} alt="main-logo" />
         </Link>
-        {appUser && <h1>{appUser.email}</h1>}
+        {appUser && <UserName>{name}</UserName>}
         <NavList>
           {/* <Burger open={open} setOpen={setOpen} />
           <Menu open={open} setOpen={setOpen} /> */}
@@ -38,6 +48,18 @@ const Nav = (props) => {
   );
 };
 
+const UserName = styled.h1`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: ${THEMES.White};
+  /* font-family: "GraphiqueW01-Regular"; */
+  font-family: "Roboto";
+  font-size: 2.2rem;
+  /* margin-left: 12px; */
+  user-select: none;
+`;
+
 const NavContainer = styled.nav`
   display: flex;
   justify-content: space-between;
@@ -47,15 +69,6 @@ const NavContainer = styled.nav`
   padding: 12px;
   /* overflow: hidden; */
   background-color: ${THEMES.BlackCoffee};
-  & h1 {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-family: "GraphiqueW01-Regular";
-    font-size: 3rem;
-    /* margin-left: 12px; */
-    user-select: none;
-  }
 
   & img {
     margin-left: 15px;
