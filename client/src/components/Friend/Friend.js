@@ -171,7 +171,7 @@ const Name = styled.h1`
   display: flex;
   width: 80%;
   justify-content: center;
-  font-size: 28px;
+  font-size: 1.8rem;
   font-weight: 500;
   user-select: none;
 `;
@@ -185,7 +185,7 @@ const Right = styled.div`
 `;
 
 const Text = styled.p`
-  font-size: 20px;
+  font-size: 1.5rem;
   user-select: none;
   text-align: center;
 `;

@@ -300,7 +300,7 @@ const UserAvatar = (props) => {
       </Top>
 
       <Grid>
-        <Button onClick={() => randomize()}>
+        <Button random onClick={() => randomize()}>
           <span>Random</span>
         </Button>
         <Button onClick={() => changeTop("topType", topType)}>
@@ -406,12 +406,12 @@ const CircleButton = styled.button`
 const Button = styled.button`
   margin-top: 10px;
   width: 70%;
-  height: 2.3rem;
+  height: 2.7rem;
   cursor: pointer;
   border-radius: 8px;
-  background-color: ${THEMES.Blue};
+  background-color: ${(props) => (props.random ? THEMES.Primary : THEMES.Blue)};
   color: white;
-  border: 2px solid ${THEMES.Blue};
+  border: 2px solid ${(props) => (props.random ? THEMES.Primary : THEMES.Blue)};
   outline: none;
   display: flex;
   justify-content: center;
@@ -423,16 +423,20 @@ const Button = styled.button`
   }
 
   &:focus {
-    border: 2px solid ${THEMES.SecondaryBlue};
-    background-color: ${THEMES.SecondaryBlue};
+    border: 2px solid
+      ${(props) => (props.random ? THEMES.Secondary : THEMES.SecondaryBlue)};
+    background-color: ${(props) =>
+      props.random ? THEMES.Secondary : THEMES.SecondaryBlue};
     color: white;
     /* transform: scale(1.1); */
   }
 
   &:hover {
     color: white;
-    border: 2px solid ${THEMES.SecondaryBlue};
-    background-color: ${THEMES.SecondaryBlue};
+    border: 2px solid
+      ${(props) => (props.random ? THEMES.Secondary : THEMES.SecondaryBlue)};
+    background-color: ${(props) =>
+      props.random ? THEMES.Secondary : THEMES.SecondaryBlue};
     /* transform: scale(1.1); */
   }
 
@@ -456,7 +460,7 @@ const Submit = styled.button`
   align-items: center;
   text-decoration: none;
   & span {
-    font-size: 20px;
+    font-size: 1.5rem;
     font-weight: 400;
   }
 

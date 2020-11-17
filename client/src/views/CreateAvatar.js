@@ -26,7 +26,9 @@ const CreateAvatar = () => {
 };
 
 const Text = styled.h1`
-  font-size: 32px;
+  font-size: 2.5rem;
+  color: black;
+  margin: 10px;
 `;
 
 export default CreateAvatar;
