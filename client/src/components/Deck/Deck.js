@@ -15,6 +15,18 @@ import {
 
 const moment = require("moment");
 
+function renderStars(rating) {
+  let count = Math.floor(rating);
+  console.log("This movie has this many stars", count);
+  let stars = [];
+  for (let i; i < count; i++) {
+    stars.push(1);
+  }
+  stars.map((star) => {
+    return <FiStar size={18} />;
+  });
+}
+
 const Deck = (props) => {
   const dispatch = useDispatch();
   const USER = props.user;
@@ -72,15 +84,6 @@ const Deck = (props) => {
 
   return (
     <DeckContainer>
-      {/* {match ? (
-        <MatchedModal
-          show={toggleModal}
-          close={() => setToggleModal(false)}
-          match={matchedMovie}
-        />
-      ) : (
-        <h1>No Matches</h1>
-      )} */}
       {MOVIES.map((movie, index) => {
         return (
           <MovieCard index={index} key={movie.id}>
@@ -93,6 +96,11 @@ const Deck = (props) => {
                   {movie.title},{" "}
                   <span>{moment(movie.release_date).format("YYYY")}</span>
                 </Title>
+                <Rating>
+                  {Array(Math.floor(movie.vote_average / 2)).fill(
+                    <StyledStar size={32} />
+                  )}
+                </Rating>
                 <Text>{movie.overview}</Text>
               </Description>
             </Header>
@@ -188,17 +196,20 @@ const Description = styled.div`
 const Img = styled.img`
   /* max-width: 280px;
   max-height: 400px; */
-  width: 100%;
+  width: 80%;
 
   border-radius: 22px;
   border: none;
 `;
 
 const Title = styled.h1`
-  font-size: 26px;
+  font-size: 1.9rem;
   font-weight: 500;
   margin: 5px 0;
+  text-align: center;
+  color: ${THEMES.BlackCoffee};
   & span {
+    color: ${THEMES.White};
     margin-left: 8px;
     /* font-family: "Raleway"; */
     font-style: italic;
@@ -206,8 +217,32 @@ const Title = styled.h1`
   }
 `;
 
+const Rating = styled.p`
+  width: 100%;
+  margin: 12px 0;
+  /* border: 5px solid red; */
+  text-align: center;
+  font-size: 1.3rem;
+  color: ${THEMES.White};
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  & span {
+    margin-left: 5px;
+    font-style: italic;
+    color: ${THEMES.White};
+    font-weight: 500;
+  }
+`;
+
+const StyledStar = styled(FiStar)`
+  margin: 0 3px;
+`;
+
 const Text = styled.p`
   display: flex;
+  font-size: 1.3rem;
+  color: ${THEMES.BlackCoffee};
   justify-content: center;
   background-color: transparent;
 `;

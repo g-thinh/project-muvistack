@@ -61,7 +61,7 @@ const StyledMenu = styled.div`
   flex-direction: column;
   justify-content: center;
   background: ${THEMES.Cart};
-  height: 100vh;
+  height: 100%;
   width: 45vw;
   text-align: left;
   padding: 2rem;

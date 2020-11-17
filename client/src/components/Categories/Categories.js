@@ -63,7 +63,7 @@ const Wrapper = styled.div`
   height: 100%;
   width: 100%;
   gap: 15px 15px;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: repeat(3, 1fr);
   grid-template-rows: repeat(auto, 200px);
   /* border: 5px solid red; */
 `;
@@ -82,8 +82,8 @@ const Category = styled.button`
   cursor: pointer;
   text-decoration: none;
   box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.5);
-  font-size: 22px;
-  padding: 2rem;
+  font-size: 1.3rem;
+  padding: 1.2rem;
 
   &:hover {
     background: ${THEMES.Primary};

@@ -133,7 +133,7 @@ const ProfileDesc = styled.div`
 
 const DisplayName = styled.h1`
   color: ${THEMES.BlackCoffee};
-  font-size: 34px;
+  font-size: 2.7rem;
   text-align: center;
   user-select: none;
 
@@ -144,7 +144,7 @@ const DisplayName = styled.h1`
 
 const DescText = styled.p`
   color: gray;
-  font-size: 22px;
+  font-size: 1.6rem;
   text-align: center;
   margin-top: 12px;
   user-select: none;
@@ -153,13 +153,6 @@ const DescText = styled.p`
     font-size: 18px;
     margin-top: 8px;
   }
-`;
-
-const Border = styled.div`
-  border-radius: cubic-bezier(0.1, 0.7, 1, 0.1);
-  height: 20vh;
-  width: 100%;
-  background-color: ${THEMES.Primary};
 `;
 
 export default Profile;

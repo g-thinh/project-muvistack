@@ -31,8 +31,8 @@ const Cards = () => {
 const CardsContainer = styled.div`
   /* border: 2px solid red; */
   /* height: 100vh; */
-  width: 100%;
-  margin-top: 16px;
+  width: 70%;
+  margin-top: 20px;
   @media (max-width: 1000px) {
     width: 100%;
     padding: 0 12px;
@@ -45,7 +45,7 @@ const Wrapper = styled.div`
   height: 100%;
   gap: 30px 30px;
   justify-content: center;
-  grid-template-columns: repeat(2, 320px);
+  grid-template-columns: repeat(2, 350px);
   grid-template-rows: repeat(2, 120px);
   /* border: 2px solid green; */
 `;

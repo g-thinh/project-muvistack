@@ -53,7 +53,7 @@ const NavContainer = styled.nav`
     align-items: center;
     font-family: "GraphiqueW01-Regular";
     font-size: 3rem;
-    margin-left: 12px;
+    /* margin-left: 12px; */
     user-select: none;
   }
 
@@ -72,8 +72,8 @@ const NavList = styled.ul`
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 0 20px;
-    /* border: 1px dashed green; */
+    /* padding: 0 20px; */
+    border: 3px dashed green;
   }
 `;
 

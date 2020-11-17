@@ -22,7 +22,7 @@ const PageContainer = ({ children, background }) => {
   return (
     <>
       <Container bg={bg}>{children}</Container>
-      <Footer height={15} />
+      <Footer height={7} />
     </>
   );
 };
@@ -35,7 +35,7 @@ const Container = styled.div`
   align-items: center;
   width: 100%;
   /* border: 5px solid red; */
-  /* min-height: 100vh; */
+  min-height: 70vh;
   background-color: ${(props) => props.bg};
 `;
 
