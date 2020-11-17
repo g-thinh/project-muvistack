@@ -101,7 +101,7 @@ const ProfileContainer = styled.div`
   justify-content: center;
   align-items: center;
   /* border: 3px dashed red; */
-  padding: 2vh 0;
+  padding: 1vh 0;
 
   @media (max-width: 1000px) {
     width: 100%;
@@ -115,6 +115,7 @@ const ProfilePicture = styled.div`
   justify-content: flex-end;
 
   & img {
+    width: 75%;
     @media (max-width: 426px) {
       width: 180px;
     }
@@ -132,7 +133,7 @@ const ProfileDesc = styled.div`
 
 const DisplayName = styled.h1`
   color: ${THEMES.BlackCoffee};
-  font-size: 44px;
+  font-size: 34px;
   text-align: center;
   user-select: none;
 
@@ -143,7 +144,7 @@ const DisplayName = styled.h1`
 
 const DescText = styled.p`
   color: gray;
-  font-size: 24px;
+  font-size: 22px;
   text-align: center;
   margin-top: 12px;
   user-select: none;

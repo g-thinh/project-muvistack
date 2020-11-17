@@ -8,19 +8,19 @@ const Cards = () => {
     <CardsContainer>
       <Wrapper>
         <Card link="/movies">
-          <FiVideo size={56} />
+          <FiVideo size={42} />
           <span>Movies</span>
         </Card>
         <Card link="/friends">
-          <FiUsers size={56} />
+          <FiUsers size={42} />
           <span>Friends</span>
         </Card>
         <Card link="/chat">
-          <FiMessageSquare size={56} />
+          <FiMessageSquare size={42} />
           <span>Convos</span>
         </Card>
         <Card link="/create-avatar">
-          <FiEdit size={56} />
+          <FiEdit size={42} />
           <span>Avatar</span>
         </Card>
       </Wrapper>
@@ -32,7 +32,7 @@ const CardsContainer = styled.div`
   /* border: 2px solid red; */
   /* height: 100vh; */
   width: 100%;
-  margin-top: 50px;
+  margin-top: 16px;
   @media (max-width: 1000px) {
     width: 100%;
     padding: 0 12px;
@@ -40,12 +40,13 @@ const CardsContainer = styled.div`
 `;
 
 const Wrapper = styled.div`
-  padding: 15px;
+  padding: 8px;
   display: grid;
   height: 100%;
   gap: 30px 30px;
-  grid-template-columns: repeat(2, 1fr);
-  grid-template-rows: repeat(2, 200px);
+  justify-content: center;
+  grid-template-columns: repeat(2, 320px);
+  grid-template-rows: repeat(2, 120px);
   /* border: 2px solid green; */
 `;
 
