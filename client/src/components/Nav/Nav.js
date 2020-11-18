@@ -6,7 +6,7 @@ import { AuthContext } from "../AuthContext";
 import { THEMES } from "../THEMES";
 import { Logo, LogoName } from "../../assets";
 import { FiMenu } from "react-icons/fi";
-import { db } from "../../services/firebase";
+import { db, auth } from "../../services/firebase";
 import Burger from "./Burger";
 import Menu from "./Menu";
 import { useSelector, useDispatch } from "react-redux";
@@ -16,14 +16,14 @@ const Nav = (props) => {
   const { authenticated, appUser } = React.useContext(AuthContext);
   const MENU_TOGGLE = useSelector((state) => state.TOGGLERS.navToggle);
   const [name, setName] = React.useState(null);
+  const [user, setUser] = React.useState(auth().currentUser);
 
   React.useEffect(() => {
-    db.ref(`users/${appUser.uid}`).once("value", (snapshot) => {
-      const fname = snapshot.val().displayName;
-      const name = fname.split(" ")[0];
-
-      setName(name);
-    });
+    // db.ref(`users/${user}`).once("value", (snapshot) => {
+    //   const fname = snapshot.val().displayName;
+    //   const name = fname.split(" ")[0];
+    //   setName(name);
+    // });
   }, []);
 
   return authenticated ? (
@@ -32,7 +32,7 @@ const Nav = (props) => {
         <Link to="/">
           <img src={Logo} alt="main-logo" />
         </Link>
-        {appUser && <UserName>{name}</UserName>}
+        {/* {appUser && <UserName>{name}</UserName>} */}
         <NavList>
           {/* <Burger open={open} setOpen={setOpen} />
           <Menu open={open} setOpen={setOpen} /> */}

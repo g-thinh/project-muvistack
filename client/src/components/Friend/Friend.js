@@ -142,7 +142,7 @@ const Container = styled.div`
   background: white;
   border: 2px solid #d9d9d9d9;
   border-radius: 12px;
-
+  margin: 5px;
   &:hover {
     background-color: ${THEMES.Primary};
     border: 2px solid ${THEMES.BlackCoffee};

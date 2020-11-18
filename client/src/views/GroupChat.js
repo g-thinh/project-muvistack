@@ -144,13 +144,22 @@ const GroupChat = () => {
                 ) : (
                   <AddFriend
                     isUser
-                    onClick={(ev) => console.log("Cant add self as friend")}
+                    onClick={(ev) => openSnackbar("Can't add yourself!")}
                   >
                     <Avatar src={user.photoURL} alt={`user-${user.userID}`} />
                     <StyledFiPlus size={64} />
                   </AddFriend>
                 );
               })}
+            {/* return (
+                  user.userID != currentUser && (
+                    <AddFriend onClick={(ev) => addFriend(user.userID)}>
+                      <Avatar src={user.photoURL} alt={`user-${user.userID}`} />
+                      <StyledFiPlus size={64} />
+                    </AddFriend>
+                  )
+                );
+              })} */}
             {/* <InviteFriend onClick={() => console.log("Invite a friend!")}>
               <FiPlus size={64} color={THEMES.White} />
             </InviteFriend> */}

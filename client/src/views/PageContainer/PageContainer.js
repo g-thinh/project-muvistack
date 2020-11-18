@@ -35,7 +35,7 @@ const Container = styled.div`
   align-items: center;
   width: 100%;
   /* border: 5px solid red; */
-  min-height: 63vh;
+  min-height: 64vh;
   background-color: ${(props) => props.bg};
 `;
 
