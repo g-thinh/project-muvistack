@@ -107,22 +107,6 @@ const GroupChat = () => {
           console.log("this friend was already added");
           openSnackbar("Already a Friend!");
         }
-        // if (!allFriends.includes(id)) {
-        //   console.log(allFriends);
-        //   console.log("GROUP CHAT USER IS:", currentUser);
-        //   console.log("GROUP CHAT USER ADDS:", id);
-        //   // The user Adds the request to their profile
-        //   // db.ref(`users/${currentUser}`)
-        //   //   .child("friends")
-        //   //   .push({ id, isFriend: false, isPending: true });
-
-        //   // // The other user receives a request
-        //   // db.ref(`users/${id}`)
-        //   //   .child("friends")
-        //   //   .push({ id: currentUser, isFriend: false, isPending: false });
-        // } else {
-        //   console.log("this friend was already added");
-        // }
       }
     });
   }
@@ -178,18 +162,20 @@ const GroupChat = () => {
   );
 };
 
+// ##################### CHAT USERS AND MOVIE TITLE ###########################
+
 const TopChat = styled.div`
   display: flex;
   flex-direction: column;
   width: 95%;
-  padding: 18px;
+  padding: 1%;
   margin: 2% 0;
   border-radius: 12px;
   background-color: ${THEMES.Primary};
 `;
 
 const Text = styled.h1`
-  font-size: 2.4rem;
+  font-size: 1.8rem;
   text-align: center;
   color: white;
 
@@ -202,14 +188,17 @@ const Header = styled.div`
   display: flex;
   align-self: flex-start;
   justify-self: flex-start;
-  margin: 0 20px;
-  margin-top: 10px;
+  /* margin: 0 20px; */
+  width: 95%;
+
   align-items: center;
   /* border: 5px solid goldenrod; */
+  margin: 0 auto;
+  margin-top: 10px;
 
   & p {
     margin-left: 6px;
-    font-size: 22px;
+    font-size: 1.3rem;
     font-weight: 500;
     user-select: none;
   }
@@ -250,7 +239,7 @@ const StyledFiPlus = styled(FiPlus)`
 `;
 
 const Avatar = styled.img`
-  max-width: 100px;
+  max-width: 90px;
   height: auto;
   object-fit: cover;
   user-select: none;

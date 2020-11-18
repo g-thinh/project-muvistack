@@ -148,13 +148,15 @@ const Message = (props) => {
         <Content>
           <p>{chat.content}</p>
           <Time isUser={props.isUser}>
+            {/* <span>{moment(chat.timestamp).format("MMM Do, YYYY")} at </span> */}
+            {/* <span>{moment(chat.timestamp).format("h:mm A")}</span> */}
             {moment(chat.timestamp).format("h:mm A")}
           </Time>
         </Content>
 
-        {avatar && props.isUser && (
+        {/* {avatar && props.isUser && (
           <Avatar src={avatar} alt={`user-${chat.user}`} />
-        )}
+        )} */}
       </MessageLine>
       {/* {chat.setDate && !props.isUser && ( */}
       {/* To render only if its the latest suggested date, not the user who asked, and has already answered */}
@@ -168,19 +170,59 @@ const Message = (props) => {
   );
 };
 
+const Time = styled.span`
+  color: darkgrey;
+  font-size: 12px;
+  text-align: ${(props) => (props.isUser ? "right" : "left")};
+  margin-left: ${(props) => (props.isUser ? "0px" : "5px")};
+  margin-right: ${(props) => (!props.isUser ? "0px" : "5px")};
+  user-select: none;
+  /* margin-bottom: 5px; */
+  /* padding: 3px 0; */
+  /* border: 1px solid red; */
+  & span {
+    visibility: hidden;
+    position: absolute;
+    transform: ${(props) =>
+      props.isUser ? "translateX(-105%)" : "translateX(50%)"};
+  }
+`;
+
 const MessageLine = styled.div`
   display: flex;
   align-items: center;
   justify-content: ${(props) => (props.isUser ? "flex-end" : "flex-start")};
   padding: 4px 12px;
+  /* padding: 1.5% 1%; */
   width: 100%;
   & p {
     background: ${(props) => (props.isUser ? THEMES.Primary : "#D9D9D9")};
     color: ${(props) => (props.isUser ? "white" : THEMES.BlackCoffee)};
-    padding: 3px 14px;
+    padding: 3px 12px;
+    font-size: 1rem;
+    font-weight: 400;
     border-radius: 15px;
     word-break: break-all;
     margin: 5px;
+  }
+
+  &:hover {
+    & ${Time} {
+      & span {
+        visibility: visible;
+
+        animation: fadein 0.5s;
+
+        @keyframes fadein {
+          from {
+            opacity: 0;
+          }
+          to {
+            opacity: 1;
+          }
+        }
+      }
+    }
   }
 `;
 
@@ -188,18 +230,12 @@ const Content = styled.div`
   display: flex;
   flex-direction: column;
   max-width: 70%;
-`;
-
-const Time = styled.span`
-  color: darkgrey;
-  font-size: 12px;
-  text-align: ${(props) => (props.isUser ? "right" : "left")};
-  margin-left: ${(props) => (props.isUser ? "0px" : "5px")};
-  margin-right: ${(props) => (!props.isUser ? "0px" : "5px")};
+  /* border: 5px solid red; */
+  width: auto;
 `;
 
 const Avatar = styled.img`
-  width: 8%;
+  width: 40px;
 `;
 
 const Form = styled.div`

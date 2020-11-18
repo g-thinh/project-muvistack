@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef } from "react";
 import styled from "styled-components";
 import { auth, db } from "../../services/firebase";
 import { THEMES } from "../THEMES";
@@ -27,6 +27,8 @@ const ChatBox = (props) => {
   const [startDate, setStartDate] = React.useState(new Date());
   const [movieDate, setMovieDate] = React.useState(null);
   const [hasDate, setHasDate] = React.useState(null);
+
+  // const lastMsg = useRef([]);
 
   function handleChange(ev) {
     setContent(ev.target.value);
@@ -92,6 +94,8 @@ const ChatBox = (props) => {
     fetchMessages(props.url);
     fetchChatInfo(props.url);
     fetchMovieDate(props.url);
+
+    // lastMsg.current.focus();
   }, []);
 
   return (
@@ -113,7 +117,9 @@ const ChatBox = (props) => {
             {time && (
               <Time>Created on {moment(time).format("MMMM Do, YYYY")}</Time>
             )}
-            {chats.map((chat) => {
+            {chats.map((chat, index) => {
+              console.log("chat length", chats.length);
+              console.log("chat index", index);
               return chat.user === appUser.uid ? (
                 <Message
                   isUser={true}
@@ -147,7 +153,7 @@ const ChatBox = (props) => {
               type="button"
               onClick={(ev) => dispatch(toggleDateModal(true))}
             >
-              <FiCalendar size={28} color="white" />
+              <FiCalendar size={24} color="white" />
             </Button2>
             <Input
               placeholder="Write your message here..."
@@ -156,7 +162,7 @@ const ChatBox = (props) => {
             />
             {readError ? <p>{writeError}</p> : null}
             <Button type="submit">
-              <FiSend size={28} color="white" />
+              <FiSend size={24} color="white" />
             </Button>
           </InputForm>
         </>
@@ -170,18 +176,45 @@ const ChatBox = (props) => {
 const ChatContainer = styled.div`
   border: 2px solid ${THEMES.BlackCoffee};
   border-radius: 12px;
-  width: 100%;
+  width: 95%;
   display: flex;
   flex-direction: column;
-  height: 100vh;
+  min-height: 50vh;
+  max-height: 50vh;
   border-bottom-left-radius: 12px;
   border-bottom-right-radius: 12px;
+
+  & ::-webkit-scrollbar {
+    width: 7px;
+    color: lightgrey;
+    height: 95%;
+  }
+
+  & ::-webkit-scrollbar-track {
+    /* box-shadow: inset 0 0 5px white; */
+    /* background: ${THEMES.BlackCoffee}; */
+    border-radius: 10px;
+    height: 95%;
+  }
+
+  & ::-webkit-scrollbar-thumb {
+    /* background: lightgrey; */
+    /* border-radius: 10px; */
+    height: 50px;
+  }
+
+  & ::-webkit-scrollbar-thumb:hover {
+    /* background: lightgrey; */
+    /* background: ${THEMES.BlackCoffee}; */
+  }
 `;
 
 const Messages = styled.div`
   flex: 9;
-  min-height: 10vh;
+  /* min-height: 10vh; */
   width: 100%;
+  border-top-left-radius: 12px;
+  border-top-right-radius: 12px;
   overflow-y: scroll;
   background: ${THEMES.BlackCoffee};
   /* border: 5px solid goldenrod; */
@@ -193,10 +226,11 @@ const InputForm = styled.form`
   display: flex;
   align-items: center;
   /* border-top: 3px solid ${THEMES.Blue}; */
-  padding: 10px;
+  padding: 8px 12px;
   border-bottom-left-radius: 12px;
   border-bottom-right-radius: 12px;
   background: ${THEMES.BlackCoffee};
+  /* border: 5px solid red; */
 `;
 
 const Input = styled.input`
@@ -204,7 +238,7 @@ const Input = styled.input`
   height: 20px;
   font-size: 16px;
   margin: 5px 0;
-  padding: 20px;
+  padding: 16px;
   border-radius: 22px;
 
   &:focus {
@@ -218,7 +252,7 @@ const Button = styled.button`
   margin: 5px 0;
   margin-left: 8px;
   height: 20px;
-  padding: 20px 12px;
+  padding: 16px 12px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -238,7 +272,7 @@ const Button2 = styled.button`
   margin: 5px 0;
   margin-right: 8px;
   height: 20px;
-  padding: 20px 0px;
+  padding: 16px 0px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -264,11 +298,15 @@ const Time = styled.h1`
 const DateWrapper = styled.div`
   background-color: ${THEMES.BlackCoffee};
   width: 100%;
-  padding: 1% 0;
+  padding-top: 1%;
+  /* padding: 1% 0; */
+  text-align: center;
+  display: flex;
+  justify-content: center;
 `;
 
 const DateTime = styled.h1`
-  width: 100%;
+  width: 97%;
   font-size: 14px;
   text-align: center;
   color: ${(props) => (props.hasDate ? "white" : THEMES.BlackCoffee)};
