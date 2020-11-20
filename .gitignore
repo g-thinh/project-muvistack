@@ -5,7 +5,7 @@
 /server/services
 
 # production
-/client/build
+# /client/build
 
 # misc
 .DS_Store
