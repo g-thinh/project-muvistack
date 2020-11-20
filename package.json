@@ -9,6 +9,6 @@
     "client:build": "cd client && yarn build",
     "client:install": "cd client && yarn install",
     "server:install": "cd server && yarn install",
-    "start": "concurrently --kill-others-on-fail \"yarn client:install\" \"yarn server:install\""
+    "start": "yarn install && concurrently --kill-others-on-fail \"yarn client:install\" \"yarn server:install\""
   }
 }
