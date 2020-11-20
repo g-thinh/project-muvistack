@@ -21,11 +21,16 @@ express()
     next();
   })
   .use(morgan("tiny"))
-  .use(express.static("./server/assets"))
+  // .use(express.static("./server/assets"))
+  .use(express.static(path.join(__dirname, "client/build")))
   .use(bodyParser.json())
   .use(express.urlencoded({ extended: false }))
   .use("/", express.static(__dirname + "/"))
   .use("/", routes)
+
+  .get("*", (req, res) => {
+    res.sendFile(path.join(__dirname + "/client/build/index.html"));
+  })
 
   .listen(PORT, () => {
     console.info(`Listening on port ${PORT}`);
