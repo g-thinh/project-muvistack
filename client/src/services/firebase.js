@@ -1,4 +1,6 @@
-import firebase from "firebase";
+import firebase from "firebase/app";
+require("firebase/auth");
+require("firebase/database");
 require("dotenv").config();
 
 const config = {

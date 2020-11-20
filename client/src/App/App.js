@@ -24,7 +24,6 @@ import { useDispatch, useSelector } from "react-redux";
 const App = () => {
   const TOGGLE_MATCH = useSelector((state) => state.TOGGLERS.matchToggle);
   const { authenticated, hasProfile } = React.useContext(AuthContext);
-  // console.log("Currenth authentication:", authenticated);
   return (
     <Router>
       <Nav>
@@ -81,7 +80,6 @@ const App = () => {
             authenticated={authenticated}
             component={Login}
             reroute={hasProfile ? "/create-profile" : "/profile"}
-            // reroute="/profile"
           ></PublicRoute>
           <PublicRoute
             path="/signup"

@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "yarn install && yarn nodemon index.js"
+    "start": "node index.js"
   },
   "keywords": [],
   "author": "",
@@ -16,7 +16,8 @@
     "file-system": "^2.2.2",
     "firebase-admin": "^9.3.0",
     "isomorphic-fetch": "^3.0.0",
-    "morgan": "^1.10.0"
+    "morgan": "^1.10.0",
+    "path": "^0.12.7"
   },
   "devDependencies": {
     "nodemon": "^2.0.4"
