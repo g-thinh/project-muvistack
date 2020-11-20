@@ -79,7 +79,7 @@ const App = () => {
             path="/login"
             authenticated={authenticated}
             component={Login}
-            reroute={hasProfile ? "/create-profile" : "/profile"}
+            reroute="/profile"
           ></PublicRoute>
           <PublicRoute
             path="/signup"

@@ -16,7 +16,6 @@ const Categories = (props) => {
   const GENRES = useSelector((state) => state.MOVIE.genres);
   const LOADING = useSelector((state) => state.MOVIE.status);
 
-  // const genres = props.data;
   const handleClick = props.setTest;
 
   function fetchGenres() {
@@ -25,7 +24,6 @@ const Categories = (props) => {
       fetch("/genre")
         .then((res) => res.json())
         .then((json) => {
-          // console.log(json.data);
           dispatch(receiveGenres(json.data[0].genres));
         });
     } catch (error) {
@@ -65,19 +63,16 @@ const Wrapper = styled.div`
   gap: 15px 15px;
   grid-template-columns: repeat(3, 1fr);
   grid-template-rows: repeat(auto, 200px);
-  /* border: 5px solid red; */
 `;
 
 const Category = styled.button`
   display: flex;
-  /* background: white; */
   background: ${THEMES.BlackCoffee};
   flex-flow: column;
   justify-content: center;
   align-items: center;
   border-radius: 21px;
   border: 1px solid ${THEMES.BlackCoffee};
-  /* color: ${THEMES.BlackCoffee}; */
   color: white;
   cursor: pointer;
   text-decoration: none;

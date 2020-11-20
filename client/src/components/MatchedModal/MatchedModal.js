@@ -54,12 +54,10 @@ const MatchedModal = (props) => {
 };
 
 const Modal = styled.div`
-  /* border: 2px solid red; */
   position: fixed;
   top: 30%;
   left: 50%;
   transform: translate(-50%, 0);
-  /* bottom: 50%; */
   align-self: center;
   justify-self: center;
   z-index: 8;
@@ -74,7 +72,6 @@ const Content = styled.div`
 
   width: 500px;
   height: auto;
-  /* border: 5px solid goldenrod; */
   background: ${THEMES.Primary};
   & h1 {
     color: ${THEMES.White};

@@ -71,21 +71,14 @@ const StyledMenu = styled.div`
   transition: transform 0.3s ease-in-out;
   position: fixed;
   z-index: 9;
-  /* width: 30vw; */
-  /* transform: translateX(-100%); */
-  transform: ${({ open }) => (open ? "translateX(0)" : "translateX(100%)")};
 
-  /* @media (max-width: ${({ theme }) => theme.mobile}) {
-    width: 100%;
-  } */
+  transform: ${({ open }) => (open ? "translateX(0)" : "translateX(100%)")};
 `;
 
 const StyledLink = styled(Link)`
   font-size: 2rem;
-  /* text-decoration-color: none; */
   color: ${THEMES.White};
   font-weight: bold;
-  /* letter-spacing: 0.5rem; */
   text-decoration: none;
   transition: color 0.3s linear;
 
@@ -102,7 +95,6 @@ const StyledButton = styled.button`
   text-align: start;
   color: ${THEMES.White};
   font-weight: bold;
-  /* letter-spacing: 0.5rem; */
   text-decoration: none;
   transition: color 0.3s linear;
   vertical-align: baseline;

@@ -18,13 +18,7 @@ const Nav = (props) => {
   const [name, setName] = React.useState(null);
   const [user, setUser] = React.useState(auth().currentUser);
 
-  React.useEffect(() => {
-    // db.ref(`users/${user}`).once("value", (snapshot) => {
-    //   const fname = snapshot.val().displayName;
-    //   const name = fname.split(" ")[0];
-    //   setName(name);
-    // });
-  }, []);
+  React.useEffect(() => {}, []);
 
   return authenticated ? (
     <>
@@ -32,10 +26,7 @@ const Nav = (props) => {
         <Link to="/">
           <img src={Logo} alt="main-logo" />
         </Link>
-        {/* {appUser && <UserName>{name}</UserName>} */}
         <NavList>
-          {/* <Burger open={open} setOpen={setOpen} />
-          <Menu open={open} setOpen={setOpen} /> */}
           <Burger open={MENU_TOGGLE} setOpen={toggleMenu} />
           <Menu open={MENU_TOGGLE} setOpen={toggleMenu} />
         </NavList>

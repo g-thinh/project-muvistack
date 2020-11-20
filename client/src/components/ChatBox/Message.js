@@ -3,7 +3,6 @@ import styled from "styled-components";
 import { auth, db } from "../../services/firebase";
 import { THEMES } from "../THEMES";
 import { AuthContext } from "../AuthContext";
-import Spinner from "../UI/Spinner";
 
 const moment = require("moment");
 
@@ -26,7 +25,6 @@ const Message = (props) => {
       db.ref(url).update({ isGoing: true });
       checkDate();
       confirmDate();
-      // setHasDate(false);
     } catch (error) {
       console.log(error);
     }
@@ -69,7 +67,6 @@ const Message = (props) => {
   }
 
   function getParticipants() {
-    //returns the number of participants in the chat
     db.ref(`matches/${movieID}`).once("value", (snapshot) => {
       const data = snapshot.val().users;
       if (data) {
@@ -82,13 +79,11 @@ const Message = (props) => {
   function confirmDate() {
     let results = [];
     let count = allUsers;
-    // Check if all participants agree to the date
     const url = `matches/${movieID}/dates/users`;
     db.ref(url).on("value", (snapshot) => {
       snapshot.forEach((snap) => {
         let val = snap.val();
         let key = snap.key;
-        // console.log("val, key", val, key);
         if (snap.val()) {
           results.push(snap.key);
         }
@@ -118,10 +113,7 @@ const Message = (props) => {
     try {
       db.ref(`matches/${movieID}/dates/users`).on("value", (snapshot) => {
         const data = snapshot.val();
-        // console.log("These are the participants", data);
         snapshot.forEach((snap) => {
-          // console.log("this user", appUser.uid);
-          // console.log("is currently going?", snap.val());
           if (snap.val().isGoing && appUser.uid == snap.key) {
             setHasDate(false);
           }
@@ -148,18 +140,10 @@ const Message = (props) => {
         <Content>
           <p>{chat.content}</p>
           <Time isUser={props.isUser}>
-            {/* <span>{moment(chat.timestamp).format("MMM Do, YYYY")} at </span> */}
-            {/* <span>{moment(chat.timestamp).format("h:mm A")}</span> */}
             {moment(chat.timestamp).format("h:mm A")}
           </Time>
         </Content>
-
-        {/* {avatar && props.isUser && (
-          <Avatar src={avatar} alt={`user-${chat.user}`} />
-        )} */}
       </MessageLine>
-      {/* {chat.setDate && !props.isUser && ( */}
-      {/* To render only if its the latest suggested date, not the user who asked, and has already answered */}
       {!answered && isLatest && !props.isUser && (
         <Form>
           <button onClick={(ev) => acceptDate()}>Yes! Sounds good.</button>
@@ -177,9 +161,6 @@ const Time = styled.span`
   margin-left: ${(props) => (props.isUser ? "0px" : "5px")};
   margin-right: ${(props) => (!props.isUser ? "0px" : "5px")};
   user-select: none;
-  /* margin-bottom: 5px; */
-  /* padding: 3px 0; */
-  /* border: 1px solid red; */
   & span {
     visibility: hidden;
     position: absolute;
@@ -193,7 +174,6 @@ const MessageLine = styled.div`
   align-items: center;
   justify-content: ${(props) => (props.isUser ? "flex-end" : "flex-start")};
   padding: 4px 12px;
-  /* padding: 1.5% 1%; */
   width: 100%;
   & p {
     background: ${(props) => (props.isUser ? THEMES.Primary : "#D9D9D9")};
@@ -230,7 +210,6 @@ const Content = styled.div`
   display: flex;
   flex-direction: column;
   max-width: 70%;
-  /* border: 5px solid red; */
   width: auto;
 `;
 
@@ -239,12 +218,10 @@ const Avatar = styled.img`
 `;
 
 const Form = styled.div`
-  /* border: 2px solid red; */
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 4px 12px;
-  /* margin: 12px; */
   width: 100%;
   user-select: none;
   & button {

@@ -33,9 +33,9 @@ express()
   .use("/", express.static(__dirname + "/"))
   .use("/", routes)
 
-  // .get("*", (req, res) => {
-  //   res.sendFile(path.join(__dirname + "/client/build/index.html"));
-  // })
+  .get("*", function (req, res) {
+    res.sendFile(path.join(__dirname, "client/build", "index.html"));
+  })
 
   .listen(PORT, () => {
     console.info(`Listening on port ${PORT}`);
