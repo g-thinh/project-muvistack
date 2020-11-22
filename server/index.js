@@ -3,12 +3,11 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const path = require("path");
 const morgan = require("morgan");
-
-const routes = require("./routes");
 require("dotenv").config();
+const routes = require("./routes");
 
 const buildPath = path.join(__dirname, "..", "client/build");
-const PORT = process.env.PORT || 4000;
+// const PORT = process.env.PORT || 5000;
 
 console.log(buildPath);
 
@@ -37,6 +36,4 @@ express()
     res.sendFile(path.join(__dirname, "client/build", "index.html"));
   })
 
-  .listen(PORT, () => {
-    console.info(`Listening on port ${PORT}`);
-  });
+  .listen(process.env.PORT || 5000);
