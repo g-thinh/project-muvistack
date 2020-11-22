@@ -19,11 +19,11 @@ const Profile = () => {
 
   React.useEffect(() => {
     window.scrollTo(0, 0);
-    console.log("[Profile.js] is mounted...");
+    // console.log("[Profile.js] is mounted...");
 
     const fetchData = async () => {
       dispatch(requestCurrentUser());
-      console.log("appUser", appUser);
+      // console.log("appUser", appUser);
       try {
         const response = await db
           .ref("users")
@@ -31,7 +31,7 @@ const Profile = () => {
           .once("value", (snapshot) => {
             const data = snapshot.val();
             dispatch(receiveCurrentUser(data));
-            console.log("[Profile.js] user data is", data);
+            // console.log("[Profile.js] user data is", data);
           });
         return response;
       } catch (error) {
@@ -40,7 +40,7 @@ const Profile = () => {
     };
 
     if (appUser) {
-      console.log("[Profile.js] current user is", appUser);
+      // console.log("[Profile.js] current user is", appUser);
       fetchData();
     }
   }, [appUser]);
@@ -64,6 +64,7 @@ const Profile = () => {
 const ProfileContainer = styled.div`
   width: 70%;
   display: flex;
+  min-height: 35vh;
   /* flex-flow: column wrap; */
   justify-content: center;
   align-items: center;

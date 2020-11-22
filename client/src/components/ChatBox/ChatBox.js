@@ -107,8 +107,8 @@ const ChatBox = (props) => {
               <Time>Created on {moment(time).format("MMMM Do, YYYY")}</Time>
             )}
             {chats.map((chat, index) => {
-              console.log("chat length", chats.length);
-              console.log("chat index", index);
+              // console.log("chat length", chats.length);
+              // console.log("chat index", index);
               return chat.user === appUser.uid ? (
                 <Message
                   isUser={true}
@@ -142,7 +142,7 @@ const ChatBox = (props) => {
               type="button"
               onClick={(ev) => dispatch(toggleDateModal(true))}
             >
-              <FiCalendar size={24} color="white" />
+              <FiCalendar size={20} color="white" />
             </Button2>
             <Input
               placeholder="Write your message here..."
@@ -151,7 +151,7 @@ const ChatBox = (props) => {
             />
             {readError ? <p>{writeError}</p> : null}
             <Button type="submit">
-              <FiSend size={24} color="white" />
+              <FiSend size={20} color="white" />
             </Button>
           </InputForm>
         </>
@@ -209,6 +209,10 @@ const InputForm = styled.form`
   border-bottom-left-radius: 12px;
   border-bottom-right-radius: 12px;
   background: ${THEMES.BlackCoffee};
+
+  @media (max-width: 1000px) {
+    padding: 4px 8px;
+  }
 `;
 
 const Input = styled.input`
@@ -221,6 +225,12 @@ const Input = styled.input`
 
   &:focus {
     outline: none;
+  }
+
+  @media (max-width: 1000px) {
+    padding: 12px;
+    font-size: 12px;
+    flex: 7;
   }
 `;
 
@@ -241,6 +251,11 @@ const Button = styled.button`
   &:hover {
     background: ${THEMES.Secondary};
   }
+
+  @media (max-width: 1000px) {
+    padding: 12px;
+    font-size: 12px;
+  }
 `;
 
 const Button2 = styled.button`
@@ -259,6 +274,10 @@ const Button2 = styled.button`
 
   &:hover {
     background: ${THEMES.Secondary};
+  }
+
+  @media (max-width: 1000px) {
+    padding: 12px 4px;
   }
 `;
 
@@ -290,6 +309,10 @@ const DateTime = styled.h1`
   border-radius: 22px;
   background-color: ${(props) =>
     props.hasDate ? THEMES.Blue : THEMES.Secondary};
+
+  @media (max-width: 1000px) {
+    font-size: 10px;
+  }
 `;
 
 export default ChatBox;

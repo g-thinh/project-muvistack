@@ -16,7 +16,7 @@ export default function chatReducer(state = initialState, action) {
       };
     }
     case "RECEIVE_CONVOS": {
-      console.log("[RECEIVE CONVOS]", action.convos);
+      // console.log("[RECEIVE CONVOS]", action.convos);
       // let data;
       // let newData;
       // if (action.convos) {
@@ -34,7 +34,7 @@ export default function chatReducer(state = initialState, action) {
         draftState.currentConvos = action.convos;
         draftState.status = "idle";
       });
-      console.log("[RECEIVE CONVOS RESULT]", results);
+      // console.log("[RECEIVE CONVOS RESULT]", results);
       return results;
     }
 

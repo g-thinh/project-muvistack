@@ -29,6 +29,9 @@ const Text = styled.h1`
   font-size: 2.5rem;
   color: black;
   margin: 10px;
+  @media (max-width: 1000px) {
+    font-size: 2rem;
+  }
 `;
 
 export default CreateAvatar;

@@ -100,8 +100,8 @@ const Content = styled.div`
   justify-content: center;
   align-items: center;
   border-radius: 12px;
-
-  width: 70vw;
+  padding: 2%;
+  min-width: 95vw;
   height: auto;
   background: ${THEMES.Primary};
   & h1 {

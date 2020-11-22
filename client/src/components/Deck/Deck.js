@@ -89,7 +89,7 @@ const Deck = (props) => {
                 </Title>
                 <Rating>
                   {Array(Math.floor(movie.vote_average / 2)).fill(
-                    <StyledStar size={32} />
+                    <StyledStar size={24} />
                   )}
                 </Rating>
                 <Text>{movie.overview}</Text>
@@ -150,7 +150,7 @@ const MovieCard = styled.div`
 const Action = styled.div`
   flex: 5;
   /* border: 3px dashed blue; */
-  width: 30%;
+  width: 50%;
   display: flex;
   justify-content: space-around;
   align-items: center;
@@ -162,6 +162,9 @@ const Header = styled.div`
   display: flex;
   /* border: 5px solid goldenrod; */
   justify-content: space-between;
+  @media (max-width: 1000px) {
+    flex-flow: column;
+  }
 `;
 
 const Poster = styled.div`
@@ -188,6 +191,10 @@ const Img = styled.img`
 
   border-radius: 22px;
   border: none;
+
+  @media (max-width: 1000px) {
+    width: 60%;
+  }
 `;
 
 const Title = styled.h1`
@@ -203,11 +210,15 @@ const Title = styled.h1`
     font-style: italic;
     font-weight: 400;
   }
+
+  @media (max-width: 1000px) {
+    font-size: 1.5rem;
+  }
 `;
 
 const Rating = styled.p`
   width: 100%;
-  margin: 12px 0;
+  margin: 2% 0;
   /* border: 5px solid red; */
   text-align: center;
   font-size: 1.3rem;
@@ -233,6 +244,10 @@ const Text = styled.p`
   color: ${THEMES.BlackCoffee};
   justify-content: center;
   background-color: transparent;
+  align-items: center;
+  @media (max-width: 1000px) {
+    font-size: 1rem;
+  }
 `;
 
 const Button = styled.button`

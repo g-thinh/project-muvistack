@@ -70,7 +70,7 @@ const Message = (props) => {
     db.ref(`matches/${movieID}`).once("value", (snapshot) => {
       const data = snapshot.val().users;
       if (data) {
-        console.log(`there are ${Object.values(data).length} in this chat`);
+        // console.log(`there are ${Object.values(data).length} in this chat`);
         setAllUsers(Object.values(data).length);
       }
     });
@@ -89,13 +89,13 @@ const Message = (props) => {
         }
       });
     });
-    console.log("results", results.length);
-    console.log("count", count);
+    // console.log("results", results.length);
+    // console.log("count", count);
     if (results.length === count) {
-      console.log("Everyone agrees to watch the movie!");
+      // console.log("Everyone agrees to watch the movie!");
       db.ref(`matches/${movieID}/dates`).update({ suggestDate: true });
     } else {
-      console.log("Missing people to watch movie");
+      // console.log("Missing people to watch movie");
     }
   }
 
@@ -167,6 +167,9 @@ const Time = styled.span`
     transform: ${(props) =>
       props.isUser ? "translateX(-105%)" : "translateX(50%)"};
   }
+  @media (max-width: 1000px) {
+    font-size: 10px;
+  }
 `;
 
 const MessageLine = styled.div`
@@ -184,6 +187,13 @@ const MessageLine = styled.div`
     border-radius: 15px;
     word-break: break-all;
     margin: 5px;
+
+    @media (max-width: 1000px) {
+      padding: 2px 8px;
+      font-size: 0.8rem;
+      font-weight: 300;
+      margin: 3px;
+    }
   }
 
   &:hover {
@@ -214,7 +224,10 @@ const Content = styled.div`
 `;
 
 const Avatar = styled.img`
-  width: 40px;
+  max-width: 40px;
+  @media (max-width: 1000px) {
+    max-width: 30px;
+  }
 `;
 
 const Form = styled.div`

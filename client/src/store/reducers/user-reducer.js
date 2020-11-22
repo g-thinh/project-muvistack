@@ -14,14 +14,14 @@ export default function uiReducer(state = initialState, action) {
       };
     }
     case "RECEIVE_CURRENT_USER": {
-      console.log("[RECEIVE USER ACTION]", action.user);
+      // console.log("[RECEIVE USER ACTION]", action.user);
 
       const results = produce(state, (draftState) => {
         draftState.profile = action.user;
         draftState.status = "idle";
       });
 
-      console.log("[RECEIVE USER RESULT]", results);
+      // console.log("[RECEIVE USER RESULT]", results);
 
       return results;
     }

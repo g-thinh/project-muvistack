@@ -73,6 +73,10 @@ const StyledMenu = styled.div`
   z-index: 9;
 
   transform: ${({ open }) => (open ? "translateX(0)" : "translateX(100%)")};
+
+  @media (max-width: 1000px) {
+    width: 65vw;
+  }
 `;
 
 const StyledLink = styled(Link)`
@@ -84,6 +88,10 @@ const StyledLink = styled(Link)`
 
   &:hover {
     color: ${THEMES.BlackCoffee};
+  }
+
+  @media (max-width: 1000px) {
+    font-size: 1.8rem;
   }
 `;
 
@@ -102,6 +110,10 @@ const StyledButton = styled.button`
   padding: 4px 0;
   &:hover {
     color: ${THEMES.BlackCoffee};
+  }
+
+  @media (max-width: 1000px) {
+    font-size: 1.8rem;
   }
 `;
 export default Menu;

@@ -14,14 +14,14 @@ export default function friendsReducer(state = initialState, action) {
       };
     }
     case "RECEIVE_FRIENDS": {
-      console.log("[RECEIVE FRIENDS]", action.friends);
+      // console.log("[RECEIVE FRIENDS]", action.friends);
 
       const results = produce(state, (draftState) => {
         draftState.friends = action.friends;
         draftState.status = "idle";
       });
 
-      console.log("[RECEIVE FRIENDS RESULT]", results);
+      // console.log("[RECEIVE FRIENDS RESULT]", results);
 
       return results;
     }

@@ -43,7 +43,7 @@ const Wrapper = styled.div`
   height: 100%;
   gap: 30px 30px;
   justify-content: center;
-  grid-template-columns: repeat(2, 350px);
+  grid-template-columns: repeat(2, 1fr);
   grid-template-rows: repeat(2, 120px);
 `;
 
