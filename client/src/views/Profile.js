@@ -5,8 +5,6 @@ import PageContainer from "./PageContainer";
 import { AuthContext } from "../components/AuthContext";
 import { auth, db } from "../services/firebase";
 import Cards from "../components/Cards";
-import { getUser } from "../helpers/auth";
-import Spinner from "../components/UI/Spinner";
 import { useSelector, useDispatch } from "react-redux";
 import {
   requestCurrentUser,
@@ -18,10 +16,6 @@ const Profile = () => {
   const dispatch = useDispatch();
   const USER = useSelector((state) => state.USER.profile);
   const { appUser } = React.useContext(AuthContext);
-  // const [displayName, setDisplayName] = React.useState("");
-  // const [bioText, setBioText] = React.useState("");
-  // const [avatarURL, setAvatarURL] = React.useState(null);
-  const [loading, setLoading] = React.useState(true);
 
   React.useEffect(() => {
     window.scrollTo(0, 0);
@@ -37,9 +31,6 @@ const Profile = () => {
           .once("value", (snapshot) => {
             const data = snapshot.val();
             dispatch(receiveCurrentUser(data));
-            // setDisplayName(data.displayName);
-            // setBioText(data.bioText);
-            // setAvatarURL(data.photoURL);
             console.log("[Profile.js] user data is", data);
           });
         return response;
@@ -51,48 +42,24 @@ const Profile = () => {
     if (appUser) {
       console.log("[Profile.js] current user is", appUser);
       fetchData();
-      // setLoading(false);
     }
   }, [appUser]);
-
-  // if (loading) {
-  //   return <Spinner />;
-  // }
 
   return (
     <PageContainer background="light">
       <ProfileContainer>
         <ProfilePicture>
-          {/* <img src={avatarURL} alt="test-profile-pic" /> */}
           <img src={USER.photoURL} alt="test-profile-pic" />
         </ProfilePicture>
         <ProfileDesc>
-          {/* <DisplayName>{displayName}</DisplayName> */}
           <DisplayName>{USER.displayName}</DisplayName>
-          <DescText>
-            {/* Avid moviegoer, typical netflix binger, casual bingo player. */}
-            {/* {bioText} */}
-            {USER.bioText}
-          </DescText>
+          <DescText>{USER.bioText}</DescText>
         </ProfileDesc>
       </ProfileContainer>
       <Cards />
     </PageContainer>
   );
 };
-
-// const PageContainer = styled.div`
-//   flex: 9;
-//   position: relative;
-//   display: flex;
-//   flex-flow: column;
-//   justify-content: center;
-//   align-items: center;
-//   /* min-height: 100vh; */
-//   width: 100%;
-//   /* border: 5px solid red; */
-//   /* margin-top: 5vh; */
-// `;
 
 const ProfileContainer = styled.div`
   width: 70%;

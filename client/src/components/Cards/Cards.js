@@ -29,8 +29,6 @@ const Cards = () => {
 };
 
 const CardsContainer = styled.div`
-  /* border: 2px solid red; */
-  /* height: 100vh; */
   width: 70%;
   margin-top: 20px;
   @media (max-width: 1000px) {
@@ -47,7 +45,6 @@ const Wrapper = styled.div`
   justify-content: center;
   grid-template-columns: repeat(2, 350px);
   grid-template-rows: repeat(2, 120px);
-  /* border: 2px solid green; */
 `;
 
 export default Cards;

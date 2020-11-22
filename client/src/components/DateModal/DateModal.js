@@ -8,7 +8,6 @@ import DatePicker from "react-datepicker";
 import { PartyPopper } from "../../assets";
 import { FiCheck, FiXCircle } from "react-icons/fi";
 import { useDispatch } from "react-redux";
-// Modify this for custom styles
 import "react-datepicker/dist/react-datepicker.css";
 
 const moment = require("moment");
@@ -24,20 +23,15 @@ const DateModal = (props) => {
   function setMovieDate(date) {
     let formattedDate = moment(date).format();
 
-    //new requests will remove users
     db.ref(`matches/${movieID}/dates/users`).remove();
 
-    // this updates the current suggested date
     db.ref(`matches/${movieID}`)
       .child("dates")
       .update({ date: formattedDate, suggestDate: false });
-
-    // user who suggested the date is going
     db.ref(`matches/${movieID}/dates/users/${user.uid}`).update({
       isGoing: true,
     });
 
-    //this sends the message
     db.ref(`matches/${movieID}/chat`)
       .child("messages")
       .push({
@@ -76,7 +70,6 @@ const DateModal = (props) => {
                 onClick={() => {
                   console.log("This date has been set!");
                   setMovieDate(props.date);
-                  // closeModal();
                   dispatch(closeModal(false));
                 }}
               >
@@ -94,10 +87,8 @@ const DateModal = (props) => {
 };
 
 const Modal = styled.div`
-  /* border: 2px solid red; */
   position: fixed;
   top: 15%;
-  /* bottom: 50%; */
   align-self: center;
   justify-self: center;
   z-index: 8;
@@ -112,7 +103,6 @@ const Content = styled.div`
 
   width: 70vw;
   height: auto;
-  /* border: 5px solid goldenrod; */
   background: ${THEMES.Primary};
   & h1 {
     color: ${THEMES.White};

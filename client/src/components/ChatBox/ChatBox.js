@@ -28,15 +28,9 @@ const ChatBox = (props) => {
   const [movieDate, setMovieDate] = React.useState(null);
   const [hasDate, setHasDate] = React.useState(null);
 
-  // const lastMsg = useRef([]);
-
   function handleChange(ev) {
     setContent(ev.target.value);
   }
-
-  // function toggleDateModal(ev) {
-  //   setToggleModal(!toggleModal);
-  // }
 
   async function handleSubmit(ev) {
     ev.preventDefault();
@@ -49,7 +43,6 @@ const ChatBox = (props) => {
         user: appUser.uid,
       });
       setContent("");
-      // scrollToBottom();
     } catch (error) {
       setWriteError(error.message);
     }
@@ -94,14 +87,10 @@ const ChatBox = (props) => {
     fetchMessages(props.url);
     fetchChatInfo(props.url);
     fetchMovieDate(props.url);
-
-    // lastMsg.current.focus();
   }, []);
 
   return (
     <ChatContainer>
-      {/* This is just to test the dates */}
-      {/* <h1>{moment(startDate).format("YYYY MMMM Do h:mm A")}</h1> */}
       {TOGGLE_MODAL && (
         <DateModal
           show={TOGGLE_MODAL}
@@ -191,46 +180,35 @@ const ChatContainer = styled.div`
   }
 
   & ::-webkit-scrollbar-track {
-    /* box-shadow: inset 0 0 5px white; */
-    /* background: ${THEMES.BlackCoffee}; */
     border-radius: 10px;
     height: 95%;
   }
 
   & ::-webkit-scrollbar-thumb {
-    /* background: lightgrey; */
-    /* border-radius: 10px; */
     height: 50px;
   }
 
   & ::-webkit-scrollbar-thumb:hover {
-    /* background: lightgrey; */
-    /* background: ${THEMES.BlackCoffee}; */
   }
 `;
 
 const Messages = styled.div`
   flex: 9;
-  /* min-height: 10vh; */
   width: 100%;
   border-top-left-radius: 12px;
   border-top-right-radius: 12px;
   overflow-y: scroll;
   background: ${THEMES.BlackCoffee};
-  /* border: 5px solid goldenrod; */
-  /* word-wrap: break-word; */
 `;
 
 const InputForm = styled.form`
   flex: 1;
   display: flex;
   align-items: center;
-  /* border-top: 3px solid ${THEMES.Blue}; */
   padding: 8px 12px;
   border-bottom-left-radius: 12px;
   border-bottom-right-radius: 12px;
   background: ${THEMES.BlackCoffee};
-  /* border: 5px solid red; */
 `;
 
 const Input = styled.input`
@@ -248,7 +226,6 @@ const Input = styled.input`
 
 const Button = styled.button`
   flex: 1;
-  /* height: 100%; */
   margin: 5px 0;
   margin-left: 8px;
   height: 20px;
@@ -268,7 +245,6 @@ const Button = styled.button`
 
 const Button2 = styled.button`
   flex: 1;
-  /* height: 100%; */
   margin: 5px 0;
   margin-right: 8px;
   height: 20px;
@@ -299,7 +275,6 @@ const DateWrapper = styled.div`
   background-color: ${THEMES.BlackCoffee};
   width: 100%;
   padding-top: 1%;
-  /* padding: 1% 0; */
   text-align: center;
   display: flex;
   justify-content: center;
@@ -313,7 +288,6 @@ const DateTime = styled.h1`
   font-weight: 500;
   padding: 3px 0;
   border-radius: 22px;
-  /* background-color: ${THEMES.Primary}; */
   background-color: ${(props) =>
     props.hasDate ? THEMES.Blue : THEMES.Secondary};
 `;

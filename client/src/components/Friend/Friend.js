@@ -7,7 +7,6 @@ import { FiXCircle } from "react-icons/fi";
 
 const Friend = (props) => {
   const FRIEND_ID = props.data.id;
-  // const isFriend = props.data.isFriend;
   const [isFriend, setIsFriend] = React.useState(props.data.isFriend);
   const [isPending, setIsPending] = React.useState(props.data.isPending);
   const removeFriend = props.delete;
@@ -28,11 +27,8 @@ const Friend = (props) => {
   }
 
   function AcceptFriendRequest(id) {
-    // receive my friends ID either way
-    // this updates my friends status
     updateA(id);
 
-    // this updates my status
     updateB(id);
   }
 
@@ -41,7 +37,6 @@ const Friend = (props) => {
       console.log("this is to update user A");
       const data = snapshot.val();
       snapshot.forEach((snap) => {
-        // updates friends/{myID}
         if (snap.val().id === user.uid) {
           db.ref(`users/${friend}/friends/${snap.key}`).update({
             isFriend: true,
@@ -60,18 +55,12 @@ const Friend = (props) => {
       console.log("this is to update user B");
       const data = snapshot.val();
       snapshot.forEach((snap) => {
-        // updates my status with this friend
         if (snap.val().id === friend) {
-          // console.log("This is a friend request");
           db.ref(`users/${user.uid}/friends/${snap.key}`).update({
             isFriend: true,
             isPending: false,
           });
-
-          // setIsFriend(true);
-          // setIsPending(false);
         } else {
-          // console.log("Not a friend request");
         }
       });
     });
@@ -80,10 +69,6 @@ const Friend = (props) => {
   React.useEffect(() => {
     console.log("[FRIEND.js] data is:", props.data);
     getFriend(FRIEND_ID);
-    // db.ref(`users/${user.uid}/friends`).on("value", (snapshot) => {
-    //   const data = snapshot.val();
-    //   console.log("User's friends are", data);
-    // });
   }, [isFriend]);
 
   return friendInfo ? (

@@ -1,16 +1,18 @@
-const admin = require("firebase-admin");
-require("dotenv").config();
+// I DONT NEED THIS
 
-const serviceAccount = require(process.env.FIREBASE_SERVICE_ACCOUNT_KEY_PATH);
+// const admin = require("firebase-admin");
+// require("dotenv").config();
 
-admin.initializeApp({
-  credential: admin.credential.cert(serviceAccount),
-  databaseURL: "https://muvistack.firebaseio.com",
-});
+// const serviceAccount = require(process.env.FIREBASE_SERVICE_ACCOUNT_KEY_PATH);
 
-const db = admin.database();
+// admin.initializeApp({
+//   credential: admin.credential.cert(serviceAccount),
+//   databaseURL: "https://muvistack.firebaseio.com",
+// });
 
-module.exports = {
-  admin: admin,
-  db: db,
-};
+// const db = admin.database();
+
+// module.exports = {
+//   admin: admin,
+//   db: db,
+// };

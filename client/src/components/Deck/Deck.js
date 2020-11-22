@@ -45,20 +45,13 @@ const Deck = (props) => {
 
     dispatch(likeMovie(id));
   }
-
-  // This function will listen when movie is liked in the match pool
   function updateMatches(movieID, user, movieTitle) {
     db.ref(`matches/${movieID}/users`).on("value", (snapshot) => {
       console.log(`Movie: ${movieID} was liked by ${user}`);
-      // do stuff when a new user likes a movie;
       const data = Object.values(snapshot.val());
       console.log("Data is now:", data);
 
-      // Check if there is at least 2 people and the person included is the
-      // User
       if (data.length > 1 && data.includes(user)) {
-        // do stuff when users match
-        // console.log("USERS HAVE MATCHED!");
         db.ref(`matches/${movieID}`).update({
           users: data,
         });
@@ -69,8 +62,6 @@ const Deck = (props) => {
         console.log("TOGGLE MATCH MODE");
 
         dispatch(toggleMatchModal(true));
-        // setMatch(true);
-        // setToggleModal(true);
       }
     });
   }
@@ -116,9 +107,6 @@ const Deck = (props) => {
               >
                 <FiCheck size={32} color="green" />
               </Button>
-              {/* <Button>
-                <FiStar size={32} color="dodgerblue" />
-              </Button> */}
               <Button onClick={() => dispatch(deleteMovie(movie.id))}>
                 <FiX size={32} color="red" />
               </Button>
