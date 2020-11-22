@@ -8,7 +8,7 @@ const routes = require("./routes");
 require("dotenv").config();
 
 const buildPath = path.join(__dirname, "..", "client/build");
-const PORT = 4000;
+const PORT = process.env.PORT || 4000;
 
 console.log(buildPath);
 
@@ -27,12 +27,12 @@ express()
   .use(morgan("tiny"))
   // .use(express.static("./server/assets"))
   // .use(express.static(path.join(__dirname, "/client/build")))
-  .use(express.static(buildPath))
+
   .use(bodyParser.json())
   .use(express.urlencoded({ extended: false }))
-  .use("/", express.static(__dirname + "/"))
-  .use("/", routes)
-
+  // .use("/", express.static(__dirname + "/"))
+  .use("/api", routes)
+  .use(express.static(buildPath))
   .get("*", function (req, res) {
     res.sendFile(path.join(__dirname, "client/build", "index.html"));
   })

@@ -21,7 +21,7 @@ const Categories = (props) => {
   function fetchGenres() {
     dispatch(requestGenres());
     try {
-      fetch("/genre")
+      fetch("/api/genre")
         .then((res) => res.json())
         .then((json) => {
           dispatch(receiveGenres(json.data[0].genres));

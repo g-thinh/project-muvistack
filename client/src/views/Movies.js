@@ -44,7 +44,7 @@ const Movies = () => {
     };
     dispatch(requestMovies());
     try {
-      fetch("/movies", options)
+      fetch("/api/movies", options)
         .then((res) => res.json())
         .then((json) => {
           // Checks if the user liked those movies before
