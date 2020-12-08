@@ -382,12 +382,21 @@ const Side = styled.div`
 
 const Grid = styled.div`
   display: grid;
+  width: 100%;
   height: 100%;
+  margin-top: 5%;
   /* gap: 30px 30px; */
-  grid-template-columns: repeat(2, 250px);
+  grid-template-columns: repeat(2, 1fr);
   grid-template-rows: repeat(4, auto);
   /* border: 5px solid red; */
   justify-items: center;
+  align-items: center;
+  gap: 2%;
+  @media (max-width: 1000px) {
+    grid-template-columns: repeat(2, 200px);
+    grid-template-rows: repeat(4, auto);
+    grid-gap: 4%;
+  }
 `;
 
 // ############################ CSS FOR ELEMENTS #######################
@@ -404,7 +413,7 @@ const CircleButton = styled.button`
 `;
 
 const Button = styled.button`
-  margin-top: 10px;
+  /* margin-top: 10px; */
   width: 70%;
   height: 2.7rem;
   cursor: pointer;
@@ -462,6 +471,11 @@ const Submit = styled.button`
   & span {
     font-size: 1.5rem;
     font-weight: 400;
+
+    @media (max-width: 1000px) {
+      font-size: 1.2rem;
+      font-weight: 400;
+    }
   }
 
   &:focus {
@@ -480,6 +494,12 @@ const Submit = styled.button`
 
   &:active {
     transform: scale(1.1);
+  }
+
+  @media (max-width: 1000px) {
+    margin-top: 12%;
+    width: 200px;
+    height: 2.7rem;
   }
 `;
 

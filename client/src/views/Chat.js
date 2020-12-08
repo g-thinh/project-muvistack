@@ -24,7 +24,7 @@ const Chat = () => {
   const [loading, setLoading] = React.useState(true);
 
   async function fetchMovieInfo(id) {
-    console.log(`FETCHING ${id}`);
+    // console.log(`FETCHING ${id}`);
     const response = await fetch(`/movies/${id}`);
     const data = await response.json();
     return data;
@@ -78,7 +78,7 @@ const Chat = () => {
           <Text>The Current Convos</Text>
           <ConvoList>
             {CONVOS.map((convo) => {
-              console.log("convo", convo);
+              // console.log("convo", convo);
               return (
                 <li>
                   <StyledLink to={`/chat/${convo.id}`}>
@@ -129,10 +129,14 @@ const Content = styled.div`
 
 const CardDate = styled.div``;
 
-const Date = styled.h1`
+const Date = styled.p`
   font-weight: 400;
   font-size: 1.3rem;
   margin: 5% 0;
+
+  @media (max-width: 1000px) {
+    font-size: 1rem;
+  }
 `;
 
 const ConvoList = styled.ul`
@@ -189,6 +193,10 @@ const CardDesc = styled.div`
   justify-content: center;
   align-items: center;
   font-size: 1.8rem;
+
+  @media (max-width: 1000px) {
+    font-size: 1.3rem;
+  }
 `;
 
 const Image = styled.img`

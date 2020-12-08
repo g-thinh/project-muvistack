@@ -22,11 +22,11 @@ const Friends = () => {
     try {
       db.ref(`users/${user.uid}/friends`).once("value", (snapshot) => {
         const data = snapshot.val();
-        console.log("User's has friends", data);
+        // console.log("User's has friends", data);
         snapshot.forEach((snap) => {
           if (snap.val().id === id) {
             db.ref(`users/${user.uid}/friends/${snap.key}`).remove();
-            console.log("Deleted Friend!");
+            // console.log("Deleted Friend!");
           }
         });
         fetchFriends();
@@ -45,17 +45,17 @@ const Friends = () => {
         const data = snapshot.val();
         snapshot.forEach((snap) => {
           friends.push(snap.val());
-          console.log("rendering friend", snap.val());
+          // console.log("rendering friend", snap.val());
         });
         //this is just to remove the first fake element in the friends dB
         friends.reverse();
         friends.shift();
-        console.log("These are all my friends!", friends);
+        // console.log("These are all my friends!", friends);
         dispatch(receiveFriends(friends));
         // setFriends(friends);
       });
     } catch (error) {
-      console.log("Error Fetching Friends", error);
+      // console.log("Error Fetching Friends", error);
       dispatch(requestFriendsError());
     }
   }

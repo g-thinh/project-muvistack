@@ -34,7 +34,7 @@ const Friend = (props) => {
 
   function updateA(friend) {
     db.ref(`users/${friend}/friends`).once("value", (snapshot) => {
-      console.log("this is to update user A");
+      // console.log("this is to update user A");
       const data = snapshot.val();
       snapshot.forEach((snap) => {
         if (snap.val().id === user.uid) {
@@ -52,7 +52,7 @@ const Friend = (props) => {
 
   function updateB(friend) {
     db.ref(`users/${user.uid}/friends`).once("value", (snapshot) => {
-      console.log("this is to update user B");
+      // console.log("this is to update user B");
       const data = snapshot.val();
       snapshot.forEach((snap) => {
         if (snap.val().id === friend) {
@@ -67,7 +67,7 @@ const Friend = (props) => {
   }
 
   React.useEffect(() => {
-    console.log("[FRIEND.js] data is:", props.data);
+    // console.log("[FRIEND.js] data is:", props.data);
     getFriend(FRIEND_ID);
   }, [isFriend]);
 
@@ -149,6 +149,9 @@ const Container = styled.div`
 const Avatar = styled.img`
   flex: 2;
   width: 170px;
+  @media (max-width: 1000px) {
+    width: 140px;
+  }
 `;
 
 const Name = styled.h1`
@@ -159,6 +162,9 @@ const Name = styled.h1`
   font-size: 1.8rem;
   font-weight: 500;
   user-select: none;
+  @media (max-width: 1000px) {
+    font-size: 1.3rem;
+  }
 `;
 
 const Right = styled.div`
@@ -173,6 +179,9 @@ const Text = styled.p`
   font-size: 1.5rem;
   user-select: none;
   text-align: center;
+  @media (max-width: 1000px) {
+    font-size: 1rem;
+  }
 `;
 
 const AcceptButton = styled.button`
@@ -213,8 +222,12 @@ const AcceptButton = styled.button`
 
 const PendingText = styled.h2`
   margin-top: 2%;
-  font-size: 22px;
+  font-size: 1.3rem;
   color: ${THEMES.Blue};
+  text-align: center;
+  @media (max-width: 1000px) {
+    font-size: 1rem;
+  }
 `;
 
 export default Friend;

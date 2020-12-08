@@ -71,7 +71,7 @@ const GroupChat = () => {
   }
 
   function getMovieInfo() {
-    fetch(`/movies/${URL_ID}`)
+    fetch(`/api/movies/${URL_ID}`)
       .then((res) => res.json())
       .then((json) => {
         setMovieInfo(json.data);
@@ -94,7 +94,7 @@ const GroupChat = () => {
 
         if (!currentFriends.includes(currentUser)) {
           openSnackbar("Friend Request Sent!");
-          console.log("adding this user as a friend");
+          // console.log("adding this user as a friend");
 
           db.ref(`users/${currentUser}`)
             .child("friends")
@@ -104,7 +104,7 @@ const GroupChat = () => {
             .child("friends")
             .push({ id: currentUser, isFriend: false, isPending: false });
         } else {
-          console.log("this friend was already added");
+          // console.log("this friend was already added");
           openSnackbar("Already a Friend!");
         }
       }
@@ -123,7 +123,7 @@ const GroupChat = () => {
       <Snackbar show={isActive}>{snackMessage}</Snackbar>
       <Header>
         <Button onClick={() => goBack()}>
-          <FiArrowLeft size={32} />
+          <FiArrowLeft size={28} />
         </Button>
         <p>Return to Convos List</p>
       </Header>
@@ -191,6 +191,10 @@ const Text = styled.h1`
   & span {
     color: ${THEMES.BlackCoffee};
   }
+
+  @media (max-width: 1000px) {
+    font-size: 1.2rem;
+  }
 `;
 
 const Header = styled.div`
@@ -210,6 +214,12 @@ const Header = styled.div`
     font-size: 1.3rem;
     font-weight: 500;
     user-select: none;
+
+    @media (max-width: 1000px) {
+      margin-left: 6px;
+      font-size: 1rem;
+      font-weight: 400;
+    }
   }
 `;
 
@@ -225,6 +235,12 @@ const Button = styled.button`
   &:hover {
     background: ${THEMES.Primary};
     transform: scale(1.1);
+  }
+
+  @media (max-width: 1000px) {
+    margin-left: 6px;
+    font-size: 1.3rem;
+    font-weight: 500;
   }
 `;
 
@@ -254,6 +270,9 @@ const Avatar = styled.img`
   user-select: none;
   /* position: relative;
   z-index: 7; */
+  @media (max-width: 1000px) {
+    max-width: 50px;
+  }
 `;
 
 const InviteFriend = styled.button`

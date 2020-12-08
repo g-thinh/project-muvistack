@@ -19,7 +19,7 @@ export default function uiReducer(state = initialState, action) {
     }
 
     case "SET_CURRENT_MATCH": {
-      console.log("CURRENT MATCH IS:", action);
+      // console.log("CURRENT MATCH IS:", action);
       return produce(state, (draftState) => {
         draftState.currentMatch = action.match;
       });
