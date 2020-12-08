@@ -41,7 +41,7 @@ time, mark, audio, video, textarea {
   vertical-align: baseline;
   font-family: 'Roboto', sans-serif;
   ::-webkit-scrollbar {
-        width: 20px;
+        width: 12px;
         color: lightgrey;
       }
 
