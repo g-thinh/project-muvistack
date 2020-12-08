@@ -42,12 +42,12 @@ const UserAvatar = (props) => {
 
   // ############################# FUNCTIONS ################################
   function changeTop(feature, type) {
-    console.log(`Current ${feature}:`, type);
+    // console.log(`Current ${feature}:`, type);
     let Arr = FEATURES[feature];
     const length = Arr.length - 1;
     let currentIndex = Arr.indexOf(type);
-    console.log("The current index is:", currentIndex);
-    console.log("The current length is:", length);
+    // console.log("The current index is:", currentIndex);
+    // console.log("The current length is:", length);
 
     if (currentIndex + 1 > length || currentIndex === -1) {
       // console.log("Back to 0", Arr[1]);
@@ -59,172 +59,119 @@ const UserAvatar = (props) => {
   }
 
   function changeAccesories(feature, type) {
-    console.log(`Current ${feature}:`, type);
     const Arr = FEATURES[feature];
     const length = Arr.length - 1;
     let currentIndex = Arr.indexOf(type);
-    console.log("The current index is:", currentIndex);
-    console.log("The current length is:", length);
 
     if (currentIndex + 1 > length || currentIndex === -1) {
-      // console.log("Back to 0", Arr[1]);
       setAccessoriesType(Arr[0]);
     } else {
-      // console.log("New Top:", Arr[currentIndex + 1]);
       setAccessoriesType(Arr[currentIndex + 1]);
     }
   }
 
   function changeHairColor(feature, type) {
-    console.log(`Current ${feature}:`, type);
     const Arr = FEATURES[feature];
     const length = Arr.length - 1;
     let currentIndex = Arr.indexOf(type);
-    console.log("The current index is:", currentIndex);
-    console.log("The current length is:", length);
-
     if (currentIndex + 1 > length || currentIndex === -1) {
-      // console.log("Back to 0", Arr[1]);
       setHairColor(Arr[0]);
     } else {
-      // console.log("New Top:", Arr[currentIndex + 1]);
       setHairColor(Arr[currentIndex + 1]);
     }
-    // setUrl(baseURL);
   }
 
   function changeFacialHairColor(feature, type) {
-    console.log(`Current ${feature}:`, type);
     const Arr = FEATURES[feature];
     const length = Arr.length - 1;
     let currentIndex = Arr.indexOf(type);
-    console.log("The current index is:", currentIndex);
-    console.log("The current length is:", length);
 
     if (currentIndex + 1 > length || currentIndex === -1) {
-      // console.log("Back to 0", Arr[1]);
       setFacialHairColor(Arr[0]);
     } else {
-      // console.log("New Top:", Arr[currentIndex + 1]);
       setFacialHairColor(Arr[currentIndex + 1]);
     }
   }
 
   function changeClotheColor(feature, type) {
-    console.log(`Current ${feature}:`, type);
     const Arr = FEATURES[feature];
     const length = Arr.length - 1;
     let currentIndex = Arr.indexOf(type);
-    console.log("The current index is:", currentIndex);
-    console.log("The current length is:", length);
 
     if (currentIndex + 1 > length || currentIndex === -1) {
-      // console.log("Back to 0", Arr[1]);
       setClotheColor(Arr[0]);
     } else {
-      // console.log("New Top:", Arr[currentIndex + 1]);
       setClotheColor(Arr[currentIndex + 1]);
     }
   }
 
   function changeSkinColor(feature, type) {
-    console.log(`Current ${feature}:`, type);
     const Arr = FEATURES[feature];
     const length = Arr.length - 1;
     let currentIndex = Arr.indexOf(type);
-    console.log("The current index is:", currentIndex);
-    console.log("The current length is:", length);
 
     if (currentIndex + 1 > length || currentIndex === -1) {
-      // console.log("Back to 0", Arr[1]);
       setSkinColor(Arr[0]);
     } else {
-      // console.log("New Top:", Arr[currentIndex + 1]);
       setSkinColor(Arr[currentIndex + 1]);
     }
   }
 
   function changeFacialHair(feature, type) {
-    console.log(`Current ${feature}:`, type);
     const Arr = FEATURES[feature];
     const length = Arr.length - 1;
     let currentIndex = Arr.indexOf(type);
-    console.log("The current index is:", currentIndex);
-    console.log("The current length is:", length);
 
     if (currentIndex + 1 > length || currentIndex === -1) {
-      // console.log("Back to 0", Arr[1]);
       setFacialHairType(Arr[0]);
     } else {
-      // console.log("New Top:", Arr[currentIndex + 1]);
       setFacialHairType(Arr[currentIndex + 1]);
     }
   }
 
   function changeClothe(feature, type) {
-    console.log(`Current ${feature}:`, type);
     const Arr = FEATURES[feature];
     const length = Arr.length - 1;
     let currentIndex = Arr.indexOf(type);
-    console.log("The current index is:", currentIndex);
-    console.log("The current length is:", length);
 
     if (currentIndex + 1 > length || currentIndex === -1) {
-      // console.log("Back to 0", Arr[1]);
       setClotheType(Arr[0]);
     } else {
-      // console.log("New Top:", Arr[currentIndex + 1]);
       setClotheType(Arr[currentIndex + 1]);
     }
   }
 
   function changeEye(feature, type) {
-    console.log(`Current ${feature}:`, type);
     const Arr = FEATURES[feature];
     const length = Arr.length - 1;
     let currentIndex = Arr.indexOf(type);
-    console.log("The current index is:", currentIndex);
-    console.log("The current length is:", length);
 
     if (currentIndex + 1 > length || currentIndex === -1) {
-      // console.log("Back to 0", Arr[1]);
       setEyeType(Arr[0]);
     } else {
-      // console.log("New Top:", Arr[currentIndex + 1]);
       setEyeType(Arr[currentIndex + 1]);
     }
   }
 
   function changeEyebrow(feature, type) {
-    console.log(`Current ${feature}:`, type);
     const Arr = FEATURES[feature];
     const length = Arr.length - 1;
     let currentIndex = Arr.indexOf(type);
-    console.log("The current index is:", currentIndex);
-    console.log("The current length is:", length);
 
     if (currentIndex + 1 > length || currentIndex === -1) {
-      // console.log("Back to 0", Arr[1]);
       setEyebrowType(Arr[0]);
     } else {
-      // console.log("New Top:", Arr[currentIndex + 1]);
       setEyebrowType(Arr[currentIndex + 1]);
     }
   }
 
   function changeMouth(feature, type) {
-    console.log(`Current ${feature}:`, type);
     const Arr = FEATURES[feature];
     const length = Arr.length - 1;
     let currentIndex = Arr.indexOf(type);
-    console.log("The current index is:", currentIndex);
-    console.log("The current length is:", length);
-
     if (currentIndex + 1 > length || currentIndex === -1) {
-      // console.log("Back to 0", Arr[1]);
       setMouthType(Arr[0]);
     } else {
-      // console.log("New Top:", Arr[currentIndex + 1]);
       setMouthType(Arr[currentIndex + 1]);
     }
   }
@@ -252,8 +199,8 @@ const UserAvatar = (props) => {
   // ############################# RETURN #############################
 
   React.useEffect(() => {
-    console.log("AVATAR MAKER MOUNTED");
-    console.log("FEATURES:", FEATURES);
+    // console.log("AVATAR MAKER MOUNTED");
+    // console.log("FEATURES:", FEATURES);
     setUrl(baseURL);
   }, [
     topType,

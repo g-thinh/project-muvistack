@@ -8,7 +8,7 @@ export const signup = (email, password) => {
   return auth()
     .createUserWithEmailAndPassword(email, password)
     .then((res) => {
-      console.log("New User has been created");
+      // console.log("New User has been created");
       db.ref(`users`)
         .child(res.user.uid)
         .set({

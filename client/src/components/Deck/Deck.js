@@ -17,7 +17,7 @@ const moment = require("moment");
 
 function renderStars(rating) {
   let count = Math.floor(rating);
-  console.log("This movie has this many stars", count);
+  // console.log("This movie has this many stars", count);
   let stars = [];
   for (let i; i < count; i++) {
     stars.push(1);
@@ -47,9 +47,9 @@ const Deck = (props) => {
   }
   function updateMatches(movieID, user, movieTitle) {
     db.ref(`matches/${movieID}/users`).on("value", (snapshot) => {
-      console.log(`Movie: ${movieID} was liked by ${user}`);
+      // console.log(`Movie: ${movieID} was liked by ${user}`);
       const data = Object.values(snapshot.val());
-      console.log("Data is now:", data);
+      // console.log("Data is now:", data);
 
       if (data.length > 1 && data.includes(user)) {
         db.ref(`matches/${movieID}`).update({
@@ -59,7 +59,7 @@ const Deck = (props) => {
         dispatch(setCurrentMatch({ movieID, movieTitle }));
         setMatchedMovie({ movieID, movieTitle });
 
-        console.log("TOGGLE MATCH MODE");
+        // console.log("TOGGLE MATCH MODE");
 
         dispatch(toggleMatchModal(true));
       }

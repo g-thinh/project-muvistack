@@ -14,11 +14,11 @@ const Friend = (props) => {
   const [friendInfo, setFriendInfo] = React.useState(null);
 
   function getFriend(id) {
-    console.log("[FRIEND.js] fetching user", id);
+    // console.log("[FRIEND.js] fetching user", id);
     try {
       db.ref(`users/${id}`).on("value", (snapshot) => {
         const data = snapshot.val();
-        console.log("User's friend is", data);
+        // console.log("User's friend is", data);
         setFriendInfo(data);
       });
     } catch (error) {

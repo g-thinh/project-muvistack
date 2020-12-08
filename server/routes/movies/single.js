@@ -4,7 +4,7 @@ const fetch = require("isomorphic-fetch");
 
 module.exports = async (req, res) => {
   const id = req.params.id;
-  console.log("the incoming request for a single movie with id", id);
+  // console.log("the incoming request for a single movie with id", id);
 
   const baseURL = `https://api.themoviedb.org/3/movie/${id}?api_key=${process.env.KEY}`;
 
@@ -19,7 +19,7 @@ module.exports = async (req, res) => {
   };
   const data = await fetchData();
 
-  console.log("Returning data for the movie", data.original_title);
+  // console.log("Returning data for the movie", data.original_title);
 
   try {
     return res.status(200).json({

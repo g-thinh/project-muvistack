@@ -29,7 +29,7 @@ const CreateProfile = () => {
     setError("");
     try {
       if (displayName && bioText) {
-        console.log("Created new user!");
+        // console.log("Created new user!");
         db.ref("users")
           .child(appUser.uid)
           .update({

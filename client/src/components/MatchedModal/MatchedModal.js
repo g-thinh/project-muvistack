@@ -30,10 +30,10 @@ const MatchedModal = (props) => {
             <Buttons>
               <Button
                 onClick={(ev) => {
-                  console.log(
-                    "Redirecting to",
-                    MOVIE_INFO.currentMatch.movieID
-                  );
+                  // console.log(
+                  //   "Redirecting to",
+                  //   MOVIE_INFO.currentMatch.movieID
+                  // );
                   setToggleRedirect(true);
                   setTimeout(() => {
                     dispatch(closeHandler(false));

@@ -68,7 +68,7 @@ const DateModal = (props) => {
             <Buttons>
               <Button
                 onClick={() => {
-                  console.log("This date has been set!");
+                  // console.log("This date has been set!");
                   setMovieDate(props.date);
                   dispatch(closeModal(false));
                 }}
